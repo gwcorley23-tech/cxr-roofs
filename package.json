@@ -1,0 +1,13 @@
+{
+  "name": "cxr-roofs",
+  "version": "1.0.0",
+  "description": "CXR Roofing — Veteran-Owned Texas Roofing Company",
+  "private": true,
+  "type": "module",
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.39.0"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}

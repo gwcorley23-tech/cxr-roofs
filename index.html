@@ -1,0 +1,1314 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CXR Roofing — Quality Roofs Above All | Texas Roofing Experts</title>
+<meta name="description" content="CXR Roofing is a veteran-owned, CertainTeed Certified roofing company serving North, Central, and East Texas. Free estimates, insurance claim help, and 10% cash discount. Call (903) 258-1210.">
+<meta name="keywords" content="roofing contractor Texas, roof replacement Tyler TX, metal roofing Central Texas, TPO flat roof, veteran owned roofing, CertainTeed certified, Jarrell TX roofer, roof repair Austin San Antonio Houston">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#0b0e14;
+    --ink-2:#131720;
+    --ink-3:#1a1f2e;
+    --red:#c0392b;
+    --red-light:#e05444;
+    --orange:#d4500f;
+    --accent:#c94a1e;
+    --accent-light:#e06030;
+    --cream:#f4f1ec;
+    --cream-2:#e8e3d9;
+    --muted:#7e8490;
+    --line:rgba(255,255,255,.08);
+    --line-dark:rgba(11,14,20,.12);
+    --display:'Space Grotesk',sans-serif;
+    --body:'Inter',sans-serif;
+    --ease:cubic-bezier(.16,1,.3,1);
+    --max:1280px;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth;-webkit-font-smoothing:antialiased}
+  body{font-family:var(--body);background:var(--ink);color:var(--cream);line-height:1.65;overflow-x:hidden}
+  ::selection{background:var(--accent);color:#fff}
+  a{text-decoration:none;color:inherit}
+  img{display:block;max-width:100%}
+  h1,h2,h3,h4{font-family:var(--display);font-weight:600;line-height:1.05;letter-spacing:-.02em}
+  .container{max-width:var(--max);margin:0 auto;padding:0 32px}
+  .eyebrow{
+    font-family:var(--display);font-size:.72rem;font-weight:600;
+    letter-spacing:.28em;text-transform:uppercase;color:var(--accent-light);
+    display:inline-flex;align-items:center;gap:12px;
+  }
+  .eyebrow::before{content:"";width:32px;height:1px;background:var(--accent-light)}
+
+  /* Buttons */
+  .btn{
+    position:relative;display:inline-flex;align-items:center;gap:12px;
+    font-family:var(--display);font-weight:500;font-size:.95rem;
+    padding:17px 34px;border-radius:2px;overflow:hidden;
+    transition:color .4s var(--ease);z-index:1;
+  }
+  .btn-primary{background:var(--accent);color:#fff}
+  .btn-primary::after{
+    content:"";position:absolute;inset:0;background:var(--accent-light);
+    transform:translateY(101%);transition:transform .5s var(--ease);z-index:-1;
+  }
+  .btn-primary:hover::after{transform:translateY(0)}
+  .btn-ghost{border:1px solid rgba(244,241,236,.25);color:var(--cream)}
+  .btn-ghost::after{
+    content:"";position:absolute;inset:0;background:var(--cream);
+    transform:translateY(101%);transition:transform .5s var(--ease);z-index:-1;
+  }
+  .btn-ghost:hover{color:var(--ink)}
+  .btn-ghost:hover::after{transform:translateY(0)}
+  .btn .arrow{transition:transform .4s var(--ease)}
+  .btn:hover .arrow{transform:translate(4px,-4px)}
+
+  /* Top bar */
+  .topbar{background:var(--ink-2);border-bottom:1px solid var(--line);font-size:.8rem;color:var(--muted)}
+  .topbar .container{display:flex;justify-content:space-between;align-items:center;height:42px}
+  .topbar .left{display:flex;gap:26px}
+  .topbar .left span{display:flex;align-items:center;gap:8px}
+  .topbar .right{display:flex;gap:14px}
+  .topbar .right a{
+    width:24px;height:24px;border:1px solid var(--line);border-radius:50%;
+    display:flex;align-items:center;justify-content:center;transition:.3s;font-size:.7rem;
+  }
+  .topbar .right a:hover{background:var(--accent);border-color:var(--accent);color:#fff}
+  .topbar-phone{color:var(--accent-light);font-weight:600;font-family:var(--display)}
+  .topbar-phone:hover{color:var(--cream)}
+
+  /* Header */
+  header{position:fixed;top:0;left:0;right:0;z-index:100;transition:transform .4s var(--ease),background .4s var(--ease)}
+  header.scrolled{background:rgba(11,14,20,.9);backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
+  header.scrolled .topbar{display:none}
+  .nav{display:flex;align-items:center;justify-content:space-between;height:86px}
+  .logo{display:flex;align-items:center;gap:14px}
+  .logo-mark{
+    width:48px;height:48px;background:var(--accent);
+    display:flex;align-items:center;justify-content:center;
+    font-family:var(--display);font-weight:700;color:#fff;
+    font-size:1.1rem;letter-spacing:-.04em;position:relative;clip-path:polygon(0 0,100% 0,100% 75%,50% 100%,0 75%);
+  }
+  .logo-text{font-family:var(--display);font-weight:700;font-size:1.3rem;letter-spacing:-.01em}
+  .logo-text small{display:block;font-size:.58rem;letter-spacing:.3em;color:var(--muted);font-weight:400;margin-top:2px;text-transform:uppercase}
+  nav ul{display:flex;gap:38px;list-style:none}
+  nav ul a{
+    font-family:var(--display);font-size:.9rem;font-weight:500;
+    color:var(--cream);position:relative;padding:4px 0;transition:color .3s;
+  }
+  nav ul a::after{content:"";position:absolute;left:0;bottom:0;width:0;height:1px;background:var(--accent-light);transition:width .35s var(--ease)}
+  nav ul a:hover{color:var(--accent-light)}
+  nav ul a:hover::after{width:100%}
+  .nav-cta{display:flex;align-items:center;gap:22px}
+  .nav-phone{display:flex;align-items:center;gap:10px;font-family:var(--display);font-weight:600}
+  .nav-phone .ring{
+    width:38px;height:38px;border-radius:50%;background:rgba(201,74,30,.15);
+    display:flex;align-items:center;justify-content:center;color:var(--accent-light);
+    animation:pulse 2s infinite;
+  }
+  @keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(201,74,30,.4)}50%{box-shadow:0 0 0 8px rgba(201,74,30,0)}}
+  .nav-phone small{display:block;font-size:.62rem;letter-spacing:.18em;color:var(--muted);font-weight:400;font-family:var(--body)}
+  .menu-toggle{display:none;flex-direction:column;gap:5px;background:none;border:none;cursor:pointer;padding:6px}
+  .menu-toggle span{width:26px;height:2px;background:var(--cream);transition:.3s}
+
+  /* Sticky call bar (mobile) */
+  .sticky-call{
+    display:none;position:fixed;bottom:0;left:0;right:0;z-index:200;
+    background:var(--accent);color:#fff;text-align:center;
+    font-family:var(--display);font-weight:700;font-size:1.1rem;
+    padding:16px;letter-spacing:.02em;
+  }
+  .sticky-call span{display:flex;align-items:center;justify-content:center;gap:10px}
+
+  /* Hero */
+  .hero{position:relative;min-height:100vh;display:flex;align-items:center;overflow:hidden}
+  .hero-bg{position:absolute;inset:0;z-index:-2}
+  .hero-bg img{width:100%;height:100%;object-fit:cover;transform:scale(1.1);animation:slowZoom 20s ease-out forwards}
+  @keyframes slowZoom{to{transform:scale(1)}}
+  .hero-bg::after{content:"";position:absolute;inset:0;background:linear-gradient(105deg,rgba(11,14,20,.94) 0%,rgba(11,14,20,.72) 45%,rgba(11,14,20,.38) 100%)}
+  .hero-grid-overlay{
+    position:absolute;inset:0;z-index:-1;
+    background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);
+    background-size:80px 80px;opacity:.45;
+    mask-image:radial-gradient(circle at 28% 50%,black,transparent 72%);
+  }
+  .hero-inner{padding:140px 0 80px;max-width:860px}
+  .hero .eyebrow{margin-bottom:30px}
+  .hero h1{font-size:clamp(2.8rem,7vw,5.8rem);font-weight:700;margin-bottom:28px}
+  .hero h1 em{font-style:normal;color:var(--accent-light)}
+  .hero h1 .line{display:block;overflow:hidden}
+  .hero h1 .line>span{display:block;transform:translateY(110%);animation:rise 1s var(--ease) forwards}
+  .hero h1 .line:nth-child(1)>span{animation-delay:.1s}
+  .hero h1 .line:nth-child(2)>span{animation-delay:.25s}
+  .hero h1 .line:nth-child(3)>span{animation-delay:.4s}
+  @keyframes rise{to{transform:translateY(0)}}
+  .hero p{font-size:1.16rem;color:#c2c6ce;max-width:540px;margin-bottom:40px;font-weight:300;opacity:0;animation:fadeUp 1s var(--ease) .7s forwards}
+  .hero-actions{display:flex;gap:18px;flex-wrap:wrap;opacity:0;animation:fadeUp 1s var(--ease) .9s forwards}
+  @keyframes fadeUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
+  .hero-trust{
+    display:flex;gap:28px;flex-wrap:wrap;margin-top:44px;padding-top:36px;border-top:1px solid var(--line);
+    opacity:0;animation:fadeUp 1s var(--ease) 1.1s forwards;
+  }
+  .trust-item{display:flex;align-items:center;gap:10px;font-size:.85rem;color:var(--muted)}
+  .trust-item .ic{color:var(--accent-light);font-size:1.1rem}
+  .hero-badge{position:absolute;right:32px;bottom:60px;text-align:right;opacity:0;animation:fadeUp 1s var(--ease) 1.2s forwards}
+  .hero-badge .big{font-family:var(--display);font-size:3.4rem;font-weight:700;color:var(--accent-light);line-height:1}
+  .hero-badge small{color:var(--muted);font-size:.78rem;letter-spacing:.1em}
+  .hero-scroll{position:absolute;bottom:38px;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:10px;font-size:.7rem;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);font-family:var(--display)}
+  .hero-scroll .mouse{width:22px;height:36px;border:1.5px solid var(--muted);border-radius:12px;position:relative}
+  .hero-scroll .mouse::after{content:"";position:absolute;top:6px;left:50%;transform:translateX(-50%);width:3px;height:7px;background:var(--accent-light);border-radius:2px;animation:scrollDot 1.6s infinite}
+  @keyframes scrollDot{0%{opacity:0;top:6px}40%{opacity:1}80%{opacity:0;top:18px}100%{opacity:0}}
+
+  /* Marquee */
+  .marquee{background:var(--accent);color:#fff;padding:16px 0;overflow:hidden;white-space:nowrap}
+  .marquee-track{display:inline-flex;gap:60px;animation:mscroll 30s linear infinite;font-family:var(--display);font-weight:600;font-size:1rem;text-transform:uppercase;letter-spacing:.06em}
+  .marquee-track span{display:inline-flex;align-items:center;gap:60px}
+  .marquee-track span::after{content:"★";color:rgba(255,255,255,.45)}
+  @keyframes mscroll{to{transform:translateX(-50%)}}
+
+  /* Section base */
+  section{position:relative}
+  .pad{padding:120px 0}
+  .section-head{max-width:680px;margin-bottom:70px}
+  .section-head.center{margin-left:auto;margin-right:auto;text-align:center}
+  .section-head.center .eyebrow::before{display:none}
+  .section-head h2{font-size:clamp(2rem,4.5vw,3.2rem);margin:20px 0 0}
+  .section-head .lead{color:var(--muted);font-size:1.06rem;margin-top:18px;font-weight:300}
+
+  /* Reveal */
+  .reveal{opacity:0;transform:translateY(40px);transition:opacity 1s var(--ease),transform 1s var(--ease)}
+  .reveal.in{opacity:1;transform:none}
+  .reveal.d1{transition-delay:.1s}.reveal.d2{transition-delay:.2s}.reveal.d3{transition-delay:.3s}.reveal.d4{transition-delay:.4s}
+
+  /* Stats */
+  .stats{background:var(--ink-2);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+  .stats .container{display:grid;grid-template-columns:repeat(4,1fr)}
+  .stat{padding:64px 30px;text-align:center;border-right:1px solid var(--line)}
+  .stat:last-child{border-right:none}
+  .stat .num{font-family:var(--display);font-size:3.4rem;font-weight:700;color:var(--cream);line-height:1}
+  .stat .num span{color:var(--accent-light)}
+  .stat .label{color:var(--muted);font-size:.8rem;letter-spacing:.14em;text-transform:uppercase;margin-top:12px;font-family:var(--display)}
+
+  /* About */
+  .about .container{display:grid;grid-template-columns:1fr 1.05fr;gap:80px;align-items:center}
+  .about-visual{position:relative}
+  .about-visual .main-img{border-radius:3px;overflow:hidden;aspect-ratio:4/5}
+  .about-visual .main-img img{width:100%;height:100%;object-fit:cover;transition:transform 1.2s var(--ease)}
+  .about-visual:hover .main-img img{transform:scale(1.05)}
+  .about-visual .sub-img{position:absolute;bottom:-36px;right:-28px;width:52%;aspect-ratio:1;border:8px solid var(--ink);border-radius:3px;overflow:hidden}
+  .about-visual .sub-img img{width:100%;height:100%;object-fit:cover}
+  .about-visual .exp-tag{position:absolute;top:-26px;left:-26px;background:var(--accent);color:#fff;padding:22px 26px;border-radius:3px;z-index:2}
+  .about-visual .exp-tag .n{font-family:var(--display);font-size:2.4rem;font-weight:700;line-height:1}
+  .about-visual .exp-tag small{font-size:.72rem;letter-spacing:.08em;display:block;margin-top:4px}
+  .vet-badge{
+    position:absolute;top:-26px;right:-18px;background:var(--ink-3);border:1px solid var(--accent);
+    color:var(--cream);padding:14px 18px;border-radius:3px;z-index:2;text-align:center;font-family:var(--display);
+  }
+  .vet-badge .flag{font-size:1.4rem}
+  .vet-badge small{display:block;font-size:.65rem;letter-spacing:.12em;color:var(--accent-light);margin-top:4px;text-transform:uppercase}
+  .about-text h2{margin:20px 0 24px}
+  .about-text p{color:#b0b4bc;margin-bottom:20px;font-weight:300}
+  .about-features{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin:32px 0}
+  .about-features .f{display:flex;gap:14px;align-items:flex-start}
+  .about-features .f .ic{width:42px;height:42px;flex-shrink:0;border:1px solid var(--accent);color:var(--accent-light);display:flex;align-items:center;justify-content:center;border-radius:3px}
+  .about-features .f h4{font-size:.98rem;margin-bottom:2px}
+  .about-features .f p{font-size:.86rem;color:var(--muted);margin:0}
+  .cert-row{display:flex;align-items:center;gap:20px;margin-top:30px;padding-top:28px;border-top:1px solid var(--line)}
+  .cert-badge{background:var(--ink-2);border:1px solid var(--line);padding:14px 20px;border-radius:3px;text-align:center}
+  .cert-badge .logo-c{font-family:var(--display);font-size:1.1rem;font-weight:700;color:var(--accent-light)}
+  .cert-badge small{display:block;font-size:.65rem;letter-spacing:.1em;color:var(--muted);margin-top:3px;text-transform:uppercase}
+  .cert-desc{font-size:.88rem;color:var(--muted);font-weight:300}
+  .cert-desc strong{color:var(--cream);display:block;margin-bottom:4px}
+
+  /* Services */
+  .services{background:var(--ink-2)}
+  .svc-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);border:1px solid var(--line)}
+  .svc{background:var(--ink-2);padding:46px 38px;position:relative;overflow:hidden;transition:.5s var(--ease);min-height:320px;display:flex;flex-direction:column}
+  .svc .bgimg{position:absolute;inset:0;opacity:0;transition:opacity .6s var(--ease);z-index:0}
+  .svc .bgimg img{width:100%;height:100%;object-fit:cover}
+  .svc .bgimg::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(11,14,20,.65),rgba(11,14,20,.92))}
+  .svc>*{position:relative;z-index:1}
+  .svc:hover .bgimg{opacity:1}
+  .svc .num{font-family:var(--display);font-size:.78rem;color:var(--accent-light);letter-spacing:.1em}
+  .svc .ic{font-size:2rem;margin:16px 0 20px;color:var(--accent-light)}
+  .svc h3{font-size:1.4rem;margin-bottom:12px}
+  .svc p{color:var(--muted);font-size:.93rem;font-weight:300;flex-grow:1}
+  .svc .more{margin-top:22px;font-family:var(--display);font-size:.84rem;color:var(--accent-light);display:inline-flex;align-items:center;gap:8px;opacity:0;transform:translateX(-8px);transition:.4s var(--ease)}
+  .svc:hover .more{opacity:1;transform:none}
+
+  /* Why Choose Us */
+  .why{background:var(--ink)}
+  .why-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:28px}
+  .why-card{
+    background:var(--ink-2);border:1px solid var(--line);padding:38px 30px;border-radius:3px;
+    transition:.4s var(--ease);position:relative;overflow:hidden;
+  }
+  .why-card::before{
+    content:"";position:absolute;left:0;top:0;bottom:0;width:3px;
+    background:var(--accent);transform:scaleY(0);transition:transform .4s var(--ease);transform-origin:bottom;
+  }
+  .why-card:hover{border-color:rgba(201,74,30,.35);transform:translateY(-6px)}
+  .why-card:hover::before{transform:scaleY(1)}
+  .why-card .ic{font-size:2.2rem;margin-bottom:20px;color:var(--accent-light)}
+  .why-card h3{font-size:1.15rem;margin-bottom:10px}
+  .why-card p{font-size:.9rem;color:var(--muted);font-weight:300}
+
+  /* Process */
+  .process{background:var(--ink-2)}
+  .proc-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:0}
+  .proc{padding:0 30px;position:relative}
+  .proc:not(:last-child)::after{content:"";position:absolute;top:32px;right:0;width:1px;height:60%;background:var(--line)}
+  .proc .n{
+    font-family:var(--display);font-size:1rem;font-weight:700;color:#fff;
+    background:var(--accent);width:64px;height:64px;border-radius:50%;
+    display:flex;align-items:center;justify-content:center;margin-bottom:28px;position:relative;
+  }
+  .proc .n::before{content:"";position:absolute;inset:-8px;border:1px solid var(--line);border-radius:50%}
+  .proc h3{font-size:1.25rem;margin-bottom:10px}
+  .proc p{color:var(--muted);font-size:.92rem;font-weight:300}
+
+  /* Quote band */
+  .band{position:relative;padding:140px 0;text-align:center;overflow:hidden}
+  .band-bg{position:absolute;inset:0;z-index:-1}
+  .band-bg img{width:100%;height:120%;object-fit:cover}
+  .band-bg::after{content:"";position:absolute;inset:0;background:rgba(11,14,20,.87)}
+  .band blockquote{font-family:var(--display);font-size:clamp(1.5rem,3.8vw,2.6rem);font-weight:500;max-width:900px;margin:0 auto;line-height:1.25}
+  .band blockquote span{color:var(--accent-light)}
+  .band cite{display:block;margin-top:32px;color:var(--muted);font-style:normal;font-size:.95rem;letter-spacing:.05em}
+
+  /* Testimonials */
+  .tst-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+  .tst{background:var(--ink-2);border:1px solid var(--line);padding:40px 36px;border-radius:3px;transition:.4s var(--ease);position:relative}
+  .tst:hover{border-color:rgba(201,74,30,.4);transform:translateY(-6px)}
+  .tst .stars{color:var(--accent-light);letter-spacing:3px;margin-bottom:18px;font-size:.95rem}
+  .tst p{font-weight:300;color:#cdd0d7;margin-bottom:26px;font-size:.97rem}
+  .tst .who{display:flex;align-items:center;gap:14px}
+  .tst .who .av{width:48px;height:48px;border-radius:50%;background:linear-gradient(135deg,var(--accent),var(--ink-3));display:flex;align-items:center;justify-content:center;font-family:var(--display);font-weight:700;color:#fff;font-size:.95rem}
+  .tst .who h4{font-size:.97rem}
+  .tst .who small{color:var(--muted);font-size:.83rem}
+  .tst .quote-mark{position:absolute;top:22px;right:30px;font-family:var(--display);font-size:4rem;color:var(--line);line-height:1}
+
+  /* Service areas */
+  .areas{background:var(--ink-2)}
+  .areas-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:14px}
+  .area-pill{
+    background:var(--ink-3);border:1px solid var(--line);padding:16px 20px;border-radius:2px;
+    font-family:var(--display);font-size:.88rem;font-weight:500;text-align:center;
+    transition:.3s var(--ease);color:var(--muted);
+  }
+  .area-pill:hover{border-color:var(--accent);color:var(--cream);transform:translateY(-3px)}
+  .area-pill.highlight{border-color:rgba(201,74,30,.4);color:var(--cream)}
+
+  /* CTA band */
+  .cta{background:var(--accent);color:#fff;position:relative;overflow:hidden}
+  .cta::before{content:"ROOF";position:absolute;right:-1%;top:50%;transform:translateY(-50%);font-family:var(--display);font-weight:700;font-size:16rem;color:rgba(255,255,255,.06);letter-spacing:-.03em;pointer-events:none}
+  .cta .container{display:flex;justify-content:space-between;align-items:center;gap:40px;flex-wrap:wrap;position:relative;z-index:1}
+  .cta h2{font-size:clamp(1.8rem,3.8vw,3rem);max-width:620px}
+  .cta .btn-dark{background:var(--ink);color:#fff;display:inline-flex;align-items:center;gap:12px;font-family:var(--display);font-weight:600;font-size:.95rem;padding:17px 34px;border-radius:2px;transition:.3s}
+  .cta .btn-dark:hover{background:#000}
+  .cta .btn-outline-white{border:2px solid rgba(255,255,255,.5);color:#fff;display:inline-flex;align-items:center;gap:12px;font-family:var(--display);font-weight:500;font-size:.95rem;padding:15px 34px;border-radius:2px;transition:.3s}
+  .cta .btn-outline-white:hover{background:rgba(255,255,255,.12)}
+  .cta-actions{display:flex;gap:16px;flex-wrap:wrap}
+
+  /* Contact */
+  .contact .container{display:grid;grid-template-columns:1fr 1.1fr;gap:80px;align-items:start}
+  .contact-info h2{margin:20px 0 22px;font-size:clamp(1.8rem,3.2vw,2.6rem)}
+  .contact-info>p{color:var(--muted);font-weight:300;margin-bottom:36px}
+  .ci-row{display:flex;gap:18px;padding:24px 0;border-top:1px solid var(--line)}
+  .ci-row:last-of-type{border-bottom:1px solid var(--line)}
+  .ci-row .ic{width:52px;height:52px;flex-shrink:0;border:1px solid var(--accent);color:var(--accent-light);display:flex;align-items:center;justify-content:center;border-radius:3px;font-size:1.2rem}
+  .ci-row .label{font-size:.72rem;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);font-family:var(--display)}
+  .ci-row .value{font-family:var(--display);font-size:1.15rem;font-weight:500;margin-top:4px;transition:color .3s}
+  .ci-row a.value:hover{color:var(--accent-light)}
+  .ci-row .value small{display:block;font-size:.82rem;color:var(--muted);font-weight:400;font-family:var(--body);margin-top:4px}
+  .discount-flag{background:var(--accent);color:#fff;padding:18px 22px;border-radius:3px;margin-top:30px;display:flex;align-items:center;gap:14px}
+  .discount-flag .pct{font-family:var(--display);font-size:2rem;font-weight:700;line-height:1}
+  .discount-flag div{font-size:.9rem;font-weight:300}
+  .discount-flag strong{display:block;font-size:1rem;margin-bottom:2px}
+  form{background:var(--ink-2);border:1px solid var(--line);padding:46px;border-radius:3px}
+  form h3{font-size:1.45rem;margin-bottom:6px}
+  form .fsub{color:var(--muted);font-size:.9rem;margin-bottom:28px;font-weight:300}
+  .field{position:relative;margin-bottom:24px}
+  .field input,.field textarea,.field select{
+    width:100%;background:transparent;border:none;border-bottom:1px solid var(--line);
+    color:var(--cream);font-family:var(--body);font-size:1rem;padding:12px 0;transition:border-color .3s;
+  }
+  .field select{color:var(--muted)}
+  .field option{background:var(--ink-2);color:var(--cream)}
+  .field label{position:absolute;left:0;top:12px;color:var(--muted);font-size:1rem;pointer-events:none;transition:.3s var(--ease)}
+  .field input:focus,.field textarea:focus,.field select:focus{outline:none;border-color:var(--accent-light)}
+  .field input:focus+label,.field input:valid+label,.field textarea:focus+label,.field textarea:valid+label{top:-14px;font-size:.72rem;letter-spacing:.1em;color:var(--accent-light);text-transform:uppercase}
+  .field-row{display:grid;grid-template-columns:1fr 1fr;gap:22px}
+  form .btn-submit{
+    width:100%;justify-content:center;border:none;cursor:pointer;
+    background:var(--accent);color:#fff;font-family:var(--display);font-weight:600;
+    font-size:1rem;padding:17px;border-radius:2px;margin-top:10px;
+    transition:background .3s;display:flex;align-items:center;gap:10px;
+  }
+  form .btn-submit:hover{background:var(--accent-light)}
+  .form-note{text-align:center;font-size:.8rem;color:var(--muted);margin-top:14px}
+
+  /* Footer */
+  footer{background:var(--ink);border-top:1px solid var(--line);padding:90px 0 0}
+  .foot-top{display:grid;grid-template-columns:1.6fr 1fr 1fr 1.2fr;gap:50px;padding-bottom:70px}
+  .foot-brand .logo{margin-bottom:22px}
+  .foot-brand p{color:var(--muted);font-weight:300;max-width:300px;margin-bottom:20px;font-size:.95rem}
+  .foot-phones{display:flex;flex-direction:column;gap:8px}
+  .foot-phones a{color:var(--accent-light);font-family:var(--display);font-weight:600;transition:.3s}
+  .foot-phones a:hover{color:var(--cream)}
+  .foot-phones small{color:var(--muted);font-size:.78rem;display:block}
+  .foot-col h4{font-family:var(--display);font-size:.76rem;letter-spacing:.18em;text-transform:uppercase;color:var(--accent-light);margin-bottom:22px}
+  .foot-col ul{list-style:none}
+  .foot-col ul li{margin-bottom:12px}
+  .foot-col ul a{color:var(--muted);transition:.3s;font-weight:300;font-size:.95rem}
+  .foot-col ul a:hover{color:var(--cream);padding-left:6px}
+  .foot-bottom{border-top:1px solid var(--line);padding:26px 0;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:14px;color:var(--muted);font-size:.83rem}
+  .foot-bottom .links{display:flex;gap:22px}
+  .foot-bottom a:hover{color:var(--cream)}
+  .vet-flag{display:inline-flex;align-items:center;gap:8px;background:rgba(201,74,30,.12);border:1px solid rgba(201,74,30,.3);padding:8px 14px;border-radius:2px;font-size:.78rem;color:var(--accent-light);font-family:var(--display);font-weight:600}
+
+  /* Toast */
+  .toast{position:fixed;bottom:30px;right:30px;background:var(--accent);color:#fff;padding:18px 26px;border-radius:3px;font-family:var(--display);font-weight:600;transform:translateY(120%);transition:transform .5s var(--ease);z-index:300;box-shadow:0 20px 50px rgba(0,0,0,.4);max-width:340px}
+  .toast.show{transform:none}
+
+  /* Progress */
+  .scroll-progress{position:fixed;top:0;left:0;height:3px;background:var(--accent);z-index:400;width:0}
+
+  /* ============================================================
+     AI CHATBOT WIDGET
+  ============================================================ */
+  #chat-btn{
+    position:fixed;bottom:24px;right:24px;z-index:500;
+    width:58px;height:58px;border-radius:50%;
+    background:var(--accent);color:#fff;border:none;cursor:pointer;
+    display:flex;align-items:center;justify-content:center;
+    box-shadow:0 8px 32px rgba(201,74,30,.45);
+    transition:transform .3s var(--ease),box-shadow .3s;
+    font-size:1.4rem;
+  }
+  #chat-btn:hover{transform:scale(1.08);box-shadow:0 12px 40px rgba(201,74,30,.6)}
+  #chat-btn .badge{
+    position:absolute;top:-3px;right:-3px;
+    width:16px;height:16px;background:#22c55e;border-radius:50%;
+    border:2px solid var(--ink);font-size:.55rem;display:flex;align-items:center;justify-content:center;
+    animation:pulseBadge 2s infinite;
+  }
+  @keyframes pulseBadge{0%,100%{box-shadow:0 0 0 0 rgba(34,197,94,.5)}50%{box-shadow:0 0 0 5px rgba(34,197,94,0)}}
+
+  #chat-panel{
+    position:fixed;bottom:96px;right:24px;z-index:500;
+    width:370px;max-width:calc(100vw - 32px);
+    background:var(--ink-2);border:1px solid var(--line);border-radius:12px;
+    box-shadow:0 24px 80px rgba(0,0,0,.55);
+    display:flex;flex-direction:column;
+    transform:translateY(20px) scale(.96);opacity:0;pointer-events:none;
+    transition:transform .35s var(--ease),opacity .35s var(--ease);
+    overflow:hidden;max-height:540px;
+  }
+  #chat-panel.open{transform:none;opacity:1;pointer-events:all}
+
+  .chat-header{
+    background:var(--accent);padding:16px 20px;
+    display:flex;align-items:center;gap:12px;flex-shrink:0;
+  }
+  .chat-header .avatar{
+    width:36px;height:36px;border-radius:50%;background:rgba(255,255,255,.2);
+    display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0;
+  }
+  .chat-header .info{flex:1}
+  .chat-header .info strong{display:block;font-family:var(--display);font-size:.92rem;font-weight:600;color:#fff}
+  .chat-header .info small{font-size:.72rem;color:rgba(255,255,255,.7)}
+  .chat-header .close-btn{
+    background:none;border:none;color:rgba(255,255,255,.7);cursor:pointer;
+    font-size:1.3rem;line-height:1;padding:4px;transition:.2s;
+  }
+  .chat-header .close-btn:hover{color:#fff}
+
+  .chat-messages{
+    flex:1;overflow-y:auto;padding:16px;
+    display:flex;flex-direction:column;gap:12px;
+    scrollbar-width:thin;scrollbar-color:var(--ink-3) transparent;
+  }
+  .chat-messages::-webkit-scrollbar{width:4px}
+  .chat-messages::-webkit-scrollbar-track{background:transparent}
+  .chat-messages::-webkit-scrollbar-thumb{background:var(--ink-3);border-radius:4px}
+
+  .chat-msg{display:flex;gap:8px;max-width:88%}
+  .chat-msg.user{align-self:flex-end;flex-direction:row-reverse}
+  .chat-msg .bubble{
+    padding:10px 14px;border-radius:10px;font-size:.88rem;line-height:1.5;
+    font-family:var(--body);word-break:break-word;
+  }
+  .chat-msg.bot .bubble{background:var(--ink-3);color:var(--cream)}
+  .chat-msg.user .bubble{background:var(--accent);color:#fff}
+  .chat-msg .av{
+    width:28px;height:28px;border-radius:50%;flex-shrink:0;
+    display:flex;align-items:center;justify-content:center;font-size:.75rem;font-weight:700;
+    font-family:var(--display);margin-top:2px;
+  }
+  .chat-msg.bot .av{background:var(--accent);color:#fff}
+  .chat-msg.user .av{background:var(--ink-3);color:var(--muted)}
+
+  .typing-indicator{display:flex;gap:4px;padding:10px 14px;background:var(--ink-3);border-radius:10px}
+  .typing-indicator span{width:7px;height:7px;background:var(--muted);border-radius:50%;animation:typingBounce 1.2s infinite}
+  .typing-indicator span:nth-child(2){animation-delay:.2s}
+  .typing-indicator span:nth-child(3){animation-delay:.4s}
+  @keyframes typingBounce{0%,60%,100%{transform:translateY(0)}30%{transform:translateY(-6px)}}
+
+  .chat-input-row{
+    padding:12px 14px;border-top:1px solid var(--line);
+    display:flex;gap:8px;align-items:flex-end;flex-shrink:0;
+  }
+  #chat-input{
+    flex:1;background:var(--ink-3);border:1px solid var(--line);border-radius:8px;
+    color:var(--cream);font-family:var(--body);font-size:.88rem;
+    padding:10px 12px;resize:none;line-height:1.4;max-height:100px;
+    transition:border-color .25s;outline:none;
+  }
+  #chat-input:focus{border-color:rgba(201,74,30,.5)}
+  #chat-input::placeholder{color:var(--muted)}
+  #chat-send{
+    width:36px;height:36px;border-radius:8px;background:var(--accent);
+    border:none;cursor:pointer;color:#fff;flex-shrink:0;
+    display:flex;align-items:center;justify-content:center;
+    transition:.25s;font-size:1rem;
+  }
+  #chat-send:hover{background:var(--accent-light)}
+  #chat-send:disabled{background:var(--ink-3);color:var(--muted);cursor:not-allowed}
+
+  .chat-quick-btns{
+    display:flex;flex-wrap:wrap;gap:6px;padding:0 14px 10px;flex-shrink:0;
+  }
+  .quick-btn{
+    background:transparent;border:1px solid var(--line);color:var(--muted);
+    font-family:var(--display);font-size:.72rem;padding:5px 10px;border-radius:20px;
+    cursor:pointer;transition:.25s;white-space:nowrap;
+  }
+  .quick-btn:hover{border-color:var(--accent);color:var(--accent-light)}
+
+  /* Responsive */
+  @media(max-width:1100px){
+    .why-grid{grid-template-columns:repeat(2,1fr)}
+    .areas-grid{grid-template-columns:repeat(3,1fr)}
+  }
+  @media(max-width:1024px){
+    .about .container,.contact .container{grid-template-columns:1fr;gap:60px}
+    .about-visual{max-width:480px}
+    .svc-grid{grid-template-columns:1fr 1fr}
+    .foot-top{grid-template-columns:1fr 1fr}
+    .stats .container{grid-template-columns:repeat(2,1fr)}
+    .stat:nth-child(2){border-right:none}
+  }
+  @media(max-width:768px){
+    .topbar{display:none}
+    nav ul{
+      position:fixed;inset:0;background:var(--ink);flex-direction:column;
+      justify-content:center;align-items:center;gap:30px;
+      transform:translateX(100%);transition:transform .5s var(--ease);z-index:90;list-style:none;
+    }
+    nav ul.open{transform:none}
+    nav ul a{font-size:1.6rem}
+    .menu-toggle{display:flex;z-index:95}
+    .menu-toggle.active span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+    .menu-toggle.active span:nth-child(2){opacity:0}
+    .menu-toggle.active span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+    .nav-phone .txt{display:none}
+    .pad{padding:80px 0}
+    .svc-grid{grid-template-columns:1fr}
+    .proc-grid{grid-template-columns:1fr;gap:40px}
+    .proc::after{display:none}
+    .tst-grid{grid-template-columns:1fr}
+    .why-grid{grid-template-columns:1fr}
+    .areas-grid{grid-template-columns:repeat(2,1fr)}
+    .about-features{grid-template-columns:1fr}
+    .foot-top{grid-template-columns:1fr}
+    .hero-badge{display:none}
+    .field-row{grid-template-columns:1fr}
+    .container{padding:0 20px}
+    form{padding:30px 22px}
+    .sticky-call{display:block}
+    body{padding-bottom:60px}
+    .hero-trust{gap:18px}
+    .trust-item{font-size:.8rem}
+    .cta .container{flex-direction:column;align-items:flex-start}
+    /* Chat button above sticky call bar on mobile */
+    #chat-btn{bottom:76px}
+    #chat-panel{bottom:144px;right:12px;width:calc(100vw - 24px)}
+  }
+  @media(max-width:480px){
+    .areas-grid{grid-template-columns:1fr 1fr}
+    .stats .container{grid-template-columns:1fr 1fr}
+    .stat{padding:44px 16px}
+    .stat .num{font-size:2.6rem}
+  }
+</style>
+</head>
+<body>
+
+<div class="scroll-progress" id="progress"></div>
+
+<!-- STICKY MOBILE CALL -->
+<a href="tel:+19032581210" class="sticky-call">
+  <span>📞 Call Now — Free Estimate: (903) 258-1210</span>
+</a>
+
+<!-- TOAST -->
+<div class="toast" id="toast">✓ Message sent! We'll call you within 1 business hour.</div>
+
+<!-- HEADER -->
+<header id="header">
+  <div class="topbar">
+    <div class="container">
+      <div class="left">
+        <span>◷ Mon–Sat: 9:00 AM – 5:00 PM</span>
+        <span>⚲ Jarrell, TX — Serving All of Texas</span>
+        <a href="tel:+19032581210" class="topbar-phone">☎ (903) 258-1210</a>
+      </div>
+      <div class="right">
+        <a href="#" aria-label="Facebook">f</a>
+        <a href="#" aria-label="Instagram">⌾</a>
+        <a href="#" aria-label="Google">G</a>
+      </div>
+    </div>
+  </div>
+  <div class="container nav">
+    <a href="#home" class="logo">
+      <div class="logo-mark">CXR</div>
+      <div class="logo-text">CXR Roofing<small>Quality Roofs Above All</small></div>
+    </a>
+    <nav>
+      <ul id="menu">
+        <li><a href="#about">About</a></li>
+        <li><a href="#services">Services</a></li>
+        <li><a href="#why">Why Us</a></li>
+        <li><a href="#areas">Service Areas</a></li>
+        <li><a href="#contact">Free Estimate</a></li>
+      </ul>
+    </nav>
+    <div class="nav-cta">
+      <a href="tel:+19032581210" class="nav-phone">
+        <span class="ring">☎</span>
+        <span class="txt"><small>CALL US TODAY</small>(903) 258-1210</span>
+      </a>
+      <button class="menu-toggle" id="toggle" aria-label="Menu"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+</header>
+
+<!-- HERO -->
+<section class="hero" id="home">
+  <div class="hero-bg">
+    <img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?auto=format&fit=crop&w=2000&q=80" alt="CXR Roofing — professional roof installation in Texas">
+  </div>
+  <div class="hero-grid-overlay"></div>
+  <div class="container">
+    <div class="hero-inner">
+      <span class="eyebrow">Veteran-Owned · CertainTeed Certified · Free Estimates</span>
+      <h1>
+        <span class="line"><span><em>Quality Roofs</em></span></span>
+        <span class="line"><span>Above All.</span></span>
+      </h1>
+      <p>Whether it's a hole on your roof or a whole new roof — CXR Roofing delivers expert residential and commercial roofing across North, Central, and East Texas. A decade of experience, veteran pride.</p>
+      <div class="hero-actions">
+        <a href="#contact" class="btn btn-primary">Get Your Free Estimate <span class="arrow">↗</span></a>
+        <a href="tel:+19032581210" class="btn btn-ghost">☎ Call (903) 258-1210</a>
+      </div>
+      <div class="hero-trust">
+        <div class="trust-item"><span class="ic">★</span> CertainTeed Certified Master Applicator</div>
+        <div class="trust-item"><span class="ic">★</span> Veteran-Owned &amp; Operated</div>
+        <div class="trust-item"><span class="ic">★</span> Insurance Claim Assistance</div>
+        <div class="trust-item"><span class="ic">★</span> 10% Cash Discount</div>
+      </div>
+    </div>
+  </div>
+  <div class="hero-badge">
+    <div class="big">10<sup style="font-size:1.3rem">+</sup></div>
+    <small>YEARS OF<br>ROOFING EXCELLENCE</small>
+  </div>
+  <div class="hero-scroll">
+    <div class="mouse"></div>
+    Scroll
+  </div>
+</section>
+
+<!-- MARQUEE -->
+<div class="marquee" aria-hidden="true">
+  <div class="marquee-track">
+    <span>Residential Roofing&nbsp;&nbsp;Metal Roofs&nbsp;&nbsp;Flat Roofing&nbsp;&nbsp;TPO Systems&nbsp;&nbsp;Commercial Roofing&nbsp;&nbsp;Standing Seam Metal&nbsp;&nbsp;Insurance Claims&nbsp;&nbsp;Free Inspections&nbsp;&nbsp;</span>
+    <span>Residential Roofing&nbsp;&nbsp;Metal Roofs&nbsp;&nbsp;Flat Roofing&nbsp;&nbsp;TPO Systems&nbsp;&nbsp;Commercial Roofing&nbsp;&nbsp;Standing Seam Metal&nbsp;&nbsp;Insurance Claims&nbsp;&nbsp;Free Inspections&nbsp;&nbsp;</span>
+  </div>
+</div>
+
+<!-- STATS -->
+<section class="stats" aria-label="Company statistics">
+  <div class="container">
+    <div class="stat reveal"><div class="num" data-count="10">0<span>+</span></div><div class="label">Years Experience</div></div>
+    <div class="stat reveal d1"><div class="num" data-count="500">0<span>+</span></div><div class="label">Roofs Installed</div></div>
+    <div class="stat reveal d2"><div class="num" data-count="3">0</div><div class="label">Texas Regions Served</div></div>
+    <div class="stat reveal d3"><div class="num">100<span>%</span></div><div class="label">Free Estimates</div></div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section class="about pad" id="about">
+  <div class="container">
+    <div class="about-visual reveal">
+      <div class="exp-tag"><div class="n">✦</div><small>Certified Master<br>Applicator</small></div>
+      <div class="vet-badge" style="top:auto;bottom:-18px;right:-18px;left:auto;">
+        <div class="flag">🇺🇸</div>
+        <small>Veteran<br>Owned</small>
+      </div>
+      <div class="main-img">
+        <img src="https://images.unsplash.com/photo-1504307651254-35680f356dfd?auto=format&fit=crop&w=900&q=80" alt="CXR Roofing crew on a Texas roofing project">
+      </div>
+      <div class="sub-img">
+        <img src="https://images.unsplash.com/photo-1600585154526-990dced4db0d?auto=format&fit=crop&w=700&q=80" alt="Finished metal roof installation">
+      </div>
+    </div>
+    <div class="about-text reveal d1">
+      <span class="eyebrow">About CXR Roofing</span>
+      <h2>Texas Roofing, Done Right the First Time.</h2>
+      <p>Founded by U.S. veteran Zach Reilly, CXR Roofing was built on the same values that define military service — discipline, integrity, and an unwavering commitment to excellence. With over a decade in the roofing industry, we treat every customer's home as if it were our own.</p>
+      <p>Our CertainTeed Master Applicator certification means you get superior product performance, backed by stronger manufacturer warranties. From a single shingle repair to a full commercial flat roof system, we do it right.</p>
+      <div class="about-features">
+        <div class="f"><div class="ic">⚲</div><div><h4>Free Inspections</h4><p>On-site estimates at no cost to you.</p></div></div>
+        <div class="f"><div class="ic">◈</div><div><h4>Insurance Claims</h4><p>We guide you through the entire claim process.</p></div></div>
+        <div class="f"><div class="ic">⚒</div><div><h4>Master Craftsmen</h4><p>CertainTeed Certified — industry's top standard.</p></div></div>
+        <div class="f"><div class="ic">✦</div><div><h4>Cash Discount</h4><p>Save 10% when you pay with cash.</p></div></div>
+      </div>
+      <div class="cert-row">
+        <div class="cert-badge">
+          <div class="logo-c">CT</div>
+          <small>CertainTeed<br>Certified</small>
+        </div>
+        <div class="cert-desc">
+          <strong>CertainTeed Master Applicator</strong>
+          The highest level of contractor certification — guaranteeing superior installation and extended warranty coverage for your roof.
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section class="services pad" id="services">
+  <div class="container">
+    <div class="section-head center reveal">
+      <span class="eyebrow">What We Do</span>
+      <h2>Full-Service Roofing Solutions</h2>
+      <p class="lead">From asphalt shingles to standing seam metal — one certified team for every roofing need across Texas.</p>
+    </div>
+    <div class="svc-grid">
+      <div class="svc reveal">
+        <div class="bgimg"><img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?auto=format&fit=crop&w=900&q=80" alt="Residential roofing"></div>
+        <span class="num">01</span><div class="ic">⌂</div>
+        <h3>Residential Roofing</h3>
+        <p>Full roof replacements and repairs for homes of any size — installed with CertainTeed products for lasting curb appeal and protection.</p>
+        <span class="more">Get a Free Quote →</span>
+      </div>
+      <div class="svc reveal d1">
+        <div class="bgimg"><img src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=900&q=80" alt="Commercial roofing"></div>
+        <span class="num">02</span><div class="ic">▦</div>
+        <h3>Commercial Roofing</h3>
+        <p>Durable, code-compliant commercial installations for warehouses, retail, and multi-unit properties delivered on time and on budget.</p>
+        <span class="more">Get a Free Quote →</span>
+      </div>
+      <div class="svc reveal d2">
+        <div class="bgimg"><img src="https://images.unsplash.com/photo-1565008447742-97f6f38c985c?auto=format&fit=crop&w=900&q=80" alt="Metal roofing"></div>
+        <span class="num">03</span><div class="ic">▤</div>
+        <h3>Metal Roofing</h3>
+        <p>R Panel and Standing Seam metal roofs that last 50+ years — energy-efficient, storm-resistant, and built for the Texas climate.</p>
+        <span class="more">Get a Free Quote →</span>
+      </div>
+      <div class="svc reveal">
+        <div class="bgimg"><img src="https://images.unsplash.com/photo-1503387762-592deb58ef4e?auto=format&fit=crop&w=900&q=80" alt="Flat roof installation"></div>
+        <span class="num">04</span><div class="ic">◻</div>
+        <h3>Flat Roof Installation</h3>
+        <p>Expert flat roofing systems for commercial and residential low-slope applications, engineered for maximum weather protection.</p>
+        <span class="more">Get a Free Quote →</span>
+      </div>
+      <div class="svc reveal d1">
+        <div class="bgimg"><img src="https://images.unsplash.com/photo-1581094794329-c8112a89af12?auto=format&fit=crop&w=900&q=80" alt="TPO roofing"></div>
+        <span class="num">05</span><div class="ic">◈</div>
+        <h3>TPO Roofing</h3>
+        <p>Thermoplastic polyolefin membrane roofing — reflective, energy-saving, and proven for commercial flat and low-slope roofs.</p>
+        <span class="more">Get a Free Quote →</span>
+      </div>
+      <div class="svc reveal d2">
+        <div class="bgimg"><img src="https://images.unsplash.com/photo-1504917595217-d4dc5ebe6122?auto=format&fit=crop&w=900&q=80" alt="Insurance claim roofing assistance"></div>
+        <span class="num">06</span><div class="ic">✎</div>
+        <h3>Insurance Claim Assistance</h3>
+        <p>Hail or storm damage? We work directly with your insurance company to document damage and maximize your claim — at no extra cost.</p>
+        <span class="more">Learn More →</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WHY CHOOSE US -->
+<section class="why pad" id="why">
+  <div class="container">
+    <div class="section-head center reveal">
+      <span class="eyebrow">Why CXR Roofing</span>
+      <h2>The CXR Difference</h2>
+      <p class="lead">We earn your trust with every project. Here's what sets us apart from the competition.</p>
+    </div>
+    <div class="why-grid">
+      <div class="why-card reveal">
+        <div class="ic">🇺🇸</div>
+        <h3>Veteran-Owned &amp; Operated</h3>
+        <p>Founded and run by U.S. veterans who bring military discipline, reliability, and pride to every roof we install.</p>
+      </div>
+      <div class="why-card reveal d1">
+        <div class="ic">⭐</div>
+        <h3>CertainTeed Master Applicator</h3>
+        <p>The highest level of installer certification — unlocking enhanced warranties and ensuring your roof performs for decades.</p>
+      </div>
+      <div class="why-card reveal d2">
+        <div class="ic">💰</div>
+        <h3>Free Estimates &amp; 10% Cash Off</h3>
+        <p>No fees for inspections or quotes. Pay with cash and we'll knock 10% off your total invoice — automatically.</p>
+      </div>
+      <div class="why-card reveal d3">
+        <div class="ic">📋</div>
+        <h3>Insurance Claim Experts</h3>
+        <p>Storm damage is stressful. We handle the documentation, adjuster coordination, and paperwork so you don't have to.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROCESS -->
+<section class="process pad" id="process">
+  <div class="container">
+    <div class="section-head center reveal">
+      <span class="eyebrow">How It Works</span>
+      <h2>Our Simple 4-Step Process</h2>
+      <p class="lead">From first call to finished roof — we make the entire experience clear, fast, and stress-free.</p>
+    </div>
+    <div class="proc-grid">
+      <div class="proc reveal">
+        <div class="n">01</div>
+        <h3>Free Inspection</h3>
+        <p>We come to you, assess your roof in person, and document everything — completely free, no strings attached.</p>
+      </div>
+      <div class="proc reveal d1">
+        <div class="n">02</div>
+        <h3>Transparent Quote</h3>
+        <p>You receive a detailed, line-item estimate with zero surprises. We walk you through every cost before work begins.</p>
+      </div>
+      <div class="proc reveal d2">
+        <div class="n">03</div>
+        <h3>Expert Installation</h3>
+        <p>Our certified crew installs your new roof with precision, speed, and respect for your property and schedule.</p>
+      </div>
+      <div class="proc reveal d3">
+        <div class="n">04</div>
+        <h3>Final Walkthrough</h3>
+        <p>We don't leave until you're 100% satisfied — complete cleanup, final inspection, and warranty documentation in hand.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- QUOTE BAND -->
+<section class="band">
+  <div class="band-bg">
+    <img src="https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&w=2000&q=80" alt="Texas rooftop at sunset">
+  </div>
+  <div class="container reveal">
+    <blockquote>"Whether it's a hole on your roof or a whole roof — <span>we can help.</span>"</blockquote>
+    <cite>— Zach Reilly, Founder &amp; U.S. Veteran, CXR Roofing</cite>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="pad" id="reviews">
+  <div class="container">
+    <div class="section-head center reveal">
+      <span class="eyebrow">Customer Reviews</span>
+      <h2>Trusted by Texas Homeowners &amp; Businesses</h2>
+    </div>
+    <div class="tst-grid">
+      <div class="tst reveal">
+        <div class="quote-mark">"</div>
+        <div class="stars">★★★★★</div>
+        <p>CXR replaced our entire roof after hail damage. Zach handled the insurance claim from start to finish — we didn't have to do a thing. Roof looks incredible and the crew was respectful of our property.</p>
+        <div class="who">
+          <div class="av">MH</div>
+          <div><h4>Mark &amp; Helen T.</h4><small>Tyler, TX — Residential Replacement</small></div>
+        </div>
+      </div>
+      <div class="tst reveal d1">
+        <div class="quote-mark">"</div>
+        <div class="stars">★★★★★</div>
+        <p>We went with a standing seam metal roof on our warehouse. CXR was professional, on schedule, and the quality is far above what other contractors quoted us. Veteran-run — you can tell in how they operate.</p>
+        <div class="who">
+          <div class="av">RJ</div>
+          <div><h4>Roberto J.</h4><small>Georgetown, TX — Commercial Metal Roof</small></div>
+        </div>
+      </div>
+      <div class="tst reveal d2">
+        <div class="quote-mark">"</div>
+        <div class="stars">★★★★★</div>
+        <p>Called in the morning, had an inspector out same day. Got our quote the next day and the roof was done within the week. Fast, fair pricing, and they honored the 10% cash discount. Highly recommend.</p>
+        <div class="who">
+          <div class="av">SA</div>
+          <div><h4>Sandra A.</h4><small>Granbury, TX — Shingle Replacement</small></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICE AREAS -->
+<section class="areas pad" id="areas">
+  <div class="container">
+    <div class="section-head center reveal">
+      <span class="eyebrow">Where We Work</span>
+      <h2>Serving All of Texas</h2>
+      <p class="lead">CXR Roofing operates across North, Central, and East Texas. Don't see your city? Call us — we likely serve your area.</p>
+    </div>
+    <div class="areas-grid reveal">
+      <div class="area-pill highlight">Tyler, TX</div>
+      <div class="area-pill highlight">Austin, TX</div>
+      <div class="area-pill highlight">Granbury, TX</div>
+      <div class="area-pill highlight">Georgetown, TX</div>
+      <div class="area-pill highlight">Jarrell, TX</div>
+      <div class="area-pill">Temple, TX</div>
+      <div class="area-pill">Cedar Park, TX</div>
+      <div class="area-pill">Hutto, TX</div>
+      <div class="area-pill">Houston, TX</div>
+      <div class="area-pill">San Antonio, TX</div>
+      <div class="area-pill">Fort Worth, TX</div>
+      <div class="area-pill">Dallas, TX</div>
+      <div class="area-pill">Longview, TX</div>
+      <div class="area-pill">Kilgore, TX</div>
+      <div class="area-pill">Sugarland, TX</div>
+    </div>
+    <p class="reveal" style="text-align:center;margin-top:36px;color:var(--muted);font-size:.95rem;">
+      Not on the list? <a href="tel:+19032581210" style="color:var(--accent-light);font-weight:600">Call us at (903) 258-1210</a> — we serve the surrounding regions too.
+    </p>
+  </div>
+</section>
+
+<!-- CTA BAND -->
+<section class="cta pad">
+  <div class="container">
+    <div class="reveal">
+      <h2>Ready for a Roof That Lasts? Get Your Free Estimate Today.</h2>
+      <p style="color:rgba(255,255,255,.75);margin-top:16px;font-weight:300;font-size:1.05rem;max-width:480px">No pressure. No obligation. Just an honest assessment and a transparent quote from a certified, veteran-owned team.</p>
+    </div>
+    <div class="cta-actions reveal d1">
+      <a href="#contact" class="btn-dark">Request a Free Quote ↗</a>
+      <a href="tel:+19032581210" class="btn-outline-white">☎ (903) 258-1210</a>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT / QUOTE FORM -->
+<section class="contact pad" id="contact">
+  <div class="container">
+    <div class="contact-info reveal">
+      <span class="eyebrow">Get In Touch</span>
+      <h2>Request Your Free Roof Inspection</h2>
+      <p>Call us or fill out the form. We respond within 1 business hour and can usually schedule your free inspection same day or next day.</p>
+
+      <div class="ci-row">
+        <div class="ic">☎</div>
+        <div>
+          <div class="label">East Texas</div>
+          <a href="tel:+19032581210" class="value">(903) 258-1210</a>
+        </div>
+      </div>
+      <div class="ci-row">
+        <div class="ic">☎</div>
+        <div>
+          <div class="label">Central Texas</div>
+          <a href="tel:+15123169557" class="value">(512) 316-9557</a>
+        </div>
+      </div>
+      <div class="ci-row">
+        <div class="ic">☎</div>
+        <div>
+          <div class="label">Granbury, Texas</div>
+          <a href="tel:+19033632338" class="value">(903) 363-2338</a>
+        </div>
+      </div>
+      <div class="ci-row">
+        <div class="ic">⚲</div>
+        <div>
+          <div class="label">Home Base</div>
+          <div class="value">Jarrell, TX<small>Serving All of Texas</small></div>
+        </div>
+      </div>
+      <div class="ci-row">
+        <div class="ic">◷</div>
+        <div>
+          <div class="label">Business Hours</div>
+          <div class="value">Mon–Sat: 9:00 AM – 5:00 PM<small>Closed Sundays</small></div>
+        </div>
+      </div>
+
+      <div class="discount-flag">
+        <div class="pct">10%</div>
+        <div><strong>Cash Payment Discount</strong>Pay your invoice in cash and automatically save 10% on the total. Ask us about this when you request your quote.</div>
+      </div>
+    </div>
+
+    <div class="reveal d1">
+      <form id="quoteForm" novalidate>
+        <h3>Get a Free Estimate</h3>
+        <p class="fsub">We'll call or text you within 1 business hour to confirm your inspection.</p>
+
+        <div class="field-row">
+          <div class="field">
+            <input type="text" id="fname" name="firstName" required autocomplete="given-name">
+            <label for="fname">First Name</label>
+          </div>
+          <div class="field">
+            <input type="text" id="lname" name="lastName" required autocomplete="family-name">
+            <label for="lname">Last Name</label>
+          </div>
+        </div>
+
+        <div class="field">
+          <input type="tel" id="phone" name="phone" required autocomplete="tel">
+          <label for="phone">Phone Number</label>
+        </div>
+
+        <div class="field">
+          <input type="text" id="city" name="city" required>
+          <label for="city">City, TX</label>
+        </div>
+
+        <div class="field">
+          <select id="service" name="service" required>
+            <option value="" disabled selected></option>
+            <option value="residential">Residential Roofing</option>
+            <option value="commercial">Commercial Roofing</option>
+            <option value="metal">Metal Roofing</option>
+            <option value="flat">Flat Roof / TPO</option>
+            <option value="repair">Roof Repair</option>
+            <option value="insurance">Insurance Claim Assistance</option>
+            <option value="inspection">Inspection Only</option>
+          </select>
+          <label for="service" style="top:-14px;font-size:.72rem;letter-spacing:.1em;color:var(--accent-light);text-transform:uppercase">Service Needed</label>
+        </div>
+
+        <div class="field">
+          <textarea id="notes" name="notes" rows="3"></textarea>
+          <label for="notes">Additional Notes (optional)</label>
+        </div>
+
+        <button type="submit" class="btn-submit">
+          <span>☎</span> Request My Free Inspection
+        </button>
+        <p class="form-note">100% free — no commitment required. We hate spam and will never share your info.</p>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="container">
+    <div class="foot-top">
+      <div class="foot-brand">
+        <a href="#home" class="logo">
+          <div class="logo-mark" style="width:42px;height:42px;font-size:.95rem">CXR</div>
+          <div class="logo-text" style="font-size:1.1rem">CXR Roofing<small>Quality Roofs Above All</small></div>
+        </a>
+        <p style="margin-top:18px">Veteran-owned and CertainTeed Certified roofing serving North, Central, and East Texas. Excellence in every shingle.</p>
+        <div class="vet-flag" style="margin-top:16px">🇺🇸 Veteran-Owned &amp; Operated</div>
+        <div class="foot-phones" style="margin-top:18px">
+          <div><small>East Texas</small><a href="tel:+19032581210">(903) 258-1210</a></div>
+          <div><small>Central Texas</small><a href="tel:+15123169557">(512) 316-9557</a></div>
+          <div><small>Granbury</small><a href="tel:+19033632338">(903) 363-2338</a></div>
+        </div>
+      </div>
+
+      <div class="foot-col">
+        <h4>Services</h4>
+        <ul>
+          <li><a href="#services">Residential Roofing</a></li>
+          <li><a href="#services">Commercial Roofing</a></li>
+          <li><a href="#services">Metal Roofing</a></li>
+          <li><a href="#services">Flat Roof / TPO</a></li>
+          <li><a href="#services">Roof Repair</a></li>
+          <li><a href="#services">Insurance Claims</a></li>
+        </ul>
+      </div>
+
+      <div class="foot-col">
+        <h4>Company</h4>
+        <ul>
+          <li><a href="#about">About CXR</a></li>
+          <li><a href="#why">Why Choose Us</a></li>
+          <li><a href="#process">Our Process</a></li>
+          <li><a href="#areas">Service Areas</a></li>
+          <li><a href="#reviews">Reviews</a></li>
+          <li><a href="#contact">Free Estimate</a></li>
+        </ul>
+      </div>
+
+      <div class="foot-col">
+        <h4>Service Areas</h4>
+        <ul>
+          <li><a href="#areas">Tyler, TX</a></li>
+          <li><a href="#areas">Austin / Georgetown</a></li>
+          <li><a href="#areas">Granbury, TX</a></li>
+          <li><a href="#areas">Houston, TX</a></li>
+          <li><a href="#areas">San Antonio, TX</a></li>
+          <li><a href="#areas">Dallas / Fort Worth</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="container">
+    <div class="foot-bottom">
+      <span>© 2024 CXR Roofing · Jarrell, TX · All Rights Reserved</span>
+      <div class="links">
+        <a href="#">Privacy Policy</a>
+        <a href="#">Terms of Service</a>
+        <a href="#contact">Free Estimate</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- ============================================================
+     AI CHATBOT WIDGET
+============================================================ -->
+
+<!-- Floating Button -->
+<button id="chat-btn" aria-label="Chat with CXR Roofing AI Assistant">
+  <span id="chat-icon">💬</span>
+  <span class="badge" aria-hidden="true"></span>
+</button>
+
+<!-- Chat Panel -->
+<div id="chat-panel" role="dialog" aria-label="CXR Roofing Chat Assistant" aria-modal="true">
+  <div class="chat-header">
+    <div class="avatar">🏠</div>
+    <div class="info">
+      <strong>CXR Roofing Assistant</strong>
+      <small>Veteran-Owned · Free Estimates · Instant Answers</small>
+    </div>
+    <button class="close-btn" id="chat-close" aria-label="Close chat">✕</button>
+  </div>
+
+  <div class="chat-messages" id="chat-messages">
+    <!-- Welcome message injected by JS -->
+  </div>
+
+  <div class="chat-quick-btns" id="quick-btns">
+    <button class="quick-btn" data-msg="What roofing services do you offer?">Services</button>
+    <button class="quick-btn" data-msg="How much does a roof replacement cost?">Pricing</button>
+    <button class="quick-btn" data-msg="Do you help with insurance claims?">Insurance</button>
+    <button class="quick-btn" data-msg="What areas do you serve?">Service Areas</button>
+  </div>
+
+  <div class="chat-input-row">
+    <textarea
+      id="chat-input"
+      placeholder="Ask about roofing, pricing, service areas…"
+      rows="1"
+      aria-label="Chat message"
+    ></textarea>
+    <button id="chat-send" aria-label="Send message">➤</button>
+  </div>
+</div>
+
+<script>
+  // ── Site JS ──────────────────────────────────────────────────
+  const prog = document.getElementById('progress');
+  window.addEventListener('scroll', () => {
+    const pct = window.scrollY / (document.body.scrollHeight - window.innerHeight) * 100;
+    prog.style.width = pct + '%';
+  }, {passive:true});
+
+  const header = document.getElementById('header');
+  window.addEventListener('scroll', () => {
+    header.classList.toggle('scrolled', window.scrollY > 80);
+  }, {passive:true});
+
+  const toggle = document.getElementById('toggle');
+  const menu   = document.getElementById('menu');
+  toggle.addEventListener('click', () => {
+    toggle.classList.toggle('active');
+    menu.classList.toggle('open');
+  });
+  menu.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+    toggle.classList.remove('active');
+    menu.classList.remove('open');
+  }));
+
+  const reveals = document.querySelectorAll('.reveal');
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if(e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
+  }, {threshold:.12});
+  reveals.forEach(r => io.observe(r));
+
+  function animateCount(el) {
+    const target = parseInt(el.dataset.count);
+    if (!target) return;
+    const suffix = el.querySelector('span') ? el.querySelector('span').outerHTML : '';
+    let current = 0;
+    const increment = target / 60;
+    const timer = setInterval(() => {
+      current = Math.min(current + increment, target);
+      el.innerHTML = Math.floor(current) + suffix;
+      if (current >= target) clearInterval(timer);
+    }, 25);
+  }
+  const statObs = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) { animateCount(e.target); statObs.unobserve(e.target); }
+    });
+  }, {threshold:.5});
+  document.querySelectorAll('.num[data-count]').forEach(n => statObs.observe(n));
+
+  document.getElementById('quoteForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    const toast = document.getElementById('toast');
+    toast.classList.add('show');
+    this.reset();
+    setTimeout(() => toast.classList.remove('show'), 5000);
+  });
+
+  // ── Chatbot ──────────────────────────────────────────────────
+  const chatBtn     = document.getElementById('chat-btn');
+  const chatPanel   = document.getElementById('chat-panel');
+  const chatClose   = document.getElementById('chat-close');
+  const chatInput   = document.getElementById('chat-input');
+  const chatSend    = document.getElementById('chat-send');
+  const chatMsgs    = document.getElementById('chat-messages');
+  const quickBtns   = document.getElementById('quick-btns');
+  const chatIcon    = document.getElementById('chat-icon');
+  let isOpen        = false;
+  let isLoading     = false;
+  let conversation  = []; // [{role:'user'|'assistant', content:'...'}]
+
+  // Welcome message
+  function addWelcome() {
+    addBotMsg("Hi! 👋 I'm the CXR Roofing assistant. I can answer questions about our services, pricing, service areas, or insurance claims. How can I help you today?");
+  }
+
+  function addBotMsg(text) {
+    const wrap = document.createElement('div');
+    wrap.className = 'chat-msg bot';
+    wrap.innerHTML = `<div class="av">CXR</div><div class="bubble">${text.replace(/\n/g,'<br>')}</div>`;
+    chatMsgs.appendChild(wrap);
+    chatMsgs.scrollTop = chatMsgs.scrollHeight;
+  }
+
+  function addUserMsg(text) {
+    const wrap = document.createElement('div');
+    wrap.className = 'chat-msg user';
+    wrap.innerHTML = `<div class="av">You</div><div class="bubble">${escHtml(text)}</div>`;
+    chatMsgs.appendChild(wrap);
+    chatMsgs.scrollTop = chatMsgs.scrollHeight;
+  }
+
+  function escHtml(s) {
+    return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  }
+
+  function showTyping() {
+    const wrap = document.createElement('div');
+    wrap.className = 'chat-msg bot';
+    wrap.id = 'typing-wrap';
+    wrap.innerHTML = `<div class="av">CXR</div><div class="typing-indicator"><span></span><span></span><span></span></div>`;
+    chatMsgs.appendChild(wrap);
+    chatMsgs.scrollTop = chatMsgs.scrollHeight;
+  }
+
+  function hideTyping() {
+    const el = document.getElementById('typing-wrap');
+    if (el) el.remove();
+  }
+
+  async function sendMessage(text) {
+    if (!text.trim() || isLoading) return;
+    isLoading = true;
+    chatSend.disabled = true;
+    quickBtns.style.display = 'none';
+
+    addUserMsg(text);
+    conversation.push({ role: 'user', content: text });
+
+    showTyping();
+
+    try {
+      const res = await fetch('/api/chat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ messages: conversation })
+      });
+      const data = await res.json();
+      hideTyping();
+
+      const reply = data.reply || data.error || 'Sorry, something went wrong. Please call us at (903) 258-1210.';
+      addBotMsg(reply);
+      conversation.push({ role: 'assistant', content: reply });
+    } catch (err) {
+      hideTyping();
+      addBotMsg('Connection error. Please try calling us at <a href="tel:+19032581210" style="color:var(--accent-light)">(903) 258-1210</a> — we\'re happy to help!');
+    }
+
+    isLoading = false;
+    chatSend.disabled = false;
+  }
+
+  // Toggle panel
+  function openChat() {
+    isOpen = true;
+    chatPanel.classList.add('open');
+    chatIcon.textContent = '✕';
+    chatInput.focus();
+    if (chatMsgs.children.length === 0) addWelcome();
+  }
+
+  function closeChat() {
+    isOpen = false;
+    chatPanel.classList.remove('open');
+    chatIcon.textContent = '💬';
+  }
+
+  chatBtn.addEventListener('click', () => isOpen ? closeChat() : openChat());
+  chatClose.addEventListener('click', closeChat);
+
+  // Send on Enter (Shift+Enter = new line)
+  chatInput.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault();
+      const val = chatInput.value.trim();
+      if (val) { chatInput.value = ''; sendMessage(val); }
+    }
+  });
+
+  // Auto-resize textarea
+  chatInput.addEventListener('input', () => {
+    chatInput.style.height = 'auto';
+    chatInput.style.height = Math.min(chatInput.scrollHeight, 100) + 'px';
+  });
+
+  chatSend.addEventListener('click', () => {
+    const val = chatInput.value.trim();
+    if (val) { chatInput.value = ''; chatInput.style.height = 'auto'; sendMessage(val); }
+  });
+
+  // Quick suggestion buttons
+  document.querySelectorAll('.quick-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      sendMessage(btn.dataset.msg);
+    });
+  });
+</script>
+</body>
+</html>
