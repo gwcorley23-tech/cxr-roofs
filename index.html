@@ -42,7 +42,7 @@
 }
 *{margin:0;padding:0;box-sizing:border-box}
 html{scroll-behavior:auto;-webkit-font-smoothing:antialiased}
-body{font-family:var(--body);background:var(--ink);color:var(--cream);line-height:1.65;overflow-x:hidden}
+body{font-family:var(--body);background:var(--ink);color:var(--cream);line-height:1.65;overflow-x:clip}
 ::selection{background:var(--red);color:#fff}
 a{text-decoration:none;color:inherit}
 img{display:block;max-width:100%;height:auto}
@@ -140,7 +140,7 @@ nav ul a:hover::after{width:100%}
 
 /* Ken Burns animated background */
 .hero-bg{position:absolute;inset:-8% 0;z-index:0}
-.hero-bg img{width:100%;height:100%;object-fit:cover;animation:kenBurns 22s ease-in-out infinite alternate;transform-origin:center}
+.hero-bg img{width:100%;height:100%;object-fit:cover;animation:kenBurns 22s ease-in-out infinite alternate;transform-origin:center;will-change:transform}
 @keyframes kenBurns{0%{transform:scale(1.08) translate(0,0)}100%{transform:scale(1.18) translate(-2%,-1.5%)}}
 
 /* Rich multi-layer overlay */
@@ -207,7 +207,7 @@ nav ul a:hover::after{width:100%}
 .hero h1 .char{display:inline-block;transform:translateY(115%);opacity:0}
 
 /* Red accent line under headline */
-.hero-rule{width:60px;height:3px;background:var(--red);border-radius:3px;margin-bottom:24px;opacity:0;border-radius:var(--r-pill)}
+.hero-rule{width:60px;height:3px;background:var(--red);border-radius:var(--r-pill);margin-bottom:24px;opacity:0}
 
 .hero p{font-size:1.05rem;color:rgba(220,215,215,.8);max-width:500px;margin-bottom:36px;font-weight:300;line-height:1.8;opacity:0}
 
@@ -318,8 +318,10 @@ nav ul a:hover::after{width:100%}
 /* Words in h2 are split — each .word wraps in overflow:hidden */
 .section-head h2{font-size:clamp(2.2rem,4.5vw,4rem);font-weight:900;line-height:1;letter-spacing:-.04em;text-transform:uppercase;margin-bottom:22px}
 .section-head h2 .word{display:inline-block;overflow:hidden;line-height:1.1;margin-right:.25em}
-.section-head h2 .word-inner{display:inline-block;transform:translateY(100%);opacity:0}
-.section-head .sub{color:var(--muted);font-size:1.05rem;font-weight:300;max-width:600px;line-height:1.7;opacity:0}
+/* word-inner initial state set by GSAP — no CSS opacity:0 here */
+.section-head h2 .word-inner{display:inline-block}
+/* sub initial state set by GSAP — no CSS opacity:0 here */
+.section-head .sub{color:var(--muted);font-size:1.05rem;font-weight:300;max-width:600px;line-height:1.7}
 .section-head.center .sub{margin:0 auto}
 
 /* ═══════════════════════════════════════════════════════════
@@ -1446,6 +1448,11 @@ select.ai-qfield{color:#111}
 
 <script>
 /* ═══════════════════════════════════════════════════════════
+   0. REGISTER PLUGINS (must be first)
+═══════════════════════════════════════════════════════════ */
+gsap.registerPlugin(ScrollTrigger);
+
+/* ═══════════════════════════════════════════════════════════
    1. LENIS SMOOTH SCROLL
 ═══════════════════════════════════════════════════════════ */
 const lenis = new Lenis({
@@ -1456,13 +1463,17 @@ const lenis = new Lenis({
   touchMultiplier: 2,
 });
 
-/* Critical: keeps ScrollTrigger in sync with Lenis scroll position */
-ScrollTrigger.normalizeScroll(false);
-lenis.on('scroll', ScrollTrigger.update);
+/* Single consolidated scroll handler */
+lenis.on('scroll', ({ scroll, progress }) => {
+  ScrollTrigger.update();
+  document.getElementById('progress').style.width = (progress * 100) + '%';
+  document.getElementById('header').classList.toggle('scrolled', scroll > 60);
+});
+
 gsap.ticker.add(time => lenis.raf(time * 1000));
 gsap.ticker.lagSmoothing(0);
 
-// Fix anchor links to work with Lenis
+// Anchor links with Lenis
 document.querySelectorAll('a[href^="#"]').forEach(a => {
   a.addEventListener('click', e => {
     e.preventDefault();
@@ -1474,7 +1485,6 @@ document.querySelectorAll('a[href^="#"]').forEach(a => {
 /* ═══════════════════════════════════════════════════════════
    2. GSAP + SCROLLTRIGGER SETUP
 ═══════════════════════════════════════════════════════════ */
-gsap.registerPlugin(ScrollTrigger);
 
 /* ── 2a. SPLITTING.JS — split hero chars ─────────────────── */
 Splitting({ target: '[data-splitting]', by: 'chars' });
@@ -1511,41 +1521,37 @@ gsap.to('#hero-img', {
 
 /* ── 2e. SECTION HEADING WORD REVEALS ────────────────────── */
 function animateHeading(el) {
-  const words = el.querySelectorAll('br, .word-inner');
-  // Manual word splitting for section h2s
-  const h2 = el;
-  if (h2.dataset.split) return;
-  h2.dataset.split = '1';
-  const html = h2.innerHTML;
-  // Wrap each word/line in overflow:hidden + inner div
-  const parts = html.split(/<br\s*\/?>/i);
-  h2.innerHTML = parts.map(part =>
-    `<span style="display:block;overflow:hidden;line-height:1.05"><span class="word-inner" style="display:block">${part}</span></span>`
+  if (el.dataset.split) return;
+  el.dataset.split = '1';
+  const parts = el.innerHTML.split(/<br\s*\/?>/i);
+  el.innerHTML = parts.map(p =>
+    `<span style="display:block;overflow:hidden;line-height:1.08"><span class="word-inner">${p}</span></span>`
   ).join('');
-
-  gsap.from(h2.querySelectorAll('.word-inner'), {
-    y: '102%',
-    opacity: 0,
-    duration: 0.9,
-    stagger: 0.12,
-    ease: 'power3.out',
-    scrollTrigger: { trigger: h2, start: 'top 85%' }
+  const inners = el.querySelectorAll('.word-inner');
+  /* Set initial state via GSAP (not CSS) so "to" values work correctly */
+  gsap.set(inners, { y: '102%', opacity: 0 });
+  gsap.to(inners, {
+    y: '0%', opacity: 1,
+    duration: 0.9, stagger: 0.12, ease: 'power3.out',
+    scrollTrigger: { trigger: el, start: 'top 86%' }
   });
 }
 document.querySelectorAll('.section-head h2').forEach(animateHeading);
 
 /* ── 2f. SECTION LABELS ──────────────────────────────────── */
 gsap.utils.toArray('.label').forEach(el => {
-  gsap.from(el, {
-    opacity: 0, x: -20, duration: 0.7, ease: 'power3.out',
+  gsap.set(el, { opacity: 0, x: -20 });
+  gsap.to(el, {
+    opacity: 1, x: 0, duration: 0.7, ease: 'power3.out',
     scrollTrigger: { trigger: el, start: 'top 90%' }
   });
 });
 
-/* ── 2g. SECTION BODY TEXT (.sub / p) ───────────────────── */
+/* ── 2g. SECTION BODY TEXT (.sub) ───────────────────────── */
 gsap.utils.toArray('.section-head .sub').forEach(el => {
-  gsap.from(el, {
-    opacity: 0, y: 22, duration: 0.8, ease: 'power3.out',
+  gsap.set(el, { opacity: 0, y: 22 });
+  gsap.to(el, {
+    opacity: 1, y: 0, duration: 0.8, ease: 'power3.out',
     scrollTrigger: { trigger: el, start: 'top 88%' }
   });
 });
@@ -1681,21 +1687,7 @@ if (window.innerWidth > 768) {
   VanillaTilt.init(document.querySelectorAll('[data-tilt]'));
 }
 
-/* ═══════════════════════════════════════════════════════════
-   6. SCROLL PROGRESS BAR
-═══════════════════════════════════════════════════════════ */
-const prog = document.getElementById('progress');
-lenis.on('scroll', ({ progress }) => {
-  prog.style.width = (progress * 100) + '%';
-});
-
-/* ═══════════════════════════════════════════════════════════
-   7. HEADER SCROLL STATE
-═══════════════════════════════════════════════════════════ */
-const hdr = document.getElementById('header');
-lenis.on('scroll', ({ scroll }) => {
-  hdr.classList.toggle('scrolled', scroll > 60);
-});
+/* Progress bar + header state now handled in consolidated lenis.on('scroll') above */
 
 /* ═══════════════════════════════════════════════════════════
    8. MOBILE MENU
@@ -2059,11 +2051,17 @@ document.getElementById('quoteForm').addEventListener('submit', function(e) {
   });
   scene.add(new THREE.Points(debrisGeo, debrisMat));
 
-  /* ── Render loop ── */
-  let animT = 0;
+  /* ── Render loop — only active when storm section is near viewport ── */
+  let stormVisible = false;
+  const stormObserver = new IntersectionObserver(
+    entries => { stormVisible = entries[0].isIntersecting; },
+    { rootMargin: '200px 0px' }
+  );
+  stormObserver.observe(document.querySelector('.storm-section'));
+
   gsap.ticker.add((time) => {
-    animT = time;
-    mat.uniforms.uTime.value     = time;
+    if (!stormVisible) return;
+    mat.uniforms.uTime.value      = time;
     debrisMat.uniforms.uTime.value = time;
     renderer.render(scene, camera);
   });
