@@ -568,28 +568,26 @@ a.ci-val:hover{color:var(--red)}
   position:sticky;top:0;
   height:100vh;overflow:hidden;
   display:flex;align-items:center;
-  background:linear-gradient(135deg,#0d0d0f 0%,#111318 50%,#0a0c10 100%);
+  background:#0c0e12;
 }
+/* Canvas sits at z-index:0 — nothing covers it */
 #stormCanvas{
   position:absolute;inset:0;
   width:100%;height:100%;
   pointer-events:none;
-  z-index:1;
+  z-index:0;
   display:block;
 }
-.storm-overlay{
-  position:absolute;inset:0;
-  background:
-    radial-gradient(ellipse 60% 80% at 65% 50%, transparent 30%, rgba(8,10,16,.7) 100%),
-    radial-gradient(ellipse 40% 60% at 10% 50%, rgba(8,10,16,.85) 0%, transparent 70%);
-  pointer-events:none;z-index:1;
-}
+/* Text panel floats above canvas — left side only */
 .storm-content{
-  position:relative;z-index:2;
-  padding:0 0 0 5%;
-  width:480px;max-width:90vw;
-  min-height:340px; /* keeps absolute children anchored */
+  position:relative;z-index:1;
+  padding:0 0 0 6%;
+  width:460px;max-width:88vw;
+  min-height:340px;
   display:flex;align-items:center;
+  /* subtle left gradient so text is readable over canvas */
+  background:linear-gradient(to right, rgba(12,14,18,.82) 0%, rgba(12,14,18,.4) 70%, transparent 100%);
+  border-radius:0 16px 16px 0;
 }
 .storm-phase{
   position:absolute;
@@ -1082,7 +1080,6 @@ select.ai-qfield{color:#111}
 <section class="storm-section" id="storm">
   <div class="storm-sticky">
     <canvas id="stormCanvas"></canvas>
-    <div class="storm-overlay"></div>
     <div class="storm-content">
       <div class="storm-phase storm-phase-1" id="stormPhase1">
         <div class="label">The Reality</div>
@@ -1858,16 +1855,16 @@ document.getElementById('quoteForm').addEventListener('submit', function(e) {
   renderer.setClearColor(0x000000, 0);
 
   function resize() {
-    /* Use parent sticky div for reliable dimensions */
-    const parent = canvas.parentElement;
-    const w = (parent ? parent.clientWidth  : 0) || window.innerWidth;
-    const h = (parent ? parent.clientHeight : 0) || window.innerHeight;
-    if (!w || !h) return;
+    /* Always use window dimensions — canvas is always 100vw × 100vh */
+    const w = window.innerWidth;
+    const h = window.innerHeight;
     renderer.setSize(w, h, false);
     camera.aspect = w / h;
     camera.updateProjectionMatrix();
   }
+  /* Run once now, once after layout settles, then on every resize */
   resize();
+  requestAnimationFrame(resize);
   window.addEventListener('resize', resize);
 
   /* ── Helpers ── */
@@ -2006,15 +2003,14 @@ document.getElementById('quoteForm').addEventListener('submit', function(e) {
 
   scene.add(new THREE.Points(geo, mat));
 
-  /* ── Render loop: IntersectionObserver gates GPU work ── */
-  let stormVisible = false;
-  new IntersectionObserver(
-    e => { stormVisible = e[0].isIntersecting; },
-    { rootMargin: '300px 0px' }
-  ).observe(document.querySelector('.storm-section'));
-
+  /* ── Render loop: gate by scroll position (synchronous, no race) ── */
+  const stormEl = document.querySelector('.storm-section');
   gsap.ticker.add(time => {
-    if (!stormVisible) return;
+    if (stormEl) {
+      const rect = stormEl.getBoundingClientRect();
+      /* skip render when section is completely off-screen */
+      if (rect.bottom < -200 || rect.top > window.innerHeight + 200) return;
+    }
     mat.uniforms.uTime.value = time;
     renderer.render(scene, camera);
   });
