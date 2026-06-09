@@ -618,54 +618,12 @@ a.ci-val:hover{color:var(--red)}
   pointer-events:none;
 }
 
-/* ── Rain: 3 layers — light / medium / heavy ── */
-.storm-rain{
-  position:absolute; inset:-40% -15% -15% -15%;
-  z-index:3; pointer-events:none; opacity:0;
-}
-/* layer 1 — fine mist */
-.storm-rain::before{
-  content:''; position:absolute; inset:0;
-  background:repeating-linear-gradient(
-    100deg,
-    transparent 0px, transparent 4px,
-    rgba(180,210,245,.18) 4px, rgba(180,210,245,.18) 5px,
-    transparent 5px, transparent 24px
-  );
-  animation:rainFall .65s linear infinite;
-}
-/* layer 2 — main rain */
-.storm-rain::after{
-  content:''; position:absolute; inset:0;
-  background:repeating-linear-gradient(
-    100deg,
-    transparent 0px, transparent 2px,
-    rgba(180,210,245,.28) 2px, rgba(180,210,245,.28) 3px,
-    transparent 3px, transparent 14px
-  );
-  animation:rainFall .42s linear infinite;
-  animation-delay:-.15s;
-  opacity:0; /* GSAP raises this with storm intensity */
-}
-/* layer 3 — driving sheets (separate element, GSAP-driven) */
-.storm-rain-heavy{
-  position:absolute; inset:-40% -15% -15% -15%;
-  z-index:3; pointer-events:none; opacity:0;
-  background:repeating-linear-gradient(
-    101deg,
-    transparent 0px, transparent 1px,
-    rgba(200,225,255,.38) 1px, rgba(200,225,255,.38) 2px,
-    transparent 2px, transparent 10px
-  );
-  animation:rainFallHeavy .28s linear infinite;
-}
-@keyframes rainFall{
-  from{ transform:translateY(-10%) }
-  to  { transform:translateY( 10%) }
-}
-@keyframes rainFallHeavy{
-  from{ transform:translateY(-8%) rotate(.5deg) }
-  to  { transform:translateY( 8%) rotate(.5deg) }
+/* ── Rain: canvas element (JS-animated realistic drops) ── */
+#rainCanvas{
+  position:absolute; inset:0;
+  width:100%; height:100%;
+  z-index:3; pointer-events:none;
+  display:block;
 }
 
 /* ── Flying debris ── */
@@ -1214,8 +1172,7 @@ select.ai-qfield{color:#111}
         decoding="async"
       >
       <div class="storm-dark" id="stormDark"></div>
-      <div class="storm-rain" id="stormRain"></div>
-      <div class="storm-rain-heavy" id="stormRainHeavy"></div>
+      <canvas id="rainCanvas"></canvas>
       <div class="storm-hail" id="stormHail"></div>
       <div class="storm-debris" id="stormDebris"></div>
     </div>
@@ -1962,8 +1919,7 @@ document.getElementById('quoteForm').addEventListener('submit', function(e) {
    11. STORM SECTION — ESCALATING STORM + DEBRIS
 ═══════════════════════════════════════════════════════════ */
 (function() {
-  const rain      = document.getElementById('stormRain');
-  const rainHeavy = document.getElementById('stormRainHeavy');
+  const rainCV    = document.getElementById('rainCanvas');
   const dark      = document.getElementById('stormDark');
   const hail      = document.getElementById('stormHail');
   const flash     = document.getElementById('stormFlash');
@@ -1972,7 +1928,87 @@ document.getElementById('quoteForm').addEventListener('submit', function(e) {
   const phase1    = document.getElementById('stormPhase1');
   const phase2    = document.getElementById('stormPhase2');
   const houseImg  = document.querySelector('.storm-house img');
-  if (!rain || !dark || !phase1 || !phase2) return;
+  if (!rainCV || !dark || !phase1 || !phase2) return;
+
+  /* ── Canvas rain engine ────────────────────────────────────
+     Each drop is a thin angled streak drawn every rAF frame.
+     Intensity 0→1 controls count drawn + opacity + streak length. */
+  const rCtx = rainCV.getContext('2d');
+  let rW = 0, rH = 0;
+
+  /* Wind angle: ~13° from vertical */
+  const ANG   = 13 * Math.PI / 180;
+  const sinA  = Math.sin(ANG);
+  const cosA  = Math.cos(ANG);
+
+  /* Pool of 400 drops — we render a subset based on intensity */
+  const POOL  = 400;
+  const drops = Array.from({length: POOL}, () => ({
+    x:     0, y: 0,          /* current tip position */
+    len:   0,                 /* streak length px */
+    speed: 0,                 /* px per frame */
+    op:    0,                 /* base opacity */
+    w:     0,                 /* line width */
+  }));
+
+  function resetDrop(d, w, h) {
+    /* spawn off the top-right so drops travel naturally into frame */
+    d.x     = Math.random() * (w * 1.4) - w * 0.2;
+    d.y     = -Math.random() * h * 0.5;
+    d.len   = 8  + Math.random() * 22;
+    d.speed = 14 + Math.random() * 22;
+    d.op    = 0.18 + Math.random() * 0.55;
+    d.w     = 0.6  + Math.random() * 0.9;
+  }
+
+  function resizeRain() {
+    const rect = rainCV.parentElement.getBoundingClientRect();
+    rW = rainCV.width  = rect.width;
+    rH = rainCV.height = rect.height;
+    drops.forEach(d => resetDrop(d, rW, rH));
+  }
+  resizeRain();
+  window.addEventListener('resize', resizeRain, {passive:true});
+
+  let rainIntensity = 0;   /* set by scroll handler */
+  let rafId = null;
+
+  function rainFrame() {
+    rafId = requestAnimationFrame(rainFrame);
+    rCtx.clearRect(0, 0, rW, rH);
+    if (rainIntensity < 0.005) return;
+
+    /* how many drops to draw scales with intensity */
+    const visible = Math.round(rainIntensity * POOL);
+
+    rCtx.lineCap = 'round';
+
+    for (let i = 0; i < visible; i++) {
+      const d = drops[i];
+
+      /* advance position */
+      d.x += sinA * d.speed;
+      d.y += cosA * d.speed;
+
+      /* recycle when below bottom or far right */
+      if (d.y - d.len > rH || d.x > rW + 60) resetDrop(d, rW, rH);
+
+      /* streak: tip → tail */
+      const tx = d.x - sinA * d.len;
+      const ty = d.y - cosA * d.len;
+
+      /* opacity fades at very low intensity for gentle onset */
+      const alpha = d.op * Math.min(1, rainIntensity * 2.5);
+
+      rCtx.beginPath();
+      rCtx.moveTo(d.x, d.y);
+      rCtx.lineTo(tx,  ty);
+      rCtx.strokeStyle = `rgba(180,215,255,${alpha.toFixed(2)})`;
+      rCtx.lineWidth   = d.w;
+      rCtx.stroke();
+    }
+  }
+  rainFrame(); /* start loop immediately — intensity keeps it invisible at 0 */
 
   /* ── Build debris pieces ── */
   const debrisDefs = [
@@ -2074,29 +2110,13 @@ document.getElementById('quoteForm').addEventListener('submit', function(e) {
         houseImg.style.filter = `saturate(${sat.toFixed(2)}) brightness(${bri.toFixed(2)})`;
       }
 
-      /* Rain layer 1 (mist): fades in 0–0.18, peaks 0.18–0.85, clears */
-      const mistOp = p < 0.18  ? p / 0.18
-                   : p < 0.85  ? 1
-                   :             1 - (p - 0.85) / 0.15;
-      gsap.set(rain, { opacity: mistOp * 0.85 });
-
-      /* Rain layer 2 (main): fades in 0.18–0.38 */
-      const mainRainOp = p < 0.18 ? 0
-                       : p < 0.38 ? (p - 0.18) / 0.20
-                       : p < 0.85 ? 1
-                       :            1 - (p - 0.85) / 0.15;
-      if (rain.style) {
-        /* drive the ::after pseudo-layer opacity via a CSS variable */
-        rain.style.setProperty('--rain2-op', mainRainOp.toFixed(2));
-      }
-
-      /* Heavy sheets: fades in 0.38–0.58, peaks 0.58–0.75, fades */
-      const heavyOp = p < 0.38 ? 0
-                    : p < 0.58 ? (p - 0.38) / 0.20
-                    : p < 0.75 ? 1
-                    : p < 0.88 ? 1 - (p - 0.75) / 0.13
-                    :            0;
-      rainHeavy && gsap.set(rainHeavy, { opacity: heavyOp * 0.7 });
+      /* Canvas rain: intensity 0→1 controls drop count + opacity.
+         Ramps in from 0.10, peaks at 0.70, then clears with CXR message */
+      rainIntensity = p < 0.10 ? 0
+                    : p < 0.35 ? (p - 0.10) / 0.25          /* light onset  */
+                    : p < 0.72 ? 0.35 + (p - 0.35) / 0.37 * 0.65 /* build to full */
+                    : p < 0.88 ? 1 - (p - 0.72) / 0.16 * 0.85     /* storm clears */
+                    : 0.15;                                   /* residual drizzle */
 
       /* Hail: 0.42–0.72 */
       const hailOp = p < 0.42 ? 0
