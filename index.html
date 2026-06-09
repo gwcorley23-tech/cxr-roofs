@@ -285,15 +285,32 @@ nav ul a:hover::after{width:100%}
 ═══════════════════════════════════════════════════════════ */
 .why{background:linear-gradient(to bottom,var(--ink) 0%,var(--ink-3) 50%,var(--ink) 100%)}
 .why-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:24px}
-.why-card{background:var(--ink-2);border:1px solid var(--line);padding:40px 32px;position:relative;overflow:hidden;transition:.45s var(--ease)}
-.why-card::after{content:"";position:absolute;bottom:0;left:0;right:0;height:2px;background:var(--red);transform:scaleX(0);transition:transform .45s var(--ease);transform-origin:left}
-.why-card:hover{border-color:rgba(181,21,21,.3)}
+.why-card{
+  border:1px solid var(--line);padding:40px 32px;
+  position:relative;overflow:hidden;transition:.5s var(--ease);
+  min-height:320px;display:flex;flex-direction:column;justify-content:flex-end;
+}
+/* background image layer */
+.why-bg{position:absolute;inset:0;z-index:0}
+.why-bg img{width:100%;height:100%;object-fit:cover;transition:transform .8s var(--ease)}
+.why-bg::after{
+  content:"";position:absolute;inset:0;
+  background:linear-gradient(to top,rgba(23,15,15,.97) 30%,rgba(23,15,15,.7) 65%,rgba(23,15,15,.45) 100%);
+  transition:opacity .5s var(--ease);
+}
+.why-card:hover .why-bg img{transform:scale(1.07)}
+.why-card:hover .why-bg::after{opacity:.6}
+/* bottom red bar */
+.why-card::after{content:"";position:absolute;bottom:0;left:0;right:0;height:2px;background:var(--red);transform:scaleX(0);transition:transform .45s var(--ease);transform-origin:left;z-index:2}
+.why-card:hover{border-color:rgba(181,21,21,.4)}
 .why-card:hover::after{transform:scaleX(1)}
-.why-icon{font-size:2.4rem;margin-bottom:22px}
-.why-card h3{font-size:1.05rem;font-weight:800;letter-spacing:.01em;text-transform:uppercase;margin-bottom:12px}
-.why-card p{font-size:.88rem;color:var(--muted);font-weight:300;line-height:1.7}
-.why-num{position:absolute;top:20px;right:24px;font-family:var(--display);font-size:4rem;font-weight:900;color:rgba(255,255,255,.025);line-height:1;letter-spacing:-.04em;transition:color .4s}
-.why-card:hover .why-num{color:rgba(181,21,21,.07)}
+/* content above image */
+.why-card>*:not(.why-bg){position:relative;z-index:1}
+.why-icon{font-size:2.2rem;margin-bottom:16px}
+.why-card h3{font-size:1.05rem;font-weight:800;letter-spacing:.01em;text-transform:uppercase;margin-bottom:10px}
+.why-card p{font-size:.88rem;color:rgba(220,215,215,.75);font-weight:300;line-height:1.7}
+.why-num{position:absolute;top:16px;right:20px;font-family:var(--display);font-size:3.8rem;font-weight:900;color:rgba(255,255,255,.06);line-height:1;letter-spacing:-.04em;transition:color .4s;z-index:1}
+.why-card:hover .why-num{color:rgba(181,21,21,.12)}
 
 /* ═══════════════════════════════════════════════════════════
    PROCESS
@@ -869,22 +886,26 @@ select.ai-qfield{color:#111}
       <p class="sub">We earn your trust with every project. Here's what sets us apart from every other contractor in Texas.</p>
     </div>
     <div class="why-grid">
-      <div class="why-card reveal" data-tilt data-tilt-max="6" data-tilt-speed="400" data-tilt-glare data-tilt-max-glare="0.1">
+      <div class="why-card reveal" data-tilt data-tilt-max="4" data-tilt-speed="500" data-tilt-glare data-tilt-max-glare="0.08">
+        <div class="why-bg"><img src="https://images.unsplash.com/photo-1593158684594-e88f0d9dc2b7?auto=format&fit=crop&w=800&q=80" alt="Veteran roofers"></div>
         <div class="why-num">01</div><div class="why-icon">🇺🇸</div>
         <h3>Veteran-Owned &amp; Operated</h3>
         <p>Founded and run by U.S. veterans who bring military discipline, reliability, and pride to every roof we install.</p>
       </div>
-      <div class="why-card reveal" data-tilt data-tilt-max="6" data-tilt-speed="400" data-tilt-glare data-tilt-max-glare="0.1">
+      <div class="why-card reveal" data-tilt data-tilt-max="4" data-tilt-speed="500" data-tilt-glare data-tilt-max-glare="0.08">
+        <div class="why-bg"><img src="https://images.unsplash.com/photo-1632778149955-e80f8ceca2e8?auto=format&fit=crop&w=800&q=80" alt="CertainTeed certified roofing"></div>
         <div class="why-num">02</div><div class="why-icon">⭐</div>
         <h3>CertainTeed Master Applicator</h3>
         <p>The highest level of installer certification — unlocking enhanced warranties and ensuring your roof performs for decades.</p>
       </div>
-      <div class="why-card reveal" data-tilt data-tilt-max="6" data-tilt-speed="400" data-tilt-glare data-tilt-max-glare="0.1">
+      <div class="why-card reveal" data-tilt data-tilt-max="4" data-tilt-speed="500" data-tilt-glare data-tilt-max-glare="0.08">
+        <div class="why-bg"><img src="https://images.unsplash.com/photo-1554224155-6726b3ff858f?auto=format&fit=crop&w=800&q=80" alt="Free roofing estimate"></div>
         <div class="why-num">03</div><div class="why-icon">💰</div>
         <h3>Free Estimates + 10% Cash Off</h3>
         <p>No fees for inspections or quotes. Pay with cash and we knock 10% off your total invoice — automatically, every time.</p>
       </div>
-      <div class="why-card reveal" data-tilt data-tilt-max="6" data-tilt-speed="400" data-tilt-glare data-tilt-max-glare="0.1">
+      <div class="why-card reveal" data-tilt data-tilt-max="4" data-tilt-speed="500" data-tilt-glare data-tilt-max-glare="0.08">
+        <div class="why-bg"><img src="https://images.unsplash.com/photo-1450101499163-c8848c66ca85?auto=format&fit=crop&w=800&q=80" alt="Insurance claim roofing"></div>
         <div class="why-num">04</div><div class="why-icon">📋</div>
         <h3>Insurance Claim Experts</h3>
         <p>Storm damage is stressful. We handle the documentation, adjuster coordination, and paperwork so you never have to.</p>
