@@ -626,26 +626,13 @@ a.ci-val:hover{color:var(--red)}
   display:block;
 }
 
-/* ── Flying debris ── */
-.storm-debris{
-  position:absolute; inset:0; z-index:6; pointer-events:none; overflow:hidden;
+/* ── Debris canvas — covers full sticky width so pieces fly across both columns ── */
+#debrisCanvas{
+  position:absolute; inset:0;
+  width:100%; height:100%;
+  z-index:6; pointer-events:none;
+  display:block;
 }
-.debris{
-  position:absolute;
-  opacity:0;
-  will-change:transform,opacity;
-}
-/* shingle shape */
-.debris-shingle{ width:34px; height:13px; background:#2b2b2b; border-radius:3px; box-shadow:0 2px 6px rgba(0,0,0,.5); }
-.debris-shingle2{ width:26px; height:10px; background:#383838; border-radius:2px; }
-/* leaves */
-.debris-leaf{ width:14px; height:10px; background:#3d5e1f; border-radius:50% 20% 50% 20%; }
-.debris-leaf2{ width:11px; height:8px; background:#4a7224; border-radius:40% 60% 40% 60%; }
-/* branch/stick */
-.debris-stick{ width:44px; height:5px; background:#5c3d1e; border-radius:3px; }
-.debris-stick2{ width:30px; height:4px; background:#6b4a26; border-radius:2px; }
-/* paper/insulation */
-.debris-paper{ width:22px; height:18px; background:rgba(230,225,210,.7); border-radius:2px; }
 
 /* Hail hits */
 .storm-hail{
@@ -1147,8 +1134,10 @@ select.ai-qfield{color:#111}
       <div class="storm-dark" id="stormDark"></div>
       <canvas id="rainCanvas"></canvas>
       <div class="storm-hail" id="stormHail"></div>
-      <div class="storm-debris" id="stormDebris"></div>
     </div>
+
+    <!-- Debris canvas covers the full sticky area (both columns) -->
+    <canvas id="debrisCanvas"></canvas>
 
     <div class="storm-flash"  id="stormFlash"></div>
     <div class="storm-flash2" id="stormFlash2"></div>
@@ -1909,7 +1898,7 @@ document.getElementById('quoteForm').addEventListener('submit', function(e) {
   const hail      = document.getElementById('stormHail');
   const flash     = document.getElementById('stormFlash');
   const flash2    = document.getElementById('stormFlash2');
-  const debrisWrap= document.getElementById('stormDebris');
+  const debrisCV  = document.getElementById('debrisCanvas');
   const phase1    = document.getElementById('stormPhase1');
   const phase2    = document.getElementById('stormPhase2');
   const houseImg  = document.querySelector('.storm-house img');
@@ -1995,59 +1984,138 @@ document.getElementById('quoteForm').addEventListener('submit', function(e) {
   }
   rainFrame(); /* start loop immediately — intensity keeps it invisible at 0 */
 
-  /* ── Build debris pieces ── */
-  const debrisDefs = [
-    { cls:'debris debris-shingle',  top:'18%', startX:'105%' },
-    { cls:'debris debris-shingle2', top:'42%', startX:'108%' },
-    { cls:'debris debris-shingle',  top:'65%', startX:'102%' },
-    { cls:'debris debris-leaf',     top:'28%', startX:'106%' },
-    { cls:'debris debris-leaf2',    top:'55%', startX:'110%' },
-    { cls:'debris debris-leaf',     top:'72%', startX:'104%' },
-    { cls:'debris debris-stick',    top:'35%', startX:'107%' },
-    { cls:'debris debris-stick2',   top:'58%', startX:'103%' },
-    { cls:'debris debris-paper',    top:'22%', startX:'105%' },
-    { cls:'debris debris-shingle2', top:'80%', startX:'109%' },
+  /* ── Canvas debris engine ──────────────────────────────────
+     Each piece is drawn every frame: rectangle (shingle/paper),
+     thin stick, or oval (leaf). Pieces fly right-to-left with
+     rotation, spawning from the right edge at random heights.  */
+  let dW = 0, dH = 0;
+  const dCtx = debrisCV ? debrisCV.getContext('2d') : null;
+
+  function resizeDebris() {
+    if (!debrisCV) return;
+    const r = debrisCV.parentElement.getBoundingClientRect();
+    dW = debrisCV.width  = r.width;
+    dH = debrisCV.height = r.height;
+  }
+  resizeDebris();
+  window.addEventListener('resize', resizeDebris, {passive:true});
+
+  /* Piece templates: type, w, h, color */
+  const TEMPLATES = [
+    { type:'rect',  w:34, h:12, color:'#2a2a2a' },   // dark shingle
+    { type:'rect',  w:26, h:10, color:'#3a3a3a' },   // shingle 2
+    { type:'rect',  w:22, h:18, color:'rgba(228,220,200,.75)' }, // paper/insulation
+    { type:'stick', w:48, h:5,  color:'#5c3d1e' },   // branch
+    { type:'stick', w:32, h:4,  color:'#6b4a26' },   // twig
+    { type:'oval',  w:16, h:11, color:'#3d5e1f' },   // leaf
+    { type:'oval',  w:12, h:9,  color:'#4e7228' },   // leaf 2
+    { type:'rect',  w:30, h:9,  color:'#444' },      // shingle 3
   ];
-  const debrisEls = debrisDefs.map(d => {
-    const el = document.createElement('div');
-    el.className = d.cls;
-    el.style.cssText = `top:${d.top}; left:${d.startX}; opacity:0;`;
-    debrisWrap && debrisWrap.appendChild(el);
-    return { el, startX: d.startX };
-  });
 
-  /* Launch a single debris piece across the screen */
-  function launchDebris(el, intensity) {
-    const dur  = 1.2 + Math.random() * 1.4 - intensity * 0.5;
-    const endX = -(20 + Math.random() * 60) + '%';
-    const rot  = (Math.random() > .5 ? 1 : -1) * (180 + Math.random() * 360);
-    const vy   = (Math.random() - 0.3) * 80;                 // slight vertical drift
-    gsap.fromTo(el,
-      { x: 0, y: 0, rotation: 0, opacity: 0 },
-      { x: endX, y: vy, rotation: rot,
-        opacity: 1, duration: Math.max(0.6, dur),
-        ease: 'power1.inOut',
-        onComplete: () => { gsap.set(el, { x:0, y:0, rotation:0, opacity:0 }); }
-      }
-    );
+  const DPOOL = 18;   // max simultaneous pieces
+  const dpieces = Array.from({length: DPOOL}, () => ({
+    active: false,
+    x: 0, y: 0, vx: 0, vy: 0,
+    rot: 0, vrot: 0,
+    alpha: 0,
+    tmpl: TEMPLATES[0],
+    life: 0, maxLife: 0,
+  }));
+
+  function spawnPiece() {
+    const p = dpieces.find(p => !p.active);
+    if (!p) return;
+    p.tmpl    = TEMPLATES[Math.floor(Math.random() * TEMPLATES.length)];
+    p.x       = dW + 20 + Math.random() * 60;           // start off right edge
+    p.y       = dH * (0.08 + Math.random() * 0.84);     // random height
+    p.vx      = -(3.5 + Math.random() * 4.5);           // fly left
+    p.vy      = (Math.random() - 0.4) * 1.8;            // slight vertical drift
+    p.rot     = Math.random() * Math.PI * 2;
+    p.vrot    = (Math.random() > .5 ? 1 : -1) * (0.04 + Math.random() * 0.10);
+    p.alpha   = 0;
+    p.maxLife = 80 + Math.floor(Math.random() * 60);
+    p.life    = 0;
+    p.active  = true;
   }
 
-  /* Debris launch loop — fires more pieces as storm intensifies */
-  let debrisInterval = null;
-  let lastIntensity  = 0;
+  let debrisIntensity = 0;
+  let spawnAcc = 0;   // fractional spawn accumulator
 
-  function startDebris(intensity) {
-    if (debrisInterval) { clearInterval(debrisInterval); debrisInterval = null; }
-    if (intensity < 0.05) return;
-    const interval = Math.max(300, 1400 - intensity * 1100); // 1400ms → 300ms
-    debrisInterval = setInterval(() => {
-      const count = intensity > 0.7 ? 2 : 1;
-      for (let i = 0; i < count; i++) {
-        const item = debrisEls[Math.floor(Math.random() * debrisEls.length)];
-        if (item) launchDebris(item.el, intensity);
+  function debrisFrame() {
+    if (!dCtx) return;
+    dCtx.clearRect(0, 0, dW, dH);
+
+    /* Spawn new pieces proportional to intensity */
+    if (debrisIntensity > 0.05) {
+      spawnAcc += debrisIntensity * 0.55;  // ~0.55 pieces/frame at full intensity
+      while (spawnAcc >= 1) { spawnAcc--; spawnPiece(); }
+    }
+
+    for (const p of dpieces) {
+      if (!p.active) continue;
+      p.x   += p.vx;
+      p.y   += p.vy;
+      p.rot += p.vrot;
+      p.life++;
+
+      /* fade in first 8 frames, fade out last 14 */
+      p.alpha = p.life < 8
+        ? p.life / 8
+        : p.life > p.maxLife - 14
+          ? (p.maxLife - p.life) / 14
+          : 1;
+
+      if (p.life >= p.maxLife || p.x < -80) { p.active = false; continue; }
+
+      dCtx.save();
+      dCtx.translate(p.x, p.y);
+      dCtx.rotate(p.rot);
+      dCtx.globalAlpha = p.alpha * Math.min(1, debrisIntensity * 2.5);
+      dCtx.fillStyle = p.tmpl.color;
+
+      if (p.tmpl.type === 'rect') {
+        dCtx.fillRect(-p.tmpl.w/2, -p.tmpl.h/2, p.tmpl.w, p.tmpl.h);
+      } else if (p.tmpl.type === 'stick') {
+        dCtx.beginPath();
+        dCtx.roundRect(-p.tmpl.w/2, -p.tmpl.h/2, p.tmpl.w, p.tmpl.h, 3);
+        dCtx.fill();
+      } else {
+        /* oval / leaf */
+        dCtx.beginPath();
+        dCtx.ellipse(0, 0, p.tmpl.w/2, p.tmpl.h/2, 0, 0, Math.PI*2);
+        dCtx.fill();
       }
-    }, interval);
+      dCtx.restore();
+    }
   }
+
+  /* Hook into the rain rAF loop — debris draws each frame alongside rain */
+  const _origRainFrame = rainFrame;
+  function combinedFrame() {
+    requestAnimationFrame(combinedFrame);
+    /* rain */
+    rCtx.clearRect(0, 0, rW, rH);
+    if (rainIntensity >= 0.005) {
+      const visible = Math.round(rainIntensity * POOL);
+      rCtx.lineCap = 'round';
+      for (let i = 0; i < visible; i++) {
+        const d = drops[i];
+        d.x += sinA * d.speed; d.y += cosA * d.speed;
+        if (d.y - d.len > rH || d.x > rW + 60) resetDrop(d, rW, rH);
+        const tx = d.x - sinA * d.len, ty = d.y - cosA * d.len;
+        const alpha = d.op * Math.min(1, rainIntensity * 2.5);
+        rCtx.beginPath(); rCtx.moveTo(d.x, d.y); rCtx.lineTo(tx, ty);
+        rCtx.strokeStyle = `rgba(180,215,255,${alpha.toFixed(2)})`;
+        rCtx.lineWidth = d.w; rCtx.stroke();
+      }
+    }
+    /* debris */
+    debrisFrame();
+  }
+
+  /* Cancel the standalone rain loop and start the combined one */
+  if (rafId) cancelAnimationFrame(rafId);
+  combinedFrame();
 
   /* ── Lightning helper ── */
   function doFlash(big) {
@@ -2111,15 +2179,12 @@ document.getElementById('quoteForm').addEventListener('submit', function(e) {
       hail && gsap.set(hail, { opacity: Math.max(0, hailOp) * 0.75 });
 
       /* Debris intensity: 0.35–0.80 */
-      const debrisIntensity = p < 0.35 ? 0
-                            : p < 0.55 ? (p - 0.35) / 0.20
-                            : p < 0.75 ? 1
-                            : p < 0.82 ? 1 - (p - 0.75) / 0.07
-                            :            0;
-      if (Math.abs(debrisIntensity - lastIntensity) > 0.04) {
-        lastIntensity = debrisIntensity;
-        startDebris(debrisIntensity);
-      }
+      /* Debris intensity — canvas engine reads this each frame */
+      debrisIntensity = p < 0.35 ? 0
+                      : p < 0.55 ? (p - 0.35) / 0.20
+                      : p < 0.78 ? 1
+                      : p < 0.88 ? 1 - (p - 0.78) / 0.10
+                      :            0;
 
       /* Random lightning: peak zone 0.55–0.80 */
       const now = Date.now();
@@ -2140,12 +2205,6 @@ document.getElementById('quoteForm').addEventListener('submit', function(e) {
         gsap.set(phase2, { opacity: Math.max(0, t), y: Math.max(0, 22 - t * 22) });
       }
 
-      /* Kill debris when storm passes */
-      if (p > 0.85 && debrisInterval) {
-        clearInterval(debrisInterval);
-        debrisInterval = null;
-        lastIntensity  = 0;
-      }
     }
   });
 
