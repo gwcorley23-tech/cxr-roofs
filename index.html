@@ -155,6 +155,7 @@ nav ul a:hover::after{width:100%}
 .hero::after{content:"";position:absolute;bottom:0;left:0;right:0;height:260px;background:linear-gradient(to bottom,transparent,var(--ink));z-index:3;pointer-events:none}
 
 /* Subtle diagonal light sweep */
+.hero-spark{position:absolute;inset:0;z-index:2;pointer-events:none}
 .hero-sweep{position:absolute;inset:0;z-index:1;pointer-events:none;overflow:hidden}
 .hero-sweep::before{content:"";position:absolute;top:-50%;left:-60%;width:35%;height:200%;background:linear-gradient(105deg,transparent,rgba(255,255,255,.045),transparent);transform:rotate(10deg);animation:heroSweep 9s ease-in-out infinite}
 @keyframes heroSweep{0%{left:-60%}60%,100%{left:140%}}
@@ -564,7 +565,7 @@ a.ci-val:hover{color:var(--red)}
 .storm-sticky{
   position:sticky; top:0; height:100vh; overflow:hidden;
   display:grid; grid-template-columns:1fr 1fr;
-  background:#080a0e;
+  background:#141720;
 }
 
 /* ── Left: text panel ── */
@@ -572,7 +573,7 @@ a.ci-val:hover{color:var(--red)}
   position:relative; z-index:2;
   display:flex; align-items:center;
   padding:0 7% 0 7%;
-  background:linear-gradient(to right, #080a0e 55%, rgba(8,10,14,.6) 85%, transparent 100%);
+  background:linear-gradient(to right, #141720 55%, rgba(20,23,32,.6) 85%, transparent 100%);
 }
 .storm-phase{
   position:absolute; top:50%; left:7%; right:0;
@@ -613,7 +614,7 @@ a.ci-val:hover{color:var(--red)}
 /* Left-edge feather so photo bleeds into text column */
 .storm-house::before{
   content:''; position:absolute; inset:0; z-index:2;
-  background:linear-gradient(to right, #080a0e 0%, rgba(8,10,14,.5) 18%, transparent 42%);
+  background:linear-gradient(to right, #141720 0%, rgba(20,23,32,.5) 18%, transparent 42%);
 }
 /* Rain container */
 .storm-rain{
@@ -964,6 +965,7 @@ select.ai-qfield{color:#111}
   <div class="hero-bg">
     <img id="hero-img" src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?auto=format&fit=crop&w=2000&q=80" alt="CXR Roofing professional installation Texas">
   </div>
+  <canvas class="hero-spark" id="heroSpark"></canvas>
   <div class="hero-sweep"></div>
   <div class="hero-aurora-1"></div>
   <div class="hero-aurora-2"></div>
@@ -2258,6 +2260,54 @@ if(false){/* dead Three.js code below — kept for reference only, never reached
   });
 
 } /* end if(false) dead block */
+
+/* ═══════════════════════════════════════════════════════════
+   12. HERO FLOATING PARTICLES
+═══════════════════════════════════════════════════════════ */
+(function(){
+  const cv = document.getElementById('heroSpark');
+  if(!cv) return;
+  const ctx = cv.getContext('2d');
+  let w, h, parts;
+  const COUNT = 55;
+  const rand = (a,b) => a + Math.random()*(b-a);
+
+  function resize(){
+    const r = cv.parentElement.getBoundingClientRect();
+    w = cv.width  = r.width;
+    h = cv.height = r.height;
+    parts = Array.from({length:COUNT}, () => ({
+      x:   rand(0,w),
+      y:   rand(0,h),
+      r:   rand(.5,2.0),
+      vy:  rand(.10,.45),
+      drift: rand(-.22,.22),
+      ph:  rand(0, Math.PI*2),
+      a:   rand(.12,.55)
+    }));
+  }
+
+  function tick(t){
+    ctx.clearRect(0,0,w,h);
+    for(const p of parts){
+      p.y -= p.vy;
+      p.x += Math.sin((t/2800)+p.ph)*p.drift;
+      if(p.y < -6){ p.y = h+6; p.x = rand(0,w); }
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.r, 0, Math.PI*2);
+      /* warm ember glow — matches CXR red brand */
+      ctx.fillStyle     = `rgba(255,210,190,${p.a})`;
+      ctx.shadowBlur    = 9;
+      ctx.shadowColor   = 'rgba(181,21,21,.55)';
+      ctx.fill();
+    }
+    requestAnimationFrame(tick);
+  }
+
+  resize();
+  window.addEventListener('resize', resize, {passive:true});
+  requestAnimationFrame(tick);
+})();
 
 </script>
 </body>
