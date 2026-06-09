@@ -489,11 +489,12 @@ nav ul a:hover::after{width:100%}
   display:flex;flex-direction:column;min-height:340px;
   transition:.5s var(--ease);
 }
-.svc-bg{position:absolute;inset:0;opacity:0;transition:opacity .7s var(--ease);z-index:0}
-.svc-bg img{width:100%;height:100%;object-fit:cover}
-.svc-bg::after{content:"";position:absolute;inset:0;background:linear-gradient(to bottom,rgba(23,15,15,.7),rgba(23,15,15,.95))}
+.svc-bg{position:absolute;inset:0;opacity:1;transition:opacity .6s var(--ease);z-index:0}
+.svc-bg img{width:100%;height:100%;object-fit:cover;transition:transform .8s var(--ease)}
+.svc-bg::after{content:"";position:absolute;inset:0;background:linear-gradient(to bottom,rgba(23,15,15,.82),rgba(23,15,15,.96));transition:opacity .6s var(--ease)}
 .svc>*{position:relative;z-index:1}
-.svc:hover .svc-bg{opacity:1}
+.svc:hover .svc-bg img{transform:scale(1.06)}
+.svc:hover .svc-bg::after{opacity:.55}
 .svc:hover{transform:none}
 .svc-num{
   font-family:var(--display);font-size:.72rem;font-weight:700;
