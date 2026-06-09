@@ -2000,91 +2000,160 @@ document.getElementById('quoteForm').addEventListener('submit', function(e) {
   resizeDebris();
   window.addEventListener('resize', resizeDebris, {passive:true});
 
-  /* Piece templates: type, w, h, color */
-  const TEMPLATES = [
-    { type:'rect',  w:34, h:12, color:'#2a2a2a' },   // dark shingle
-    { type:'rect',  w:26, h:10, color:'#3a3a3a' },   // shingle 2
-    { type:'rect',  w:22, h:18, color:'rgba(228,220,200,.75)' }, // paper/insulation
-    { type:'stick', w:48, h:5,  color:'#5c3d1e' },   // branch
-    { type:'stick', w:32, h:4,  color:'#6b4a26' },   // twig
-    { type:'oval',  w:16, h:11, color:'#3d5e1f' },   // leaf
-    { type:'oval',  w:12, h:9,  color:'#4e7228' },   // leaf 2
-    { type:'rect',  w:30, h:9,  color:'#444' },      // shingle 3
-  ];
+  /* ── Pre-render realistic sprites to offscreen canvases ───────
+     Branch: recursive line drawing with sub-branches + twigs.
+     Leaf: bezier teardrop with gradient fill + center vein.
+     These are drawn once and reused via drawImage() each frame.  */
 
-  const DPOOL = 18;   // max simultaneous pieces
+  function makeSprite(w, h, fn) {
+    const oc = document.createElement('canvas');
+    oc.width = w; oc.height = h;
+    fn(oc.getContext('2d'), w, h);
+    return oc;
+  }
+
+  /* Draw a branching limb starting at (sx,sy) going in direction angle */
+  function drawBranchRec(ctx, sx, sy, len, angle, lineW, depth) {
+    if (len < 3 || depth < 0) return;
+    const ex = sx + Math.cos(angle) * len;
+    const ey = sy + Math.sin(angle) * len;
+    ctx.beginPath(); ctx.moveTo(sx, sy); ctx.lineTo(ex, ey);
+    ctx.lineWidth = Math.max(0.5, lineW); ctx.stroke();
+    if (depth > 0) {
+      drawBranchRec(ctx, ex, ey, len*0.60, angle - 0.50, lineW*0.62, depth-1);
+      drawBranchRec(ctx, ex, ey, len*0.55, angle + 0.55, lineW*0.60, depth-1);
+      if (Math.random() > 0.4)
+        drawBranchRec(ctx, sx+(ex-sx)*0.55, sy+(ey-sy)*0.55,
+                      len*0.38, angle - 0.8, lineW*0.45, depth-2);
+    }
+  }
+
+  function branchSprite(w, h, col) {
+    return makeSprite(w, h, (ctx) => {
+      ctx.strokeStyle = col; ctx.lineCap = 'round'; ctx.lineJoin = 'round';
+      /* main trunk goes up from bottom-center, slight random lean */
+      drawBranchRec(ctx, w*0.38, h*0.95, h*0.65, -Math.PI/2 - 0.12, 3.5, 3);
+    });
+  }
+
+  function twigSprite(w, h, col) {
+    return makeSprite(w, h, (ctx) => {
+      ctx.strokeStyle = col; ctx.lineCap = 'round';
+      /* single curved twig */
+      ctx.beginPath();
+      ctx.moveTo(2, h*0.6);
+      ctx.bezierCurveTo(w*0.3, h*0.1, w*0.7, h*0.9, w-2, h*0.35);
+      ctx.lineWidth = 2; ctx.stroke();
+      /* one small fork */
+      ctx.beginPath();
+      ctx.moveTo(w*0.55, h*0.55); ctx.lineTo(w*0.72, h*0.15);
+      ctx.lineWidth = 1.2; ctx.stroke();
+    });
+  }
+
+  function leafSprite(w, h, topCol, botCol, veinCol) {
+    return makeSprite(w, h, (ctx) => {
+      ctx.translate(w/2, h/2);
+      const lw = w/2 - 1, lh = h/2 - 1;
+      /* Leaf body — bezier teardrop, pointed at top, rounded at base */
+      ctx.beginPath();
+      ctx.moveTo(0, -lh);
+      ctx.bezierCurveTo( lw*0.75, -lh*0.15,  lw*0.80,  lh*0.55, 0,  lh);
+      ctx.bezierCurveTo(-lw*0.80,  lh*0.55, -lw*0.75, -lh*0.15, 0, -lh);
+      const g = ctx.createLinearGradient(0, -lh, 0, lh);
+      g.addColorStop(0,   topCol);
+      g.addColorStop(0.6, botCol);
+      ctx.fillStyle = g; ctx.fill();
+      /* Center vein */
+      ctx.beginPath();
+      ctx.moveTo(0, -lh*0.85); ctx.lineTo(0, lh*0.80);
+      ctx.strokeStyle = veinCol; ctx.lineWidth = 0.9; ctx.stroke();
+      /* 3 lateral veins per side */
+      for (let i = 0; i < 3; i++) {
+        const yBase = -lh*0.4 + i * lh*0.42;
+        const xEnd  = (lw*0.55) * (1 - i*0.12);
+        ctx.beginPath();
+        ctx.moveTo(0, yBase);
+        ctx.quadraticCurveTo(xEnd*0.5, yBase - lh*0.06, xEnd, yBase + lh*0.08);
+        ctx.moveTo(0, yBase);
+        ctx.quadraticCurveTo(-xEnd*0.5, yBase - lh*0.06, -xEnd, yBase + lh*0.08);
+        ctx.lineWidth = 0.6; ctx.stroke();
+      }
+    });
+  }
+
+  /* Build the sprite pool — variety of sizes + colors */
+  const SPRITES = [
+    /* branches — large, small */
+    { img: branchSprite(88, 72, 'rgba(68,40,14,1)'),    w:88, h:72, weight:3 },
+    { img: branchSprite(62, 52, 'rgba(78,48,18,1)'),    w:62, h:52, weight:3 },
+    { img: branchSprite(74, 60, 'rgba(55,33,10,1)'),    w:74, h:60, weight:2 },
+    /* twigs */
+    { img: twigSprite(60, 22,   'rgba(80,52,20,1)'),    w:60, h:22, weight:3 },
+    { img: twigSprite(44, 18,   'rgba(70,45,16,1)'),    w:44, h:18, weight:2 },
+    /* leaves — fresh green */
+    { img: leafSprite(22,30,'rgba(55,100,28,.95)','rgba(35,72,14,.95)','rgba(20,55,8,.55)'), w:22,h:30,weight:4 },
+    { img: leafSprite(18,26,'rgba(65,115,32,.95)','rgba(42,82,18,.95)','rgba(22,58,10,.55)'),w:18,h:26,weight:3 },
+    /* leaves — autumn yellow-green */
+    { img: leafSprite(20,28,'rgba(155,155,30,.95)','rgba(120,110,18,.95)','rgba(80,72,10,.55)'),w:20,h:28,weight:2 },
+    /* leaves — dry brown */
+    { img: leafSprite(16,24,'rgba(135,85,28,.9)','rgba(105,62,18,.9)','rgba(72,40,10,.5)'),   w:16,h:24,weight:2 },
+  ];
+  /* Flatten weighted list */
+  const SPRITE_LIST = SPRITES.flatMap(s => Array(s.weight).fill(s));
+
+  const DPOOL = 22;
   const dpieces = Array.from({length: DPOOL}, () => ({
-    active: false,
-    x: 0, y: 0, vx: 0, vy: 0,
-    rot: 0, vrot: 0,
-    alpha: 0,
-    tmpl: TEMPLATES[0],
-    life: 0, maxLife: 0,
+    active:false, x:0, y:0, vx:0, vy:0,
+    rot:0, vrot:0, alpha:0, sprite:null,
+    sw:0, sh:0, life:0, maxLife:0,
   }));
 
+  /* Rain travels at ANG=13° from vertical: vx = sinA*speed (right), vy = cosA*speed (down).
+     Debris matches that exact angle — spawns from left edge, travels same diagonal. */
   function spawnPiece() {
     const p = dpieces.find(p => !p.active);
     if (!p) return;
-    p.tmpl    = TEMPLATES[Math.floor(Math.random() * TEMPLATES.length)];
-    p.x       = dW + 20 + Math.random() * 60;           // start off right edge
-    p.y       = dH * (0.08 + Math.random() * 0.84);     // random height
-    p.vx      = -(3.5 + Math.random() * 4.5);           // fly left
-    p.vy      = (Math.random() - 0.4) * 1.8;            // slight vertical drift
-    p.rot     = Math.random() * Math.PI * 2;
-    p.vrot    = (Math.random() > .5 ? 1 : -1) * (0.04 + Math.random() * 0.10);
-    p.alpha   = 0;
-    p.maxLife = 80 + Math.floor(Math.random() * 60);
-    p.life    = 0;
-    p.active  = true;
+    const s      = SPRITE_LIST[Math.floor(Math.random() * SPRITE_LIST.length)];
+    p.sprite     = s.img; p.sw = s.w; p.sh = s.h;
+    /* spawn from left edge at random height */
+    p.x          = -s.w - Math.random() * 80;
+    p.y          = dH * (0.02 + Math.random() * 0.88);
+    /* same direction as rain: right + down at ANG */
+    const spd    = 3.0 + Math.random() * 3.5;
+    p.vx         =  sinA * spd * 2.2;   // rain angle, ~2x speed so they travel far
+    p.vy         =  cosA * spd;
+    p.rot        = Math.random() * Math.PI * 2;
+    p.vrot       = (Math.random()>.5?1:-1) * (0.025 + Math.random() * 0.07);
+    p.alpha      = 0;
+    p.maxLife    = 110 + Math.floor(Math.random() * 80);
+    p.life       = 0;
+    p.active     = true;
   }
 
   let debrisIntensity = 0;
-  let spawnAcc = 0;   // fractional spawn accumulator
+  let spawnAcc = 0;
 
   function debrisFrame() {
     if (!dCtx) return;
     dCtx.clearRect(0, 0, dW, dH);
-
-    /* Spawn new pieces proportional to intensity */
     if (debrisIntensity > 0.05) {
-      spawnAcc += debrisIntensity * 0.55;  // ~0.55 pieces/frame at full intensity
+      spawnAcc += debrisIntensity * 0.45;
       while (spawnAcc >= 1) { spawnAcc--; spawnPiece(); }
     }
-
     for (const p of dpieces) {
       if (!p.active) continue;
-      p.x   += p.vx;
-      p.y   += p.vy;
-      p.rot += p.vrot;
-      p.life++;
-
-      /* fade in first 8 frames, fade out last 14 */
-      p.alpha = p.life < 8
-        ? p.life / 8
-        : p.life > p.maxLife - 14
-          ? (p.maxLife - p.life) / 14
-          : 1;
-
-      if (p.life >= p.maxLife || p.x < -80) { p.active = false; continue; }
-
+      p.x += p.vx; p.y += p.vy; p.rot += p.vrot; p.life++;
+      p.alpha = p.life < 10 ? p.life/10
+              : p.life > p.maxLife-16 ? (p.maxLife-p.life)/16 : 1;
+      if (p.life >= p.maxLife || p.x > dW+100 || p.y > dH+80) {
+        p.active = false; continue;
+      }
       dCtx.save();
       dCtx.translate(p.x, p.y);
       dCtx.rotate(p.rot);
-      dCtx.globalAlpha = p.alpha * Math.min(1, debrisIntensity * 2.5);
-      dCtx.fillStyle = p.tmpl.color;
-
-      if (p.tmpl.type === 'rect') {
-        dCtx.fillRect(-p.tmpl.w/2, -p.tmpl.h/2, p.tmpl.w, p.tmpl.h);
-      } else if (p.tmpl.type === 'stick') {
-        dCtx.beginPath();
-        dCtx.roundRect(-p.tmpl.w/2, -p.tmpl.h/2, p.tmpl.w, p.tmpl.h, 3);
-        dCtx.fill();
-      } else {
-        /* oval / leaf */
-        dCtx.beginPath();
-        dCtx.ellipse(0, 0, p.tmpl.w/2, p.tmpl.h/2, 0, 0, Math.PI*2);
-        dCtx.fill();
-      }
+      dCtx.globalAlpha = p.alpha * Math.min(1, debrisIntensity * 2.2);
+      dCtx.drawImage(p.sprite, -p.sw/2, -p.sh/2, p.sw, p.sh);
       dCtx.restore();
     }
   }
