@@ -570,10 +570,10 @@ a.ci-val:hover{color:var(--red)}
   display:flex;align-items:center;
   background:#0c0e12;
 }
-/* Canvas sits at z-index:0 — nothing covers it */
+/* Canvas sits at z-index:0 — nothing covers it
+   No CSS width/height — Three.js controls those via setSize(w,h,true) */
 #stormCanvas{
   position:absolute;inset:0;
-  width:100%;height:100%;
   pointer-events:none;
   z-index:0;
   display:block;
@@ -1848,21 +1848,24 @@ document.getElementById('quoteForm').addEventListener('submit', function(e) {
     canvas,
     antialias: false,
     alpha: true,
+    premultipliedAlpha: false,   /* prevents edge darkening on transparent canvas */
     powerPreference: 'high-performance',
   });
-  const DPR = Math.min(window.devicePixelRatio, 3); /* cap at 3× for 4K */
+  const DPR = Math.min(window.devicePixelRatio, 3);
   renderer.setPixelRatio(DPR);
   renderer.setClearColor(0x000000, 0);
 
   function resize() {
-    /* Always use window dimensions — canvas is always 100vw × 100vh */
-    const w = window.innerWidth;
-    const h = window.innerHeight;
-    renderer.setSize(w, h, false);
+    /* Use parent's actual client size — avoids scrollbar width mismatch */
+    const sticky = canvas.closest('.storm-sticky');
+    const w = sticky ? sticky.clientWidth  : window.innerWidth;
+    const h = sticky ? sticky.clientHeight : window.innerHeight;
+    if (!w || !h) return;
+    /* true = Three.js also sets canvas CSS width/height → no stretch blur */
+    renderer.setSize(w, h, true);
     camera.aspect = w / h;
     camera.updateProjectionMatrix();
   }
-  /* Run once now, once after layout settles, then on every resize */
   resize();
   requestAnimationFrame(resize);
   window.addEventListener('resize', resize);
@@ -1979,7 +1982,8 @@ document.getElementById('quoteForm').addEventListener('submit', function(e) {
         gl_PointSize  = aSize * (1.0 - e*0.5) * (300.0 / -mvPos.z);
 
         vColor = aColor;
-        vAlpha = 1.0 - e * 0.78;
+        /* at rest: 0.92 alpha (solid, visible color); fades as particles scatter */
+        vAlpha = (1.0 - e * 0.88) * 0.92;
       }
     `,
     fragmentShader: `
@@ -1987,30 +1991,38 @@ document.getElementById('quoteForm').addEventListener('submit', function(e) {
       varying float vAlpha;
 
       void main(){
-        /* Hard circle — crisp on 4K, no blur */
         vec2  uv   = gl_PointCoord - 0.5;
         float dist = length(uv);
         if (dist > 0.48) discard;
-        /* soft edge only at the very rim (2px equivalent) */
-        float a = smoothstep(0.48, 0.36, dist) * vAlpha;
+        /* crisp core, 1-pixel soft rim — sharp on 4K */
+        float a = smoothstep(0.48, 0.40, dist) * vAlpha;
         gl_FragColor = vec4(vColor, a);
       }
     `,
     transparent: true,
     depthWrite:  false,
-    blending:    THREE.AdditiveBlending,
+    depthTest:   false,
+    /* NormalBlending: src*alpha + dest*(1-alpha)
+       Particles show their actual color — no additive white overexposure */
+    blending:    THREE.NormalBlending,
   });
 
   scene.add(new THREE.Points(geo, mat));
 
-  /* ── Render loop: gate by scroll position (synchronous, no race) ── */
-  const stormEl = document.querySelector('.storm-section');
+  /* ── Render loop: ScrollTrigger self-tracks visibility — no getBCR() ── */
+  let stormActive = false;
+  ScrollTrigger.create({
+    trigger: '.storm-section',
+    start: 'top bottom+=300',
+    end:   'bottom top-=300',
+    onEnter:      () => { stormActive = true;  },
+    onLeave:      () => { stormActive = false; },
+    onEnterBack:  () => { stormActive = true;  },
+    onLeaveBack:  () => { stormActive = false; },
+  });
+
   gsap.ticker.add(time => {
-    if (stormEl) {
-      const rect = stormEl.getBoundingClientRect();
-      /* skip render when section is completely off-screen */
-      if (rect.bottom < -200 || rect.top > window.innerHeight + 200) return;
-    }
+    if (!stormActive) return;
     mat.uniforms.uTime.value = time;
     renderer.render(scene, camera);
   });
