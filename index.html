@@ -1558,6 +1558,17 @@ lenis.on('scroll', ({ scroll, progress }) => {
 gsap.ticker.add(time => lenis.raf(time * 1000));
 gsap.ticker.lagSmoothing(0);
 
+/* Stop Lenis swallowing wheel events when cursor is over the chat panel
+   so the message list scrolls normally instead of the page */
+(function(){
+  const panel = document.getElementById('aiPanel');
+  if (!panel) return;
+  panel.addEventListener('mouseenter', () => lenis.stop(),  { passive:true });
+  panel.addEventListener('mouseleave', () => lenis.start(), { passive:true });
+  /* Also prevent wheel event from bubbling to Lenis while inside panel */
+  panel.addEventListener('wheel', e => e.stopPropagation(), { passive:true });
+})();
+
 // Anchor links with Lenis
 document.querySelectorAll('a[href^="#"]').forEach(a => {
   a.addEventListener('click', e => {
