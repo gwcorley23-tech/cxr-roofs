@@ -434,47 +434,150 @@ footer{background:#101010;border-top:1px solid var(--line);padding:90px 0 0}
 .foot-links a:hover{color:var(--cream)}
 
 /* ═══════════════════════════════════════════════════════════
-   CHAT WIDGET
+   CHAT WIDGET — Rooftoprob style
 ═══════════════════════════════════════════════════════════ */
-#chat-btn{position:fixed;bottom:28px;right:28px;z-index:800;width:60px;height:60px;border-radius:50%;background:var(--red);color:#fff;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 8px 40px rgba(181,21,21,.5);transition:transform .35s var(--ease),box-shadow .35s;font-size:1.4rem}
-#chat-btn:hover{transform:scale(1.1);box-shadow:0 14px 50px rgba(181,21,21,.65)}
-#chat-btn .badge{position:absolute;top:-2px;right:-2px;width:15px;height:15px;background:#22c55e;border-radius:50%;border:2px solid var(--ink);animation:badgePulse 2.2s infinite}
-@keyframes badgePulse{0%,100%{box-shadow:0 0 0 0 rgba(34,197,94,.5)}50%{box-shadow:0 0 0 6px rgba(34,197,94,0)}}
-#chat-panel{position:fixed;bottom:102px;right:28px;z-index:800;width:375px;max-width:calc(100vw - 32px);background:var(--ink-2);border:1px solid var(--line);box-shadow:0 30px 80px rgba(0,0,0,.6);display:flex;flex-direction:column;transform:translateY(22px) scale(.95);opacity:0;pointer-events:none;transition:transform .38s var(--ease),opacity .38s var(--ease);overflow:hidden;max-height:560px}
-#chat-panel.open{transform:none;opacity:1;pointer-events:all}
-.chat-hdr{background:var(--red);padding:18px 20px;display:flex;align-items:center;gap:12px;flex-shrink:0}
-.chat-hdr .av{width:38px;height:38px;border-radius:50%;background:rgba(255,255,255,.2);display:flex;align-items:center;justify-content:center;font-size:1.1rem}
-.chat-hdr .info{flex:1}
-.chat-hdr .info strong{display:block;font-family:var(--display);font-size:.9rem;font-weight:700;color:#fff;letter-spacing:.02em}
-.chat-hdr .info small{font-size:.7rem;color:rgba(255,255,255,.65)}
-.chat-close{background:none;border:none;color:rgba(255,255,255,.65);cursor:pointer;font-size:1.2rem;padding:4px;transition:.2s}
-.chat-close:hover{color:#fff}
-.chat-msgs{flex:1;overflow-y:auto;padding:16px;display:flex;flex-direction:column;gap:12px;scrollbar-width:thin;scrollbar-color:var(--ink-3) transparent}
-.chat-msgs::-webkit-scrollbar{width:3px}
-.chat-msgs::-webkit-scrollbar-thumb{background:var(--ink-3)}
-.chat-msg{display:flex;gap:8px;max-width:90%}
-.chat-msg.user{align-self:flex-end;flex-direction:row-reverse}
-.chat-msg .bbl{padding:10px 14px;font-size:.87rem;line-height:1.55;font-family:var(--body);word-break:break-word}
-.chat-msg.bot .bbl{background:var(--ink-3);color:var(--cream)}
-.chat-msg.user .bbl{background:var(--red);color:#fff}
-.chat-msg .mav{width:28px;height:28px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:.7rem;font-weight:700;font-family:var(--display);margin-top:2px}
-.chat-msg.bot .mav{background:var(--red);color:#fff}
-.chat-msg.user .mav{background:var(--ink-3);color:var(--muted)}
-.typing{display:flex;gap:4px;padding:10px 14px;background:var(--ink-3)}
-.typing span{width:7px;height:7px;background:var(--muted);border-radius:50%;animation:typeBounce 1.2s infinite}
-.typing span:nth-child(2){animation-delay:.2s}
-.typing span:nth-child(3){animation-delay:.4s}
-@keyframes typeBounce{0%,60%,100%{transform:translateY(0)}30%{transform:translateY(-7px)}}
-.chat-quick{display:flex;flex-wrap:wrap;gap:6px;padding:0 14px 10px;flex-shrink:0}
-.qbtn{background:transparent;border:1px solid var(--line);color:var(--muted);font-family:var(--display);font-size:.7rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase;padding:6px 11px;cursor:pointer;transition:.25s;white-space:nowrap}
-.qbtn:hover{border-color:var(--red);color:var(--red)}
-.chat-input-row{padding:12px 14px;border-top:1px solid var(--line);display:flex;gap:8px;align-items:flex-end;flex-shrink:0}
-#chat-input{flex:1;background:var(--ink-3);border:1px solid var(--line);color:var(--cream);font-family:var(--body);font-size:.87rem;padding:10px 12px;resize:none;max-height:100px;line-height:1.4;transition:border-color .25s;outline:none}
-#chat-input:focus{border-color:rgba(181,21,21,.5)}
-#chat-input::placeholder{color:var(--muted)}
-#chat-send{width:36px;height:36px;background:var(--red);border:none;color:#fff;cursor:pointer;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:.95rem;transition:.25s}
-#chat-send:hover{background:var(--red-dark)}
-#chat-send:disabled{background:var(--ink-3);color:var(--muted);cursor:not-allowed}
+/* FAB pill button */
+#chat-btn{
+  position:fixed;right:22px;bottom:22px;z-index:800;
+  display:flex;align-items:center;gap:10px;
+  padding:14px 22px;border:none;border-radius:999px;cursor:pointer;
+  font:600 .95rem/1 var(--body);color:#fff;
+  background:linear-gradient(135deg,var(--red-dark),var(--red));
+  box-shadow:0 10px 30px rgba(181,21,21,.45),0 2px 8px rgba(0,0,0,.4);
+  transition:transform .25s ease,box-shadow .25s ease,opacity .25s ease;
+}
+#chat-btn:hover{transform:translateY(-2px);box-shadow:0 16px 40px rgba(181,21,21,.6),0 4px 12px rgba(0,0,0,.5)}
+#chat-btn svg{width:20px;height:20px;flex-shrink:0}
+#chat-btn.hide{transform:scale(.5);opacity:0;pointer-events:none}
+
+/* Panel */
+#chat-panel{
+  position:fixed;right:22px;bottom:22px;z-index:801;
+  width:min(390px,calc(100vw - 32px));
+  height:min(600px,calc(100vh - 44px));
+  display:flex;flex-direction:column;overflow:hidden;
+  background:#fff;border:1px solid rgba(0,0,0,.1);border-radius:20px;
+  box-shadow:0 30px 80px rgba(0,0,0,.22);
+  opacity:0;transform:translateY(20px) scale(.98);
+  pointer-events:none;transition:opacity .28s ease,transform .28s ease;
+}
+#chat-panel.open{opacity:1;transform:none;pointer-events:all}
+
+/* Header */
+.ai-head{
+  display:flex;align-items:center;gap:12px;padding:16px 18px;
+  background:linear-gradient(135deg,rgba(181,21,21,.12),rgba(154,18,18,.08));
+  border-bottom:1px solid rgba(0,0,0,.08);flex-shrink:0;
+}
+.ai-head .av{
+  width:40px;height:40px;border-radius:50%;flex-shrink:0;
+  display:grid;place-items:center;
+  background:linear-gradient(135deg,var(--red-dark),var(--red));
+}
+.ai-head .av svg{width:22px;height:22px}
+.ai-head .info{flex:1}
+.ai-head .info strong{display:block;font:700 1rem/1.1 var(--display);color:#111}
+.ai-head .info small{font-size:.76rem;color:#888;margin-top:2px;display:block}
+.ai-head .x{margin-left:auto;background:none;border:none;color:#aaa;font-size:1.5rem;cursor:pointer;line-height:1;padding:4px;transition:color .2s}
+.ai-head .x:hover{color:#111}
+
+/* Tabs */
+.ai-tabs{display:flex;border-bottom:1px solid rgba(0,0,0,.08);background:#f9f9f9;flex-shrink:0}
+.ai-tabs button{
+  flex:1;padding:11px;background:none;border:none;cursor:pointer;
+  font:600 .82rem/1 var(--body);color:#999;
+  border-bottom:2px solid transparent;transition:color .2s,border-color .2s;
+}
+.ai-tabs button.active{color:var(--red);border-bottom-color:var(--red)}
+
+/* Body / scroll */
+.ai-body{
+  flex:1;overflow-y:auto;padding:16px;
+  display:flex;flex-direction:column;gap:0;
+  scrollbar-width:thin;scrollbar-color:rgba(0,0,0,.1) transparent;
+}
+.ai-body::-webkit-scrollbar{width:3px}
+.ai-body::-webkit-scrollbar-thumb{background:rgba(0,0,0,.12)}
+.ai-view{display:none;flex-direction:column;gap:12px}
+.ai-view.show{display:flex}
+
+/* Message bubbles */
+.chat-log{display:flex;flex-direction:column;gap:12px}
+.msg{
+  max-width:85%;padding:10px 14px;border-radius:16px;
+  font-size:.9rem;line-height:1.5;white-space:pre-wrap;
+  font-family:var(--body);
+}
+.msg.bot{
+  align-self:flex-start;
+  background:#f0f0f2;border:1px solid rgba(0,0,0,.07);
+  color:#1a1a1a;border-bottom-left-radius:4px;
+}
+.msg.user{
+  align-self:flex-end;
+  background:linear-gradient(135deg,var(--red),var(--red-dark));
+  color:#fff;border-bottom-right-radius:4px;
+}
+.msg.typing-msg{color:#999;font-style:italic;background:#f0f0f2;border:1px solid rgba(0,0,0,.07)}
+
+/* Typing dots */
+.typing-dots{display:inline-flex;gap:4px;align-items:center;padding:2px 0}
+.typing-dots span{width:7px;height:7px;background:#bbb;border-radius:50%;animation:tDot 1.2s infinite}
+.typing-dots span:nth-child(2){animation-delay:.2s}
+.typing-dots span:nth-child(3){animation-delay:.4s}
+@keyframes tDot{0%,60%,100%{transform:translateY(0)}30%{transform:translateY(-6px)}}
+
+/* Quick replies */
+.ai-quick{display:flex;flex-wrap:wrap;gap:6px;padding:10px 14px 4px;flex-shrink:0;border-top:1px solid rgba(0,0,0,.06)}
+.qbtn{
+  background:#fff;border:1.5px solid rgba(181,21,21,.35);
+  color:var(--red);font:600 .75rem/1 var(--body);
+  padding:7px 13px;border-radius:999px;cursor:pointer;
+  transition:background .2s,color .2s,border-color .2s;white-space:nowrap;
+}
+.qbtn:hover{background:var(--red);color:#fff;border-color:var(--red)}
+
+/* Input row */
+.ai-input{
+  display:flex;gap:8px;padding:12px;
+  border-top:1px solid rgba(0,0,0,.08);
+  background:#f9f9f9;flex-shrink:0;
+}
+.ai-input input{
+  flex:1;background:#fff;border:1.5px solid rgba(0,0,0,.12);
+  border-radius:10px;padding:11px 13px;
+  color:#111;font:400 .9rem/1 var(--body);
+  transition:border-color .2s;outline:none;
+}
+.ai-input input:focus{border-color:var(--red)}
+.ai-input input::placeholder{color:#bbb}
+.ai-input button{
+  background:linear-gradient(135deg,var(--red),var(--red-dark));
+  border:none;border-radius:10px;width:44px;
+  display:grid;place-items:center;cursor:pointer;color:#fff;
+  transition:opacity .2s;flex-shrink:0;
+}
+.ai-input button:disabled{opacity:.45;cursor:default}
+.ai-input button svg{width:18px;height:18px}
+
+/* Footer note */
+.ai-note{font-size:.72rem;color:#bbb;text-align:center;padding:0 10px 10px;flex-shrink:0}
+.ai-note a{color:var(--red)}
+/* Quote tab fields */
+.ai-qfield{
+  width:100%;background:#fff;border:1.5px solid rgba(0,0,0,.12);
+  border-radius:10px;padding:11px 13px;
+  color:#111;font:400 .9rem/1 var(--body);
+  transition:border-color .2s;outline:none;
+}
+.ai-qfield:focus{border-color:var(--red)}
+.ai-qfield::placeholder{color:#bbb}
+select.ai-qfield{color:#111}
+
+@media(max-width:768px){
+  #chat-btn{bottom:82px;right:14px}
+  #chat-panel{bottom:14px;right:14px;width:calc(100vw - 28px);height:min(560px,calc(100vh - 28px))}
+}
 
 /* ═══════════════════════════════════════════════════════════
    RESPONSIVE
@@ -1024,29 +1127,73 @@ footer{background:#101010;border-top:1px solid var(--line);padding:90px 0 0}
   </div>
 </footer>
 
-<!-- CHAT WIDGET -->
+<!-- CHAT FAB -->
 <button id="chat-btn" aria-label="Chat with CXR Roofing AI">
-  <span id="chat-icon">💬</span>
-  <span class="badge" aria-hidden="true"></span>
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+  Ask CXR
 </button>
-<div id="chat-panel" role="dialog" aria-label="CXR Roofing Chat" aria-modal="true">
-  <div class="chat-hdr">
-    <div class="av">🏠</div>
-    <div class="info"><strong>CXR Roofing Assistant</strong><small>Veteran-Owned · Instant Answers · Free Estimates</small></div>
-    <button class="chat-close" id="chat-close" aria-label="Close">✕</button>
+
+<!-- CHAT PANEL -->
+<section id="chat-panel" aria-label="CXR Roofing AI assistant">
+  <div class="ai-head">
+    <div class="av">
+      <svg viewBox="0 0 24 24" fill="#fff"><path d="M12 2 3 9.2V21h6v-6h6v6h6V9.2z"/></svg>
+    </div>
+    <div class="info">
+      <strong>CXR Roofing Assistant</strong>
+      <small>Free inspections · Veteran-owned · Texas-wide</small>
+    </div>
+    <button class="x" id="chat-close" aria-label="Close">&times;</button>
   </div>
-  <div class="chat-msgs" id="chat-msgs"></div>
-  <div class="chat-quick" id="quick-btns">
+
+  <div class="ai-tabs">
+    <button class="active" data-tab="chat">💬 Chat</button>
+    <button data-tab="quote">📋 Get a Quote</button>
+  </div>
+
+  <div class="ai-body">
+    <!-- CHAT VIEW -->
+    <div class="ai-view show" id="viewChat">
+      <div class="chat-log" id="chatLog"></div>
+    </div>
+
+    <!-- QUOTE VIEW -->
+    <div class="ai-view" id="viewQuote" style="gap:10px">
+      <p style="font-size:.88rem;color:#555;line-height:1.55">Fill this out and we'll call you within 1 hour with a free estimate.</p>
+      <input class="ai-qfield" id="qName" placeholder="Your name" autocomplete="name">
+      <input class="ai-qfield" id="qPhone" placeholder="Phone number" type="tel" autocomplete="tel">
+      <input class="ai-qfield" id="qCity" placeholder="City, TX">
+      <select class="ai-qfield" id="qService">
+        <option value="" disabled selected>Service needed…</option>
+        <option>Residential Roofing</option>
+        <option>Commercial Roofing</option>
+        <option>Metal Roofing</option>
+        <option>Flat / TPO Roof</option>
+        <option>Roof Repair</option>
+        <option>Insurance Claim Help</option>
+        <option>Free Inspection Only</option>
+      </select>
+      <button id="qSubmit" style="background:linear-gradient(135deg,var(--red),var(--red-dark));color:#fff;border:none;border-radius:10px;padding:13px;font:700 .92rem/1 var(--display);cursor:pointer;letter-spacing:.05em">Request Free Estimate →</button>
+      <p id="qMsg" style="font-size:.8rem;color:var(--red);text-align:center;min-height:1rem"></p>
+    </div>
+  </div>
+
+  <!-- Quick replies (chat tab only) -->
+  <div class="ai-quick" id="quickBtns">
     <button class="qbtn" data-msg="What roofing services do you offer?">Services</button>
-    <button class="qbtn" data-msg="How much does a roof replacement cost?">Pricing</button>
+    <button class="qbtn" data-msg="How much does a new roof cost?">Pricing</button>
     <button class="qbtn" data-msg="Do you help with insurance claims?">Insurance</button>
     <button class="qbtn" data-msg="What areas do you serve in Texas?">Service Areas</button>
   </div>
-  <div class="chat-input-row">
-    <textarea id="chat-input" placeholder="Ask about roofing, pricing, service areas…" rows="1" aria-label="Chat message"></textarea>
-    <button id="chat-send" aria-label="Send">➤</button>
-  </div>
-</div>
+
+  <form class="ai-input" id="chatForm">
+    <input id="chatInput" placeholder="Ask about roofing, pricing, areas…" autocomplete="off" maxlength="500">
+    <button type="submit" id="chatSend" aria-label="Send">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+    </button>
+  </form>
+  <div class="ai-note">AI assistant · urgent? call <a href="tel:+19032581210">(903) 258-1210</a></div>
+</section>
 
 <!-- ── LIBRARIES ──────────────────────────────────────────── -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
@@ -1332,69 +1479,118 @@ document.getElementById('quoteForm').addEventListener('submit', function(e) {
 });
 
 /* ═══════════════════════════════════════════════════════════
-   10. CHATBOT
+   10. CHATBOT — Rooftoprob-style
 ═══════════════════════════════════════════════════════════ */
-const chatBtn   = document.getElementById('chat-btn');
-const chatPanel = document.getElementById('chat-panel');
-const chatClose = document.getElementById('chat-close');
-const chatInput = document.getElementById('chat-input');
-const chatSend  = document.getElementById('chat-send');
-const chatMsgs  = document.getElementById('chat-msgs');
-const quickBtns = document.getElementById('quick-btns');
-const chatIcon  = document.getElementById('chat-icon');
-let isOpen = false, isLoading = false, convo = [];
+(function(){
+  const fab       = document.getElementById('chat-btn');
+  const panel     = document.getElementById('chat-panel');
+  const closeBtn  = document.getElementById('chat-close');
+  const chatLog   = document.getElementById('chatLog');
+  const chatForm  = document.getElementById('chatForm');
+  const chatInput = document.getElementById('chatInput');
+  const chatSend  = document.getElementById('chatSend');
+  const quickBtns = document.getElementById('quickBtns');
+  const aiBody    = panel.querySelector('.ai-body');
+  const tabs      = panel.querySelectorAll('.ai-tabs button');
+  const views     = { chat: document.getElementById('viewChat'), quote: document.getElementById('viewQuote') };
+  let history = [], greeted = false;
 
-function escHtml(s){ return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+  /* ── open / close ──────────────────────────────────────── */
+  const openChat  = () => {
+    panel.classList.add('open');
+    fab.classList.add('hide');
+    if (!greeted) { greeted = true; greet(); }
+    requestAnimationFrame(() => chatInput.focus());
+  };
+  const closeChat = () => { panel.classList.remove('open'); fab.classList.remove('hide'); };
+  fab.addEventListener('click', openChat);
+  closeBtn.addEventListener('click', closeChat);
 
-function addMsg(role, text) {
-  const d = document.createElement('div');
-  d.className = 'chat-msg ' + role;
-  d.innerHTML = role === 'bot'
-    ? `<div class="mav">CXR</div><div class="bbl">${text.replace(/\n/g,'<br>')}</div>`
-    : `<div class="mav">You</div><div class="bbl">${escHtml(text)}</div>`;
-  chatMsgs.appendChild(d);
-  chatMsgs.scrollTop = chatMsgs.scrollHeight;
-}
+  /* ── tab switching ─────────────────────────────────────── */
+  tabs.forEach(b => b.addEventListener('click', () => {
+    tabs.forEach(x => x.classList.toggle('active', x === b));
+    Object.entries(views).forEach(([k, v]) => v.classList.toggle('show', k === b.dataset.tab));
+    const isChat = b.dataset.tab === 'chat';
+    chatForm.style.display  = isChat ? 'flex' : 'none';
+    quickBtns.style.display = isChat ? 'flex' : 'none';
+  }));
 
-function showTyping() {
-  const d = document.createElement('div');
-  d.className = 'chat-msg bot'; d.id = 'typing-el';
-  d.innerHTML = `<div class="mav">CXR</div><div class="typing"><span></span><span></span><span></span></div>`;
-  chatMsgs.appendChild(d);
-  chatMsgs.scrollTop = chatMsgs.scrollHeight;
-}
-function hideTyping() { const el = document.getElementById('typing-el'); if(el) el.remove(); }
-
-async function sendMsg(text) {
-  if (!text.trim() || isLoading) return;
-  isLoading = true; chatSend.disabled = true;
-  quickBtns.style.display = 'none';
-  addMsg('user', text);
-  convo.push({ role: 'user', content: text });
-  showTyping();
-  try {
-    const res  = await fetch('/api/chat', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ messages: convo.slice(-20) }) });
-    const data = await res.json();
-    hideTyping();
-    const reply = data.reply || data.error || 'Sorry — please call (903) 258-1210 directly.';
-    addMsg('bot', reply);
-    convo.push({ role: 'assistant', content: reply });
-  } catch(err) {
-    hideTyping();
-    addMsg('bot', 'Connection error. Call us at <a href="tel:+19032581210" style="color:var(--red)">(903) 258-1210</a>!');
+  /* ── bubbles ───────────────────────────────────────────── */
+  function scrollDown() {
+    requestAnimationFrame(() => { aiBody.scrollTop = aiBody.scrollHeight; });
   }
-  isLoading = false; chatSend.disabled = false;
-}
+  function bubble(text, who) {
+    const d = document.createElement('div');
+    d.className = 'msg ' + who;
+    d.textContent = text;
+    chatLog.appendChild(d);
+    scrollDown();
+    return d;
+  }
+  function greet() {
+    bubble("Hey! 👋 I'm the CXR Roofing assistant. Ask me anything — services, pricing, insurance claims, or your area. I'm here to help!", 'bot');
+  }
 
-function openChat()  { isOpen=true;  chatPanel.classList.add('open');    chatIcon.textContent='✕'; chatInput.focus(); if(!chatMsgs.children.length) addMsg('bot',"Hi! 👋 I'm the CXR Roofing assistant. Ask me anything about our services, pricing, or service areas!"); }
-function closeChat() { isOpen=false; chatPanel.classList.remove('open'); chatIcon.textContent='💬'; }
+  /* ── chat submit ───────────────────────────────────────── */
+  chatForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const text = chatInput.value.trim();
+    if (!text) return;
+    bubble(text, 'user');
+    history.push({ role: 'user', content: text });
+    chatInput.value = '';
+    chatSend.disabled = true;
+    quickBtns.style.display = 'none';
 
-chatBtn.addEventListener('click',   () => isOpen ? closeChat() : openChat());
-chatClose.addEventListener('click', closeChat);
-chatInput.addEventListener('keydown', e => { if(e.key==='Enter'&&!e.shiftKey){ e.preventDefault(); const v=chatInput.value.trim(); if(v){ chatInput.value=''; sendMsg(v); } } });
-chatInput.addEventListener('input',   () => { chatInput.style.height='auto'; chatInput.style.height=Math.min(chatInput.scrollHeight,100)+'px'; });
-chatSend.addEventListener('click',   () => { const v=chatInput.value.trim(); if(v){ chatInput.value=''; chatInput.style.height='auto'; sendMsg(v); } });
-document.querySelectorAll('.qbtn').forEach(b => b.addEventListener('click', () => sendMsg(b.dataset.msg)));
+    const typing = document.createElement('div');
+    typing.className = 'msg bot typing-msg';
+    typing.innerHTML = '<span class="typing-dots"><span></span><span></span><span></span></span>';
+    chatLog.appendChild(typing); scrollDown();
+
+    try {
+      const res  = await fetch('/api/chat', {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ messages: history.slice(-20) })
+      });
+      const data = await res.json();
+      typing.remove();
+      const reply = data.reply || data.error || 'Sorry — please call (903) 258-1210 directly.';
+      bubble(reply, 'bot');
+      history.push({ role: 'assistant', content: reply });
+    } catch {
+      typing.remove();
+      const errD = document.createElement('div');
+      errD.className = 'msg bot';
+      errD.innerHTML = 'Connection issue — call us at <a href="tel:+19032581210" style="color:var(--red)">(903) 258-1210</a>.';
+      chatLog.appendChild(errD); scrollDown();
+    }
+    chatSend.disabled = false;
+    chatInput.focus();
+  });
+
+  /* ── quick buttons ─────────────────────────────────────── */
+  document.querySelectorAll('.qbtn').forEach(b => b.addEventListener('click', () => {
+    chatInput.value = b.dataset.msg;
+    chatForm.dispatchEvent(new Event('submit'));
+  }));
+
+  /* ── quote tab submit ──────────────────────────────────── */
+  document.getElementById('qSubmit').addEventListener('click', () => {
+    const name    = document.getElementById('qName').value.trim();
+    const phone   = document.getElementById('qPhone').value.trim();
+    const city    = document.getElementById('qCity').value.trim();
+    const service = document.getElementById('qService').value;
+    const msg     = document.getElementById('qMsg');
+    if (!name || !phone) { msg.textContent = 'Please enter your name and phone number.'; return; }
+    msg.style.color = '#22c55e';
+    msg.textContent = '✓ Got it! We\'ll call you within 1 hour.';
+    document.getElementById('qName').value = '';
+    document.getElementById('qPhone').value = '';
+    document.getElementById('qCity').value = '';
+    document.getElementById('qService').selectedIndex = 0;
+    setTimeout(() => { msg.textContent = ''; msg.style.color = 'var(--red)'; }, 5000);
+  });
+})();
 </script>
 </body>
 </html>
