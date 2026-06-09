@@ -1838,7 +1838,7 @@ document.getElementById('quoteForm').addEventListener('submit', function(e) {
   /* ── Scene + Camera declared FIRST so resize() can reference them ── */
   const scene  = new THREE.Scene();
   const camera = new THREE.PerspectiveCamera(55, 1, 0.1, 200);
-  camera.position.set(0, 0, 7);
+  camera.position.set(0, 0, 5);
 
   /* ── Renderer ──
      powerPreference: high-performance → GPU selects dedicated card
@@ -1873,71 +1873,84 @@ document.getElementById('quoteForm').addEventListener('submit', function(e) {
   /* ── Helpers ── */
   const rnd = (a, b) => a + Math.random() * (b - a);
 
-  /* ── House offset: right-center of screen ── */
-  const OX = 1.4, OY = 0.0;
+  /* ── House offset: right half of screen ── */
+  const OX = 1.2, OY = 0.1;
 
-  /* ── Particle count — 7 k for smooth 60fps on all devices ── */
-  const COUNT = 7000;
+  /* ── 10k particles — small fixed screen-space dots, dense house shape ── */
+  const COUNT = 10000;
   const pos     = new Float32Array(COUNT * 3);
   const windPos = new Float32Array(COUNT * 3);
   const col     = new Float32Array(COUNT * 3);
   const delay   = new Float32Array(COUNT);
   const sizes   = new Float32Array(COUNT);
 
-  /* House shape regions ─────────────────────────────────────
-     Each region: w=weight, s=position sampler, c=color sampler */
+  /* House regions — tighter, more architecturally accurate */
   const regions = [
-    /* walls — warm beige siding */
-    { w:36, s:()=>({ x:rnd(OX-1.1,OX+1.1), y:rnd(OY-1.5,OY+0.5) }),
-      c:()=>{ const v=rnd(.86,.99); return [v*.96,v*.82,v*.56]; } },
-    /* roof — charcoal shingles */
-    { w:26, s:()=>{
+    /* main walls — warm cream/beige */
+    { w:34, s:()=>({ x:rnd(OX-1.0,OX+1.0), y:rnd(OY-1.4,OY+0.45) }),
+      c:()=>{ const v=rnd(.88,.96); return [v,v*.84,v*.60]; } },
+    /* roof left slope */
+    { w:14, s:()=>{
         const t=Math.random();
-        return { x: OX+rnd(-1,1)*(1-t)*1.3, y: OY+0.5+t*1.5 };
+        return { x: OX + rnd(-1.2,0)*(1-t), y: OY+0.45+t*1.3 };
       },
-      c:()=>{ const v=rnd(.52,.72); return [v,v,v*.88]; } },
-    /* door — dark wood */
-    { w:8,  s:()=>({ x:rnd(OX-.24,OX+.24), y:rnd(OY-1.5,OY-.42) }),
-      c:()=>[rnd(.55,.68),rnd(.28,.38),rnd(.10,.18)] },
-    /* window left — light blue */
-    { w:6,  s:()=>({ x:rnd(OX-.92,OX-.46), y:rnd(OY-.30,OY+.22) }),
-      c:()=>[rnd(.52,.72),rnd(.80,.96),1.0] },
-    /* window right — light blue */
-    { w:6,  s:()=>({ x:rnd(OX+.46,OX+.92), y:rnd(OY-.30,OY+.22) }),
-      c:()=>[rnd(.52,.72),rnd(.80,.96),1.0] },
-    /* chimney — vivid brick red */
-    { w:5,  s:()=>({ x:rnd(OX+.50,OX+.78), y:rnd(OY+1.05,OY+2.0) }),
-      c:()=>{ const r=rnd(.80,.96); return [r,r*.32,r*.22]; } },
-    /* foundation */
-    { w:8,  s:()=>({ x:rnd(OX-1.2,OX+1.2), y:rnd(OY-1.65,OY-1.5) }),
-      c:()=>{ const v=rnd(.55,.68); return [v,v*.76,v*.58]; } },
+      c:()=>{ const v=rnd(.28,.42); return [v*.9,v*.9,v]; } },
+    /* roof right slope */
+    { w:14, s:()=>{
+        const t=Math.random();
+        return { x: OX + rnd(0,1.2)*(1-t), y: OY+0.45+t*1.3 };
+      },
+      c:()=>{ const v=rnd(.28,.42); return [v*.9,v*.9,v]; } },
+    /* door — dark brown wood */
+    { w:7,  s:()=>({ x:rnd(OX-.22,OX+.22), y:rnd(OY-1.4,OY-.38) }),
+      c:()=>[rnd(.40,.52),rnd(.24,.32),rnd(.10,.16)] },
+    /* window left — light blue glass */
+    { w:5,  s:()=>({ x:rnd(OX-.88,OX-.46), y:rnd(OY-.28,OY+.20) }),
+      c:()=>[rnd(.45,.65),rnd(.78,.94),rnd(.92,1.0)] },
+    /* window right — light blue glass */
+    { w:5,  s:()=>({ x:rnd(OX+.46,OX+.88), y:rnd(OY-.28,OY+.20) }),
+      c:()=>[rnd(.45,.65),rnd(.78,.94),rnd(.92,1.0)] },
+    /* chimney — brick red */
+    { w:5,  s:()=>({ x:rnd(OX+.48,OX+.72), y:rnd(OY+.90,OY+1.85) }),
+      c:()=>{ const r=rnd(.75,.92); return [r,r*.28,r*.18]; } },
+    /* foundation / porch */
+    { w:8,  s:()=>({ x:rnd(OX-1.15,OX+1.15), y:rnd(OY-1.55,OY-1.4) }),
+      c:()=>{ const v=rnd(.48,.60); return [v,v*.75,v*.55]; } },
+    /* roof ridge line — lighter highlight */
+    { w:4,  s:()=>({ x:rnd(OX-.08,OX+.08), y:rnd(OY+0.44,OY+1.78) }),
+      c:()=>{ const v=rnd(.60,.75); return [v,v,v*.95]; } },
+    /* trim / window frames — white */
+    { w:4,  s:()=>{
+        const side = Math.random()<.5 ? rnd(OX-.96,OX-.88) : rnd(OX+.88,OX+.96);
+        return { x:side, y:rnd(OY-.32,OY+.24) };
+      },
+      c:()=>[rnd(.88,.98),rnd(.88,.98),rnd(.88,.98)] },
   ];
   const totalW = regions.reduce((s,r) => s+r.w, 0);
 
   for (let i = 0; i < COUNT; i++) {
-    /* weighted region pick */
     let rand = Math.random() * totalW, rgn = regions[0];
     for (const r of regions) { rand -= r.w; if (rand <= 0) { rgn = r; break; } }
 
     const { x, y } = rgn.s();
-    const z = rnd(-.2, .2);
+    const z = rnd(-.1, .1);
     pos[i*3]=x; pos[i*3+1]=y; pos[i*3+2]=z;
 
-    /* wind scatter — right + slight upward, random spread */
-    const ang  = rnd(-.5, .42) * Math.PI;
-    const dist = rnd(5, 13);
-    windPos[i*3]   = x + Math.cos(ang)*dist + rnd(1.5, 4.5);
-    windPos[i*3+1] = y + Math.sin(ang)*dist*rnd(.25,.85) + rnd(.4, 2.5);
-    windPos[i*3+2] = z + rnd(-2, 2);
+    /* wind scatter — blow right and upward */
+    const ang  = rnd(-.45, .38) * Math.PI;
+    const dist = rnd(4, 12);
+    windPos[i*3]   = x + Math.cos(ang)*dist + rnd(1, 4);
+    windPos[i*3+1] = y + Math.abs(Math.sin(ang))*dist*rnd(.3,.9) + rnd(.3, 2);
+    windPos[i*3+2] = z + rnd(-1.5, 1.5);
 
     const c = rgn.c();
     col[i*3]=c[0]; col[i*3+1]=c[1]; col[i*3+2]=c[2];
 
-    /* stagger: left side flies first */
-    delay[i] = Math.max(0, Math.min(.55, (x-OX+1.2)/4.0 + rnd(0,.16)));
+    delay[i] = Math.max(0, Math.min(.6, (x-OX+1.1)/3.8 + rnd(0,.15)));
 
-    /* size accounts for DPR so particles look the same on all screens */
-    sizes[i] = rnd(2.8, 5.5) / Math.max(1, DPR * 0.6);
+    /* FIXED SCREEN-SPACE SIZE in physical pixels — no perspective scaling
+       This is what was making them 170px blobs before */
+    sizes[i] = rnd(3.5, 6.0) * DPR;
   }
 
   /* ── Geometry ── */
@@ -1979,7 +1992,10 @@ document.getElementById('quoteForm').addEventListener('submit', function(e) {
 
         vec4 mvPos    = modelViewMatrix * vec4(p, 1.0);
         gl_Position   = projectionMatrix * mvPos;
-        gl_PointSize  = aSize * (1.0 - e*0.5) * (300.0 / -mvPos.z);
+        /* Fixed screen-space size — NO perspective multiplier.
+           aSize is already in physical pixels (pre-scaled by DPR in JS).
+           The old (300/-z) formula was producing ~170px blobs. */
+        gl_PointSize  = aSize * (1.0 - e * 0.4);
 
         vColor = aColor;
         /* at rest: 0.92 alpha (solid, visible color); fades as particles scatter */
