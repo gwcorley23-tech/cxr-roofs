@@ -16,15 +16,6 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css">
 <!-- Splitting CSS -->
 <link rel="stylesheet" href="https://unpkg.com/splitting/dist/splitting.css">
-<style>
-/* Typed.js cursor */
-.typed-cursor{color:var(--red);font-weight:300}
-/* Curtains canvas wrapper */
-#about-curtains-wrap{position:relative;overflow:hidden}
-#about-curtains-wrap canvas{position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:1}
-/* PIXI hail canvas */
-#pixi-hail{position:absolute;inset:0;pointer-events:none;z-index:2;opacity:.55}
-</style>
 
 <style>
 /* ═══════════════════════════════════════════════════════════
@@ -728,8 +719,8 @@ select.ai-qfield{color:#111}
 
 <!-- HERO -->
 <section class="hero" id="home">
-  <div class="hero-bg" id="vanta-bg">
-    <img id="hero-img" src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?auto=format&fit=crop&w=2000&q=80" alt="CXR Roofing professional installation Texas" style="opacity:0">
+  <div class="hero-bg">
+    <img id="hero-img" src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?auto=format&fit=crop&w=2000&q=80" alt="CXR Roofing professional installation Texas">
   </div>
   <div class="hero-grid"></div>
   <div class="hero-glow"></div>
@@ -744,7 +735,6 @@ select.ai-qfield{color:#111}
           <span class="hero-word" data-splitting>Above All.</span>
         </h1>
         <p>Whether it's a hole on your roof or a whole new roof — CXR Roofing delivers expert residential and commercial roofing across North, Central, and East Texas. A decade of veteran-driven excellence.</p>
-        <p style="font-family:var(--display);font-size:.88rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:44px;margin-top:-28px;opacity:0" id="typed-line">We specialize in: <span id="typed-target"></span></p>
         <div class="hero-ctas">
           <a href="#contact" class="btn-primary">Get Free Estimate <span class="btn-arrow">↗</span></a>
           <a href="tel:+19032581210" class="btn-ghost">☎ (903) 258-1210</a>
@@ -807,8 +797,8 @@ select.ai-qfield{color:#111}
   <div class="container">
     <div class="about-visual reveal">
       <div class="vet-tag"><div class="flag">🇺🇸</div><span class="txt">Veteran<br>Owned</span></div>
-      <div class="about-img-wrap" id="about-curtains-wrap">
-        <img id="about-curtains-img" src="https://images.unsplash.com/photo-1504307651254-35680f356dfd?auto=format&fit=crop&w=900&q=80" alt="CXR Roofing crew working on a Texas roof" data-sampler="uTexture">
+      <div class="about-img-wrap">
+        <img src="https://images.unsplash.com/photo-1504307651254-35680f356dfd?auto=format&fit=crop&w=900&q=80" alt="CXR Roofing crew working on a Texas roof">
       </div>
       <div class="about-tag"><div class="n">✦</div><div class="t">Certified Master<br>Applicator</div></div>
     </div>
@@ -943,8 +933,7 @@ select.ai-qfield{color:#111}
 </section>
 
 <!-- QUOTE BAND -->
-<section class="quote-band" style="position:relative">
-  <canvas id="pixi-hail"></canvas>
+<section class="quote-band">
   <div class="quote-band-bg"><img src="https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&w=2000&q=80" alt="Texas rooftop at sunset"></div>
   <div class="container reveal">
     <span class="quote-mark-big">"</span>
@@ -1231,16 +1220,6 @@ select.ai-qfield{color:#111}
 <script src="https://unpkg.com/splitting/dist/splitting.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
 <script src="https://unpkg.com/vanilla-tilt@1.8.1/dist/vanilla-tilt.min.js"></script>
-<!-- Three.js (Vanta dependency) -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
-<!-- Vanta.js RAIN -->
-<script src="https://cdn.jsdelivr.net/npm/vanta@latest/dist/vanta.rain.min.js"></script>
-<!-- Typed.js -->
-<script src="https://unpkg.com/typed.js@2.1.0/dist/typed.umd.js"></script>
-<!-- Curtains.js -->
-<script src="https://unpkg.com/curtainsjs@7.3.0/build/curtains.umd.min.js"></script>
-<!-- PIXI.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/pixi.js/7.4.2/pixi.min.js"></script>
 
 <script>
 /* ═══════════════════════════════════════════════════════════
@@ -1631,193 +1610,6 @@ document.getElementById('quoteForm').addEventListener('submit', function(e) {
   });
 })();
 
-/* ═══════════════════════════════════════════════════════════
-   11. VANTA.JS — RAIN on hero
-═══════════════════════════════════════════════════════════ */
-if (typeof VANTA !== 'undefined') {
-  VANTA.RAIN({
-    el: '#vanta-bg',
-    THREE: THREE,
-    color: 0xb51515,
-    baseColor: 0x2e1f1f,
-    backgroundColor: 0x2e1f1f,
-    speed: 1.8,
-    zoom: 1,
-  });
-}
-
-/* ═══════════════════════════════════════════════════════════
-   12. TYPED.JS — cycling services in hero
-═══════════════════════════════════════════════════════════ */
-if (typeof Typed !== 'undefined') {
-  // Reveal the typed line after hero entrance
-  setTimeout(() => {
-    const line = document.getElementById('typed-line');
-    if (line) gsap.to(line, { opacity: 1, y: 0, duration: 0.6 });
-    new Typed('#typed-target', {
-      strings: [
-        'Residential Roofing.',
-        'Metal Roofing.',
-        'Commercial Roofing.',
-        'Flat &amp; TPO Roofs.',
-        'Insurance Claims.',
-        'Free Inspections.',
-      ],
-      typeSpeed: 52,
-      backSpeed: 28,
-      backDelay: 1800,
-      loop: true,
-      smartBackspace: true,
-    });
-  }, 2200);
-}
-
-/* ═══════════════════════════════════════════════════════════
-   13. CURTAINS.JS — WebGL ripple on about image
-═══════════════════════════════════════════════════════════ */
-(function(){
-  if (typeof Curtains === 'undefined') return;
-
-  const vs = `
-    precision mediump float;
-    attribute vec3 aVertexPosition;
-    attribute vec2 aTextureCoord;
-    uniform mat4 uMVMatrix;
-    uniform mat4 uPMatrix;
-    uniform mat4 uTextureMatrix0;
-    varying vec3 vVertexPosition;
-    varying vec2 vTextureCoord;
-    uniform float uTime;
-    uniform vec2 uMousePos;
-    uniform float uStrength;
-    void main(void){
-      vec3 pos = aVertexPosition;
-      float wave = sin(pos.y * 8.0 + uTime * 0.04) * 0.012 * uStrength;
-      float wave2 = sin(pos.x * 6.0 + uTime * 0.03) * 0.008 * uStrength;
-      pos.x += wave;
-      pos.y += wave2;
-      gl_Position = uPMatrix * uMVMatrix * vec4(pos, 1.0);
-      vTextureCoord = (uTextureMatrix0 * vec4(aTextureCoord, 0.0, 1.0)).xy;
-      vVertexPosition = pos;
-    }
-  `;
-  const fs = `
-    precision mediump float;
-    varying vec3 vVertexPosition;
-    varying vec2 vTextureCoord;
-    uniform sampler2D uTexture;
-    uniform float uTime;
-    uniform float uStrength;
-    void main(void){
-      vec2 uv = vTextureCoord;
-      float distort = sin(uv.y * 12.0 + uTime * 0.05) * 0.008 * uStrength;
-      uv.x += distort;
-      gl_FragColor = texture2D(uTexture, uv);
-    }
-  `;
-
-  const wrap = document.getElementById('about-curtains-wrap');
-  if (!wrap) return;
-
-  const curtains = new Curtains({
-    container: wrap,
-    watchScroll: false,
-    pixelRatio: Math.min(1.5, window.devicePixelRatio),
-  });
-
-  const plane = curtains.addPlane(document.getElementById('about-curtains-img'), {
-    vertexShader: vs,
-    fragmentShader: fs,
-    widthSegments: 20,
-    heightSegments: 20,
-    uniforms: {
-      uTime:     { name: 'uTime',     type: '1f', value: 0 },
-      uMousePos: { name: 'uMousePos', type: '2f', value: [0.5, 0.5] },
-      uStrength: { name: 'uStrength', type: '1f', value: 0 },
-    },
-  });
-
-  if (!plane) return;
-
-  let hovering = false;
-  plane.onRender(() => {
-    plane.uniforms.uTime.value++;
-    const target = hovering ? 1.0 : 0.35;
-    plane.uniforms.uStrength.value += (target - plane.uniforms.uStrength.value) * 0.06;
-  });
-
-  wrap.addEventListener('mouseenter', () => { hovering = true; });
-  wrap.addEventListener('mouseleave', () => { hovering = false; });
-
-  // Sync Curtains with Lenis scroll
-  lenis.on('scroll', () => curtains.updateScrollValues());
-})();
-
-/* ═══════════════════════════════════════════════════════════
-   14. PIXI.JS — hail particles on quote band
-═══════════════════════════════════════════════════════════ */
-(function(){
-  if (typeof PIXI === 'undefined') return;
-  const section = document.querySelector('.quote-band');
-  const canvas  = document.getElementById('pixi-hail');
-  if (!section || !canvas) return;
-
-  const W = section.offsetWidth  || window.innerWidth;
-  const H = section.offsetHeight || 500;
-  canvas.width  = W;
-  canvas.height = H;
-
-  const app = new PIXI.Application({
-    view: canvas,
-    width: W, height: H,
-    transparent: true,
-    backgroundAlpha: 0,
-    antialias: false,
-    resolution: 1,
-  });
-
-  const COUNT = 180;
-  const drops = [];
-  const g = new PIXI.Graphics();
-  app.stage.addChild(g);
-
-  for (let i = 0; i < COUNT; i++) {
-    drops.push({
-      x: Math.random() * W,
-      y: Math.random() * H,
-      len:   4 + Math.random() * 10,
-      speed: 6 + Math.random() * 10,
-      alpha: 0.15 + Math.random() * 0.4,
-      angle: 0.18,
-    });
-  }
-
-  // Only animate when section is in view
-  let active = false;
-  const io = new IntersectionObserver(([e]) => { active = e.isIntersecting; }, { threshold: 0.1 });
-  io.observe(section);
-
-  app.ticker.add(() => {
-    if (!active) return;
-    g.clear();
-    for (const d of drops) {
-      d.y += d.speed;
-      d.x += d.speed * Math.tan(d.angle);
-      if (d.y > H + 20) { d.y = -10; d.x = Math.random() * W; }
-      g.lineStyle(1, 0xb0c8e0, d.alpha);
-      g.moveTo(d.x, d.y);
-      g.lineTo(d.x - d.len * Math.sin(d.angle), d.y - d.len * Math.cos(d.angle));
-    }
-  });
-
-  // Resize handler
-  window.addEventListener('resize', () => {
-    const nw = section.offsetWidth;
-    const nh = section.offsetHeight;
-    app.renderer.resize(nw, nh);
-    canvas.width = nw; canvas.height = nh;
-  });
-})();
 </script>
 </body>
 </html>
