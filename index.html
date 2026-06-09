@@ -999,33 +999,6 @@ select.ai-qfield{color:#111}
       </div>
 
       <!-- RIGHT: image card with floating chips -->
-      <div class="hero-visual">
-        <div class="hero-img-card">
-          <img src="https://images.unsplash.com/photo-1504307651254-35680f356dfd?auto=format&fit=crop&w=900&q=80" alt="CXR Roofing crew at work Texas">
-          <!-- CertainTeed badge -->
-          <div class="hero-cert-badge">
-            <div class="cb-main">✓ CT</div>
-            <span class="cb-sub">CertainTeed<br>Certified</span>
-          </div>
-          <!-- Stars chip -->
-          <div class="hero-stars-chip">
-            <div>
-              <div class="stars">★★★★★</div>
-              <div class="sc">Google Reviews</div>
-            </div>
-            <div class="sr">5.0</div>
-          </div>
-        </div>
-        <!-- Floating stat chips -->
-        <div class="hero-badge-chip chip-a">
-          <div class="chip-n">10<sup>+</sup></div>
-          <div class="chip-l">Years Experience</div>
-        </div>
-        <div class="hero-badge-chip chip-b">
-          <div class="chip-n">500<sup>+</sup></div>
-          <div class="chip-l">Roofs Installed</div>
-        </div>
-      </div>
 
     </div>
   </div>
@@ -1589,7 +1562,6 @@ Splitting({ target: '[data-splitting]', by: 'chars' });
 gsap.set('.hero-eyebrow,.hero p,.hero-ctas,.hero-trust', { y: 30 });
 gsap.set('.hero h1 .char', { y: '115%', opacity: 0 });
 gsap.set('.hero-rule', { scaleX: 0, opacity: 0, transformOrigin: 'left center' });
-gsap.set('.hero-visual', { x: 60, opacity: 0 });
 gsap.set('.hero-badge-chip', { y: 20, opacity: 0 });
 const heroTl = gsap.timeline({ defaults: { ease: 'power4.out' } });
 
@@ -1604,8 +1576,6 @@ heroTl
   .to('.hero p',        { opacity: 1, y: 0, duration: 0.8 }, '-=0.45')
   .to('.hero-ctas',     { opacity: 1, y: 0, duration: 0.7 }, '-=0.5')
   .to('.hero-trust',    { opacity: 1, y: 0, duration: 0.7 }, '-=0.4')
-  .to('.hero-visual',   { opacity: 1, x: 0, duration: 1.0, ease: 'power3.out' }, '-=0.8')
-  .to('.hero-badge-chip', { opacity: 1, y: 0, duration: 0.6, stagger: 0.15, ease: 'back.out(1.4)' }, '-=0.5')
   .to('#heroScrollCue', { opacity: 1, duration: 0.6 }, '-=0.2');
 
 /* ── 2c. HERO PARALLAX ───────────────────────────────────── */
