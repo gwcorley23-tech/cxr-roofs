@@ -1838,25 +1838,25 @@ document.getElementById('quoteForm').addEventListener('submit', function(e) {
   const canvas = document.getElementById('stormCanvas');
   if (!canvas) return;
 
+  /* ── Scene / Camera (declared BEFORE resize so resize() can access them) ── */
+  const scene  = new THREE.Scene();
+  const camera = new THREE.PerspectiveCamera(55, 1, 0.1, 200);
+  camera.position.set(0, 0, 7);
+
   /* ── Renderer ── */
   const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
   renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
   renderer.setClearColor(0x000000, 0);
 
-  const W = () => canvas.clientWidth;
-  const H = () => canvas.clientHeight;
   function resize() {
-    renderer.setSize(W(), H(), false);
-    camera.aspect = W() / H();
+    const w = canvas.clientWidth  || window.innerWidth;
+    const h = canvas.clientHeight || window.innerHeight;
+    renderer.setSize(w, h, false);
+    camera.aspect = w / h;
     camera.updateProjectionMatrix();
   }
   resize();
   window.addEventListener('resize', resize);
-
-  /* ── Scene / Camera ── */
-  const scene = new THREE.Scene();
-  const camera = new THREE.PerspectiveCamera(55, W() / H(), 0.1, 200);
-  camera.position.set(0, 0, 7);
 
   /* ── House offset (right side of screen) ── */
   const OX = 1.5, OY = 0.0;
@@ -1874,30 +1874,30 @@ document.getElementById('quoteForm').addEventListener('submit', function(e) {
 
   /* House regions: { weight, sample→{x,y}, color→[r,g,b] } */
   const regions = [
-    /* ── walls ── */
+    /* ── walls — warm beige siding ── */
     { w:38, s:()=>({ x: rnd(OX-1.15, OX+1.15), y: rnd(OY-1.5, OY+0.55) }),
-      c:()=>{ const v=rnd(.66,.76); return [v*.96,v*.84,v*.62]; } },
-    /* ── roof ── */
+      c:()=>{ const v=rnd(.85,.98); return [v*.96,v*.82,v*.58]; } },
+    /* ── roof — dark grey shingles ── */
     { w:28, s:()=>{
         const t=Math.random();
         return { x: OX + rnd(-1,1)*(1-t)*1.35, y: OY+0.55+t*1.5 };
       },
-      c:()=>{ const v=rnd(.3,.48); return [v,v,v*.92]; } },
-    /* ── door ── */
+      c:()=>{ const v=rnd(.5,.72); return [v,v,v*.9]; } },
+    /* ── door — dark wood brown ── */
     { w:8, s:()=>({ x: rnd(OX-.26,OX+.26), y: rnd(OY-1.5,OY-.45) }),
-      c:()=>[rnd(.30,.40),rnd(.18,.26),rnd(.10,.16)] },
-    /* ── window left ── */
+      c:()=>[rnd(.55,.68),rnd(.30,.40),rnd(.12,.20)] },
+    /* ── window left — light blue glass ── */
     { w:6, s:()=>({ x: rnd(OX-.95,OX-.48), y: rnd(OY-.32,OY+.22) }),
-      c:()=>[rnd(.55,.75),rnd(.72,.88),.93] },
-    /* ── window right ── */
+      c:()=>[rnd(.55,.75),rnd(.82,.98),1.0] },
+    /* ── window right — light blue glass ── */
     { w:6, s:()=>({ x: rnd(OX+.48,OX+.95), y: rnd(OY-.32,OY+.22) }),
-      c:()=>[rnd(.55,.75),rnd(.72,.88),.93] },
-    /* ── chimney ── */
+      c:()=>[rnd(.55,.75),rnd(.82,.98),1.0] },
+    /* ── chimney — brick red ── */
     { w:5, s:()=>({ x: rnd(OX+.52,OX+.80), y: rnd(OY+1.1,OY+2.05) }),
-      c:()=>{ const r=rnd(.45,.58); return [r,r*.58,r*.42]; } },
+      c:()=>{ const r=rnd(.72,.90); return [r,r*.38,r*.28]; } },
     /* ── ground/foundation ── */
     { w:9, s:()=>({ x: rnd(OX-1.25,OX+1.25), y: rnd(OY-1.65,OY-1.5) }),
-      c:()=>{ const v=rnd(.42,.52); return [v,v*.8,v*.65]; } },
+      c:()=>{ const v=rnd(.55,.68); return [v,v*.78,v*.60]; } },
   ];
   const totalW = regions.reduce((s,r)=>s+r.w,0);
 
@@ -1923,7 +1923,7 @@ document.getElementById('quoteForm').addEventListener('submit', function(e) {
     /* delay: particles on the left side of house fly first (wind from left) */
     delays[i] = Math.max(0, Math.min(.55, (x - OX + 1.3)/4.2 + rnd(0,.18)));
 
-    sizes[i] = rnd(1.8, 4.2);
+    sizes[i] = rnd(3.0, 6.5);
   }
 
   /* ── Geometry ── */
@@ -1971,7 +1971,7 @@ document.getElementById('quoteForm').addEventListener('submit', function(e) {
 
         vec4 mvPos = modelViewMatrix * vec4(p, 1.0);
         gl_Position   = projectionMatrix * mvPos;
-        gl_PointSize  = aSize * (1.0 - e*0.55) * (280.0 / -mvPos.z);
+        gl_PointSize  = aSize * (1.0 - e*0.45) * (320.0 / -mvPos.z);
 
         vColor = aColor;
         /* particles fade out as they disperse */
