@@ -1036,7 +1036,7 @@ input[type="range"].est-slider::-moz-range-thumb{width:20px;height:20px;border-r
 .btn-text-us svg{width:14px;height:14px;flex-shrink:0}
 .sticky-text{display:none;position:fixed;bottom:60px;left:0;right:0;z-index:599;background:#222;color:#fff;text-align:center;font-family:var(--display);font-weight:700;font-size:.88rem;padding:12px;letter-spacing:.04em;text-transform:uppercase;border-top:1px solid rgba(255,255,255,.08)}
 .sticky-text a{color:var(--gold);margin-left:10px}
-@media(max-width:768px){.sticky-text{display:block};body{padding-bottom:108px}}
+@media(max-width:768px){.sticky-text{display:block}}
 
 /* ═══════════════════════════════════════════════════════════
    RESPONSIVE
@@ -1078,7 +1078,7 @@ input[type="range"].est-slider::-moz-range-thumb{width:20px;height:20px;border-r
   .field-row{grid-template-columns:1fr}
   .quote-form{padding:30px 24px}
   .sticky-call{display:block}
-  body{padding-bottom:60px}
+  body{padding-bottom:112px}
   #chat-btn{bottom:78px}
   #chat-panel{bottom:148px;right:12px;width:calc(100vw - 24px)}
   .cta-band .container{flex-direction:column;align-items:flex-start}
@@ -1389,7 +1389,7 @@ input[type="range"].est-slider::-moz-range-thumb{width:20px;height:20px;border-r
           </div>
           <div class="ba-divider"></div>
           <div class="ba-handle">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/><polyline points="9 18 3 12 9 6" transform="translate(6,0)"/></svg>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 3 12 9 6"/><line x1="3" y1="12" x2="21" y2="12"/><polyline points="15 6 21 12 15 18"/></svg>
           </div>
           <div class="ba-labels">
             <span class="ba-lbl before">Before</span>
@@ -1413,7 +1413,7 @@ input[type="range"].est-slider::-moz-range-thumb{width:20px;height:20px;border-r
           </div>
           <div class="ba-divider"></div>
           <div class="ba-handle">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/><polyline points="9 18 3 12 9 6" transform="translate(6,0)"/></svg>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 3 12 9 6"/><line x1="3" y1="12" x2="21" y2="12"/><polyline points="15 6 21 12 15 18"/></svg>
           </div>
           <div class="ba-labels">
             <span class="ba-lbl before">Before</span>
@@ -1437,7 +1437,7 @@ input[type="range"].est-slider::-moz-range-thumb{width:20px;height:20px;border-r
           </div>
           <div class="ba-divider"></div>
           <div class="ba-handle">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/><polyline points="9 18 3 12 9 6" transform="translate(6,0)"/></svg>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 3 12 9 6"/><line x1="3" y1="12" x2="21" y2="12"/><polyline points="15 6 21 12 15 18"/></svg>
           </div>
           <div class="ba-labels">
             <span class="ba-lbl before">Before</span>
@@ -1461,7 +1461,7 @@ input[type="range"].est-slider::-moz-range-thumb{width:20px;height:20px;border-r
           </div>
           <div class="ba-divider"></div>
           <div class="ba-handle">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/><polyline points="9 18 3 12 9 6" transform="translate(6,0)"/></svg>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 3 12 9 6"/><line x1="3" y1="12" x2="21" y2="12"/><polyline points="15 6 21 12 15 18"/></svg>
           </div>
           <div class="ba-labels">
             <span class="ba-lbl before">Before</span>
@@ -2068,7 +2068,7 @@ gsap.ticker.lagSmoothing(0);
 /* Stop Lenis swallowing wheel events when cursor is over the chat panel
    so the message list scrolls normally instead of the page */
 (function(){
-  const panel = document.getElementById('aiPanel');
+  const panel = document.getElementById('chat-panel');
   if (!panel) return;
   panel.addEventListener('mouseenter', () => lenis.stop(),  { passive:true });
   panel.addEventListener('mouseleave', () => lenis.start(), { passive:true });
@@ -3032,7 +3032,7 @@ if(false){/* dead Three.js code below — kept for reference only, never reached
   const LAYER_ADD = { 0:0, 1:600, 2:1400 };
   const INS_DISC  = { no:0, yes:-500 }; // insurance often handles overhead
 
-  function fmt(n){ return '$' + Math.round(n / 100) * 100 .toLocaleString('en-US'); }
+  function fmt(n){ return '$' + (Math.round(n / 100) * 100).toLocaleString('en-US'); }
 
   function calc(){
     const type   = typeEl.value;
@@ -3094,14 +3094,16 @@ if(false){/* dead Three.js code below — kept for reference only, never reached
 
   // GSAP reveal on scroll
   if (typeof ScrollTrigger !== 'undefined') {
-    gsap.from('#estResult', {
-      opacity: 0, x: 40, duration: 0.8, ease: 'power3.out',
-      scrollTrigger: { trigger: '.estimator', start: 'top 70%' }
-    });
-    gsap.from('.est-panel', {
-      opacity: 0, x: -40, duration: 0.8, ease: 'power3.out',
-      scrollTrigger: { trigger: '.estimator', start: 'top 70%' }
-    });
+    gsap.fromTo('#estResult',
+      { opacity: 0, x: 40 },
+      { opacity: 1, x: 0, duration: 0.8, ease: 'power3.out',
+        scrollTrigger: { trigger: '.estimator', start: 'top 70%' } }
+    );
+    gsap.fromTo('.est-panel',
+      { opacity: 0, x: -40 },
+      { opacity: 1, x: 0, duration: 0.8, ease: 'power3.out',
+        scrollTrigger: { trigger: '.estimator', start: 'top 70%' } }
+    );
   }
 })();
 
@@ -3109,22 +3111,26 @@ if(false){/* dead Three.js code below — kept for reference only, never reached
    GALLERY — GSAP reveal
 ═══════════════════════════════════════════════════════════ */
 if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
-  gsap.from('.ba-card', {
-    opacity: 0, y: 40, scale: 0.97, duration: 0.7, stagger: 0.12, ease: 'power3.out',
-    scrollTrigger: { trigger: '.gallery-grid', start: 'top 80%' }
-  });
-  gsap.from('.cert-item, .google-rating-badge', {
-    opacity: 0, y: 20, duration: 0.5, stagger: 0.08, ease: 'power2.out',
-    scrollTrigger: { trigger: '.certs-strip', start: 'top 88%' }
-  });
-  gsap.from('.faq-item', {
-    opacity: 0, y: 24, duration: 0.5, stagger: 0.07, ease: 'power2.out',
-    scrollTrigger: { trigger: '.faq-list', start: 'top 82%' }
-  });
-  gsap.from('.tb-item', {
-    opacity: 0, y: -10, duration: 0.4, stagger: 0.06, ease: 'power2.out',
-    scrollTrigger: { trigger: '.trust-bar', start: 'top 95%' }
-  });
+  gsap.fromTo('.ba-card',
+    { opacity: 0, y: 40, scale: 0.97 },
+    { opacity: 1, y: 0, scale: 1, duration: 0.7, stagger: 0.12, ease: 'power3.out',
+      scrollTrigger: { trigger: '.gallery-grid', start: 'top 80%' } }
+  );
+  gsap.fromTo('.cert-item, .google-rating-badge',
+    { opacity: 0, y: 20 },
+    { opacity: 1, y: 0, duration: 0.5, stagger: 0.08, ease: 'power2.out',
+      scrollTrigger: { trigger: '.certs-strip', start: 'top 88%' } }
+  );
+  gsap.fromTo('.faq-item',
+    { opacity: 0, y: 24 },
+    { opacity: 1, y: 0, duration: 0.5, stagger: 0.07, ease: 'power2.out',
+      scrollTrigger: { trigger: '.faq-list', start: 'top 82%' } }
+  );
+  gsap.fromTo('.tb-item',
+    { opacity: 0, y: -10 },
+    { opacity: 1, y: 0, duration: 0.4, stagger: 0.06, ease: 'power2.out',
+      scrollTrigger: { trigger: '.trust-bar', start: 'top 95%' } }
+  );
 }
 
 </script>
