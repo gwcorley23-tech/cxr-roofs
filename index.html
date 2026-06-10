@@ -626,13 +626,6 @@ a.ci-val:hover{color:var(--red)}
   display:block;
 }
 
-/* ── Debris canvas — covers full sticky width so pieces fly across both columns ── */
-#debrisCanvas{
-  position:absolute; inset:0;
-  width:100%; height:100%;
-  z-index:6; pointer-events:none;
-  display:block;
-}
 
 /* Hail hits */
 .storm-hail{
@@ -1135,9 +1128,6 @@ select.ai-qfield{color:#111}
       <canvas id="rainCanvas"></canvas>
       <div class="storm-hail" id="stormHail"></div>
     </div>
-
-    <!-- Debris canvas covers the full sticky area (both columns) -->
-    <canvas id="debrisCanvas"></canvas>
 
     <div class="storm-flash"  id="stormFlash"></div>
     <div class="storm-flash2" id="stormFlash2"></div>
@@ -1898,7 +1888,6 @@ document.getElementById('quoteForm').addEventListener('submit', function(e) {
   const hail      = document.getElementById('stormHail');
   const flash     = document.getElementById('stormFlash');
   const flash2    = document.getElementById('stormFlash2');
-  const debrisCV  = document.getElementById('debrisCanvas');
   const phase1    = document.getElementById('stormPhase1');
   const phase2    = document.getElementById('stormPhase2');
   const houseImg  = document.querySelector('.storm-house img');
@@ -1984,278 +1973,6 @@ document.getElementById('quoteForm').addEventListener('submit', function(e) {
   }
   rainFrame(); /* start loop immediately — intensity keeps it invisible at 0 */
 
-  /* ── Canvas debris engine ──────────────────────────────────
-     Each piece is drawn every frame: rectangle (shingle/paper),
-     thin stick, or oval (leaf). Pieces fly right-to-left with
-     rotation, spawning from the right edge at random heights.  */
-  let dW = 0, dH = 0;
-  const dCtx = debrisCV ? debrisCV.getContext('2d') : null;
-
-  function resizeDebris() {
-    if (!debrisCV) return;
-    const r = debrisCV.parentElement.getBoundingClientRect();
-    dW = debrisCV.width  = r.width;
-    dH = debrisCV.height = r.height;
-  }
-  resizeDebris();
-  window.addEventListener('resize', resizeDebris, {passive:true});
-
-  /* ── Pre-render realistic sprites to offscreen canvases ───────
-     Branch: recursive line drawing with sub-branches + twigs.
-     Leaf: bezier teardrop with gradient fill + center vein.
-     These are drawn once and reused via drawImage() each frame.  */
-
-  /* ── Sprite helpers ── */
-  function makeSprite(w, h, fn) {
-    const oc = document.createElement('canvas');
-    oc.width = w*2; oc.height = h*2;   // 2× internal res for crisp render
-    const ctx = oc.getContext('2d');
-    ctx.scale(2, 2);
-    fn(ctx, w, h);
-    oc._lw = w; oc._lh = h;
-    return oc;
-  }
-
-  /* ── Tapered branch segment drawn as filled shape with cylindrical shading ── */
-  function taperedSeg(ctx, x1,y1, x2,y2, r1,r2, hiCol,midCol,shadCol) {
-    const ang  = Math.atan2(y2-y1, x2-x1);
-    const perp = ang + Math.PI/2;
-    const c    = Math.cos(perp), s = Math.sin(perp);
-    /* slight organic bow in the middle */
-    const bow  = (r1+r2)*0.18;
-    const mx   = (x1+x2)/2 + Math.cos(ang+Math.PI/2)*bow;
-    const my   = (y1+y2)/2 + Math.sin(ang+Math.PI/2)*bow;
-
-    ctx.beginPath();
-    ctx.moveTo(x1+c*r1, y1+s*r1);
-    ctx.quadraticCurveTo(mx+c*(r1+r2)/2, my+s*(r1+r2)/2, x2+c*r2, y2+s*r2);
-    ctx.arc(x2, y2, r2, perp, perp+Math.PI, false);
-    ctx.quadraticCurveTo(mx-c*(r1+r2)/2, my-s*(r1+r2)/2, x1-c*r1, y1-s*r1);
-    ctx.arc(x1, y1, r1, perp+Math.PI, perp, false);
-    ctx.closePath();
-
-    /* Cylindrical gradient: highlight left, dark shadow right */
-    const grd = ctx.createLinearGradient(x1+c*r1,y1+s*r1, x1-c*r1,y1-s*r1);
-    grd.addColorStop(0,    hiCol);
-    grd.addColorStop(0.32, midCol);
-    grd.addColorStop(0.68, midCol);
-    grd.addColorStop(1,    shadCol);
-    ctx.fillStyle = grd;
-    ctx.fill();
-  }
-
-  function makeBranchSprite(W, H, variant) {
-    return makeSprite(W, H, (ctx) => {
-      /* variant 0 = oak limb (asymmetric Y-fork)
-         variant 1 = thinner branch with 3 sub-twigs
-         variant 2 = single curved bough                */
-      const hi   = 'rgba(175,115,52,1)';
-      const mid  = 'rgba(108,64,22,1)';
-      const shad = 'rgba(48,26,8,1)';
-
-      if (variant === 2) {
-        /* Single curved bough — S-curve trunk only */
-        taperedSeg(ctx, W*.42,H*.97, W*.48,H*.55, 5.5,3.2, hi,mid,shad);
-        taperedSeg(ctx, W*.48,H*.55, W*.44,H*.04, 3.2,1.4, hi,mid,shad);
-        /* one side twig */
-        taperedSeg(ctx, W*.46,H*.38, W*.15,H*.10, 2.0,0.7, hi,mid,shad);
-      } else if (variant === 1) {
-        /* Thinner branch — trunk + 3 radiating twigs */
-        taperedSeg(ctx, W*.50,H*.97, W*.50,H*.42, 4.0,2.5, hi,mid,shad);
-        taperedSeg(ctx, W*.50,H*.42, W*.50,H*.05, 2.5,1.0, hi,mid,shad);
-        taperedSeg(ctx, W*.50,H*.52, W*.08,H*.22, 2.2,0.8, hi,mid,shad);
-        taperedSeg(ctx, W*.50,H*.45, W*.88,H*.18, 2.0,0.7, hi,mid,shad);
-        taperedSeg(ctx, W*.50,H*.32, W*.28,H*.06, 1.4,0.5, hi,mid,shad);
-      } else {
-        /* Oak-style Y-fork limb */
-        taperedSeg(ctx, W*.40,H*.97, W*.46,H*.48, 6.0,3.8, hi,mid,shad);
-        /* left fork */
-        taperedSeg(ctx, W*.46,H*.48, W*.10,H*.12, 3.8,1.6, hi,mid,shad);
-        taperedSeg(ctx, W*.10,H*.12, W*.04,H*.02, 1.6,0.5, hi,mid,shad);
-        /* right fork */
-        taperedSeg(ctx, W*.46,H*.48, W*.84,H*.10, 3.5,1.4, hi,mid,shad);
-        taperedSeg(ctx, W*.84,H*.10, W*.95,H*.02, 1.4,0.4, hi,mid,shad);
-        /* small lateral twig off left fork */
-        taperedSeg(ctx, W*.22,H*.34, W*.05,H*.55, 1.4,0.5, hi,mid,shad);
-        /* bark texture — subtle dark spots */
-        ctx.fillStyle = 'rgba(40,20,5,.18)';
-        [[W*.43,H*.72,2],[W*.44,H*.58,1.5],[W*.42,H*.86,1.8]].forEach(([x,y,r])=>{
-          ctx.beginPath(); ctx.ellipse(x,y,r*2,r,0.2,0,Math.PI*2); ctx.fill();
-        });
-      }
-    });
-  }
-
-  /* ── Realistic leaf: asymmetric bezier shape + radial gradient + veins ── */
-  function makeLeafSprite(W, H, type) {
-    const P = {
-      green:  { a:'rgba(130,195,55,1)',  b:'rgba(58,105,18,1)',  v:'rgba(32,68,10,.7)' },
-      lgreen: { a:'rgba(155,210,65,1)',  b:'rgba(72,128,24,1)',  v:'rgba(38,80,12,.7)' },
-      yellow: { a:'rgba(215,200,55,1)',  b:'rgba(148,118,18,1)', v:'rgba(90,72,10,.6)' },
-      brown:  { a:'rgba(165,102,38,1)',  b:'rgba(95,52,14,1)',   v:'rgba(58,30,8,.65)' },
-    }[type] || { a:'rgba(130,195,55,1)', b:'rgba(58,105,18,1)', v:'rgba(32,68,10,.7)' };
-
-    return makeSprite(W, H, (ctx, w, h) => {
-      ctx.translate(w/2, h/2);
-      const lw = w/2-1.5, lh = h/2-1.5;
-
-      /* Leaf outline — natural asymmetry: right side slightly fatter */
-      ctx.beginPath();
-      ctx.moveTo(0, -lh);                                        // tip
-      ctx.bezierCurveTo( lw*.28,-lh*.62,  lw*.92,-lh*.08,  lw*.88, lh*.38);
-      ctx.bezierCurveTo( lw*.78, lh*.72,  lw*.35, lh*.88,  0,      lh   );
-      ctx.bezierCurveTo(-lw*.30, lh*.86, -lw*.75, lh*.68, -lw*.82, lh*.32);
-      ctx.bezierCurveTo(-lw*.88,-lh*.10, -lw*.24,-lh*.65,  0,     -lh   );
-
-      /* Radial gradient — bright highlight offset toward upper-left (sun angle) */
-      const grd = ctx.createRadialGradient(-lw*.18,-lh*.25,0, 0,0,lh*1.05);
-      grd.addColorStop(0,   P.a);
-      grd.addColorStop(0.55, P.b);
-      grd.addColorStop(1,   'rgba(20,12,4,.95)');
-      ctx.fillStyle = grd;
-      ctx.fill();
-
-      /* Subtle dark edge */
-      ctx.strokeStyle = P.v; ctx.lineWidth = 0.5; ctx.stroke();
-
-      /* Central vein — slightly off-center for asymmetry */
-      ctx.beginPath();
-      ctx.moveTo(0,-lh*.9);
-      ctx.quadraticCurveTo(lw*.08, 0, 0, lh*.88);
-      ctx.strokeStyle = P.v; ctx.lineWidth = 1.1; ctx.stroke();
-
-      /* Lateral veins — 5 pairs, decreasing length */
-      ctx.lineWidth = 0.55;
-      for (let i=0; i<5; i++) {
-        const yb = -lh*.62 + i*lh*.33;
-        const xr = lw*(0.60-i*.06);
-        const xl = lw*(0.55-i*.05);
-        ctx.beginPath();
-        ctx.moveTo(lw*.04, yb);
-        ctx.quadraticCurveTo(xr*.55, yb-lh*.04, xr, yb+lh*.12);
-        ctx.stroke();
-        ctx.beginPath();
-        ctx.moveTo(-lw*.04, yb);
-        ctx.quadraticCurveTo(-xl*.55, yb-lh*.04, -xl, yb+lh*.12);
-        ctx.stroke();
-        /* sub-veins off the two longer pairs */
-        if (i < 2) {
-          ctx.lineWidth = 0.35;
-          ctx.beginPath();
-          ctx.moveTo(xr*.6, yb+lh*.05);
-          ctx.lineTo(xr*.9, yb-lh*.08);
-          ctx.stroke();
-          ctx.beginPath();
-          ctx.moveTo(-xl*.6, yb+lh*.05);
-          ctx.lineTo(-xl*.9, yb-lh*.08);
-          ctx.stroke();
-          ctx.lineWidth = 0.55;
-        }
-      }
-    });
-  }
-
-  /* ── Build sprite pool ── */
-  const SPRITES = [
-    { img: makeBranchSprite(96,80,0), w:96,h:80, weight:3 },  // oak Y-fork
-    { img: makeBranchSprite(74,62,0), w:74,h:62, weight:2 },  // smaller fork
-    { img: makeBranchSprite(80,68,1), w:80,h:68, weight:3 },  // multi-twig
-    { img: makeBranchSprite(60,50,1), w:60,h:50, weight:2 },  // smaller multi
-    { img: makeBranchSprite(70,55,2), w:70,h:55, weight:2 },  // single bough
-    { img: makeLeafSprite(26,36,'green'),  w:26,h:36, weight:5 },
-    { img: makeLeafSprite(22,32,'lgreen'), w:22,h:32, weight:4 },
-    { img: makeLeafSprite(28,38,'green'),  w:28,h:38, weight:3 },
-    { img: makeLeafSprite(20,30,'yellow'), w:20,h:30, weight:3 },
-    { img: makeLeafSprite(18,26,'yellow'), w:18,h:26, weight:2 },
-    { img: makeLeafSprite(22,30,'brown'),  w:22,h:30, weight:2 },
-  ];
-  const SPRITE_LIST = SPRITES.flatMap(s => Array(s.weight).fill(s));
-
-  const DPOOL = 22;
-  const dpieces = Array.from({length: DPOOL}, () => ({
-    active:false, x:0, y:0, vx:0, vy:0,
-    rot:0, vrot:0, alpha:0, sprite:null,
-    sw:0, sh:0, life:0, maxLife:0,
-  }));
-
-  /* Rain travels at ANG=13° from vertical: vx = sinA*speed (right), vy = cosA*speed (down).
-     Debris matches that exact angle — spawns from left edge, travels same diagonal. */
-  function spawnPiece() {
-    const p = dpieces.find(p => !p.active);
-    if (!p) return;
-    const s      = SPRITE_LIST[Math.floor(Math.random() * SPRITE_LIST.length)];
-    p.sprite     = s.img; p.sw = s.w; p.sh = s.h;
-    /* spawn from left edge at random height */
-    p.x          = -s.w - Math.random() * 80;
-    p.y          = dH * (0.02 + Math.random() * 0.88);
-    /* same direction as rain: right + down at ANG */
-    const spd    = 3.0 + Math.random() * 3.5;
-    p.vx         =  sinA * spd * 2.2;   // rain angle, ~2x speed so they travel far
-    p.vy         =  cosA * spd;
-    p.rot        = Math.random() * Math.PI * 2;
-    p.vrot       = (Math.random()>.5?1:-1) * (0.025 + Math.random() * 0.07);
-    p.alpha      = 0;
-    p.maxLife    = 110 + Math.floor(Math.random() * 80);
-    p.life       = 0;
-    p.active     = true;
-  }
-
-  let debrisIntensity = 0;
-  let spawnAcc = 0;
-
-  function debrisFrame() {
-    if (!dCtx) return;
-    dCtx.clearRect(0, 0, dW, dH);
-    if (debrisIntensity > 0.05) {
-      spawnAcc += debrisIntensity * 0.45;
-      while (spawnAcc >= 1) { spawnAcc--; spawnPiece(); }
-    }
-    for (const p of dpieces) {
-      if (!p.active) continue;
-      p.x += p.vx; p.y += p.vy; p.rot += p.vrot; p.life++;
-      p.alpha = p.life < 10 ? p.life/10
-              : p.life > p.maxLife-16 ? (p.maxLife-p.life)/16 : 1;
-      if (p.life >= p.maxLife || p.x > dW+100 || p.y > dH+80) {
-        p.active = false; continue;
-      }
-      dCtx.save();
-      dCtx.translate(p.x, p.y);
-      dCtx.rotate(p.rot);
-      dCtx.globalAlpha = p.alpha * Math.min(1, debrisIntensity * 2.2);
-      /* draw at logical size (sprite canvas is 2× for sharpness) */
-      const lw = p.sprite._lw || p.sw, lh = p.sprite._lh || p.sh;
-      dCtx.drawImage(p.sprite, -lw/2, -lh/2, lw, lh);
-      dCtx.restore();
-    }
-  }
-
-  /* Hook into the rain rAF loop — debris draws each frame alongside rain */
-  const _origRainFrame = rainFrame;
-  function combinedFrame() {
-    requestAnimationFrame(combinedFrame);
-    /* rain */
-    rCtx.clearRect(0, 0, rW, rH);
-    if (rainIntensity >= 0.005) {
-      const visible = Math.round(rainIntensity * POOL);
-      rCtx.lineCap = 'round';
-      for (let i = 0; i < visible; i++) {
-        const d = drops[i];
-        d.x += sinA * d.speed; d.y += cosA * d.speed;
-        if (d.y - d.len > rH || d.x > rW + 60) resetDrop(d, rW, rH);
-        const tx = d.x - sinA * d.len, ty = d.y - cosA * d.len;
-        const alpha = d.op * Math.min(1, rainIntensity * 2.5);
-        rCtx.beginPath(); rCtx.moveTo(d.x, d.y); rCtx.lineTo(tx, ty);
-        rCtx.strokeStyle = `rgba(180,215,255,${alpha.toFixed(2)})`;
-        rCtx.lineWidth = d.w; rCtx.stroke();
-      }
-    }
-    /* debris */
-    debrisFrame();
-  }
-
-  /* Cancel the standalone rain loop and start the combined one */
-  if (rafId) cancelAnimationFrame(rafId);
-  combinedFrame();
 
   /* ── Lightning helper ── */
   function doFlash(big) {
@@ -2317,14 +2034,6 @@ document.getElementById('quoteForm').addEventListener('submit', function(e) {
                    : p < 0.72 ? 1
                    :            1 - (p - 0.72) / 0.10;
       hail && gsap.set(hail, { opacity: Math.max(0, hailOp) * 0.75 });
-
-      /* Debris intensity: 0.35–0.80 */
-      /* Debris intensity — canvas engine reads this each frame */
-      debrisIntensity = p < 0.35 ? 0
-                      : p < 0.55 ? (p - 0.35) / 0.20
-                      : p < 0.78 ? 1
-                      : p < 0.88 ? 1 - (p - 0.78) / 0.10
-                      :            0;
 
       /* Random lightning: peak zone 0.55–0.80 */
       const now = Date.now();
