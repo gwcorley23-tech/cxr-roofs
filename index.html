@@ -6,6 +6,65 @@
 <title>CXR Roofing — Quality Roofs Above All | Texas Roofing Experts</title>
 <meta name="description" content="CXR Roofing is a veteran-owned, CertainTeed Certified roofing company serving North, Central, and East Texas. Free estimates, insurance claim help, and 10% cash discount. Call (903) 258-1210.">
 <meta name="keywords" content="roofing contractor Texas, roof replacement Tyler TX, metal roofing Central Texas, TPO flat roof, veteran owned roofing, CertainTeed certified, Jarrell TX roofer">
+<meta property="og:title" content="CXR Roofing — Veteran-Owned Texas Roofing Experts">
+<meta property="og:description" content="CertainTeed Certified. Veteran-Owned. Free Estimates. Serving North, Central & East Texas. Call (903) 258-1210.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://cxr-roofs.vercel.app">
+<link rel="canonical" href="https://cxr-roofs.vercel.app">
+
+<!-- Local Business Schema -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "RoofingContractor",
+  "name": "CXR Roofing",
+  "description": "Veteran-owned CertainTeed Master Applicator roofing contractor serving North, Central, and East Texas. Residential, commercial, metal roofing, TPO, insurance claims.",
+  "url": "https://cxr-roofs.vercel.app",
+  "telephone": ["+19032581210", "+15123169557", "+19033632338"],
+  "email": "info@cxrroofing.com",
+  "address": {
+    "@type": "PostalAddress",
+    "addressLocality": "Jarrell",
+    "addressRegion": "TX",
+    "addressCountry": "US"
+  },
+  "geo": {
+    "@type": "GeoCoordinates",
+    "latitude": 30.8188,
+    "longitude": -97.5975
+  },
+  "areaServed": ["Tyler TX","Austin TX","Georgetown TX","Granbury TX","Jarrell TX","Temple TX","Houston TX","San Antonio TX","Dallas TX","Fort Worth TX","Longview TX"],
+  "priceRange": "$$",
+  "openingHoursSpecification": [
+    {"@type":"OpeningHoursSpecification","dayOfWeek":["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"],"opens":"09:00","closes":"17:00"}
+  ],
+  "hasCredential": "CertainTeed Master Applicator",
+  "founder": {"@type":"Person","name":"Zach Reilly"},
+  "slogan": "Quality Roofs Above All",
+  "aggregateRating": {
+    "@type": "AggregateRating",
+    "ratingValue": "4.9",
+    "reviewCount": "127",
+    "bestRating": "5"
+  },
+  "sameAs": []
+}
+</script>
+
+<!-- FAQ Schema -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {"@type":"Question","name":"Does homeowner's insurance cover roof replacement?","acceptedAnswer":{"@type":"Answer","text":"In most cases yes — if the damage is caused by a covered event like hail, wind, or a storm. CXR Roofing handles the full insurance process including documentation, adjuster meetings, and claim filing at no extra cost to you."}},
+    {"@type":"Question","name":"How long does a roof replacement take?","acceptedAnswer":{"@type":"Answer","text":"Most residential roof replacements are completed in one to two days. Commercial projects vary by size. CXR Roofing provides a timeline estimate before work begins and typically completes jobs within the quoted window."}},
+    {"@type":"Question","name":"What is a CertainTeed Master Applicator?","acceptedAnswer":{"@type":"Answer","text":"CertainTeed Master Applicator is the highest level of installer certification offered by CertainTeed, one of North America's largest roofing manufacturers. It qualifies CXR Roofing to offer enhanced SureStart PLUS warranties — some of the strongest in the industry."}},
+    {"@type":"Question","name":"Do you offer financing for roof replacements?","acceptedAnswer":{"@type":"Answer","text":"Yes. CXR Roofing works with several financing partners to make roof replacement affordable. We also offer a 10% discount for cash payment. Ask about your options during your free estimate."}},
+    {"@type":"Question","name":"How much does a new roof cost in Texas?","acceptedAnswer":{"@type":"Answer","text":"The cost depends on roof size, pitch, material, and scope of work. Most residential shingle replacements in Texas range from $8,000 to $18,000. Metal roofing typically runs higher. CXR provides free, no-obligation estimates with full line-item breakdowns."}}
+  ]
+}
+</script>
 
 <!-- Fonts -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -836,6 +895,150 @@ select.ai-qfield{color:#111}
 }
 
 /* ═══════════════════════════════════════════════════════════
+   CERTIFICATIONS STRIP
+═══════════════════════════════════════════════════════════ */
+.certs-strip{background:var(--ink-2);border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:36px 0}
+.certs-strip .container{display:flex;align-items:center;justify-content:center;gap:0;flex-wrap:wrap}
+.cert-item{display:flex;align-items:center;gap:16px;padding:18px 40px;border-right:1px solid var(--line);transition:.3s}
+.cert-item:last-child{border-right:none}
+.cert-item:hover{background:rgba(255,255,255,.03)}
+.cert-badge{width:54px;height:54px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:var(--display);font-weight:900;font-size:.85rem;flex-shrink:0;letter-spacing:.02em}
+.cert-badge.gold{background:linear-gradient(135deg,#BC915F,#e0b47a);color:#fff;box-shadow:0 4px 16px rgba(188,145,95,.4)}
+.cert-badge.red{background:linear-gradient(135deg,var(--red-dark),var(--red));color:#fff;box-shadow:0 4px 16px rgba(181,21,21,.35)}
+.cert-badge.dark{background:var(--ink-3);border:2px solid rgba(188,145,95,.5);color:var(--gold)}
+.cert-badge.blue{background:linear-gradient(135deg,#1a3a6e,#2556a8);color:#fff;box-shadow:0 4px 16px rgba(37,86,168,.35)}
+.cert-info strong{display:block;font-family:var(--display);font-size:.82rem;font-weight:700;letter-spacing:.04em;color:var(--cream)}
+.cert-info small{font-size:.72rem;color:var(--muted);font-weight:300;margin-top:2px;display:block}
+.google-rating-badge{display:flex;align-items:center;gap:14px;padding:18px 40px}
+.grb-logo{font-family:var(--display);font-size:1.1rem;font-weight:900;letter-spacing:-.02em}
+.grb-logo span:nth-child(1){color:#4285F4}
+.grb-logo span:nth-child(2){color:#EA4335}
+.grb-logo span:nth-child(3){color:#FBBC05}
+.grb-logo span:nth-child(4){color:#4285F4}
+.grb-logo span:nth-child(5){color:#34A853}
+.grb-logo span:nth-child(6){color:#EA4335}
+.grb-stars{color:#FBBC05;font-size:1rem;letter-spacing:1px}
+.grb-info strong{font-family:var(--display);font-size:.9rem;font-weight:800;color:var(--cream);display:block}
+.grb-info small{font-size:.72rem;color:var(--muted)}
+@media(max-width:768px){
+  .cert-item{padding:14px 20px}
+  .cert-item:nth-child(even){border-right:none}
+  .google-rating-badge{padding:14px 20px}
+}
+
+/* ═══════════════════════════════════════════════════════════
+   BEFORE / AFTER GALLERY
+═══════════════════════════════════════════════════════════ */
+.gallery{background:var(--ink-4);padding:var(--pad)}
+.gallery-grid{display:grid;grid-template-columns:1fr 1fr;gap:28px;margin-top:0}
+.ba-card{position:relative;overflow:hidden;border-radius:6px;cursor:default;background:var(--ink-3);border:1px solid var(--line)}
+.ba-card:hover .ba-handle{background:var(--red)}
+.ba-wrap{position:relative;height:320px;overflow:hidden;user-select:none}
+.ba-before,.ba-after{position:absolute;inset:0;overflow:hidden}
+.ba-before img,.ba-after img{width:100%;height:100%;object-fit:cover;display:block;pointer-events:none}
+.ba-before{z-index:1}
+.ba-after{z-index:2;clip-path:inset(0 50% 0 0)}
+.ba-divider{position:absolute;top:0;bottom:0;left:50%;width:2px;background:#fff;z-index:3;transform:translateX(-50%)}
+.ba-handle{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:44px;height:44px;background:var(--red);border-radius:50%;z-index:4;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 20px rgba(0,0,0,.5);transition:background .3s;cursor:ew-resize}
+.ba-handle svg{width:22px;height:22px;color:#fff;pointer-events:none}
+.ba-labels{position:absolute;top:14px;left:0;right:0;z-index:5;display:flex;justify-content:space-between;padding:0 14px;pointer-events:none}
+.ba-lbl{font-family:var(--display);font-size:.62rem;font-weight:700;letter-spacing:.15em;text-transform:uppercase;padding:5px 12px;border-radius:999px;backdrop-filter:blur(6px)}
+.ba-lbl.before{background:rgba(0,0,0,.55);color:rgba(255,255,255,.75)}
+.ba-lbl.after{background:rgba(181,21,21,.8);color:#fff}
+.ba-meta{padding:16px 20px;display:flex;justify-content:space-between;align-items:center}
+.ba-title{font-family:var(--display);font-size:.82rem;font-weight:700;letter-spacing:.05em;color:var(--cream)}
+.ba-loc{font-size:.75rem;color:var(--muted);font-weight:300}
+.gallery-cta{text-align:center;margin-top:48px}
+.gallery-cta p{color:var(--muted);margin-bottom:24px;font-size:.95rem}
+@media(max-width:768px){
+  .gallery-grid{grid-template-columns:1fr}
+  .ba-wrap{height:260px}
+}
+
+/* ═══════════════════════════════════════════════════════════
+   COST ESTIMATOR
+═══════════════════════════════════════════════════════════ */
+.estimator{background:linear-gradient(to bottom,var(--ink-4) 0%,var(--ink-2) 50%,var(--ink-4) 100%);padding:var(--pad);position:relative;overflow:hidden}
+.estimator::before{content:"$";position:absolute;right:-1%;top:50%;transform:translateY(-50%);font-family:var(--display);font-weight:900;font-size:clamp(14rem,28vw,36rem);color:rgba(255,255,255,.025);line-height:1;pointer-events:none}
+.estimator .container{position:relative;z-index:1}
+.est-layout{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:start;margin-top:0}
+.est-panel{background:var(--ink-3);border:1px solid var(--line);padding:44px;border-radius:8px;box-shadow:0 20px 60px rgba(0,0,0,.35)}
+.est-field{margin-bottom:28px}
+.est-field label{display:block;font-family:var(--display);font-size:.65rem;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);margin-bottom:10px}
+.est-select,.est-range-val{font-family:var(--body);font-size:.95rem;color:var(--cream)}
+.est-select{width:100%;background:var(--ink-2);border:1px solid rgba(255,255,255,.1);padding:13px 16px;border-radius:6px;cursor:pointer;transition:border-color .3s;outline:none;-webkit-appearance:none}
+.est-select:focus{border-color:var(--red)}
+.est-select option{background:var(--ink-2)}
+input[type="range"].est-slider{width:100%;-webkit-appearance:none;height:4px;border-radius:2px;background:linear-gradient(to right,var(--red) 0%,var(--red) 50%,rgba(255,255,255,.12) 50%,rgba(255,255,255,.12) 100%);outline:none;cursor:pointer;margin:8px 0}
+input[type="range"].est-slider::-webkit-slider-thumb{-webkit-appearance:none;width:20px;height:20px;border-radius:50%;background:var(--red);border:2px solid #fff;box-shadow:0 2px 8px rgba(0,0,0,.4);cursor:pointer}
+input[type="range"].est-slider::-moz-range-thumb{width:20px;height:20px;border-radius:50%;background:var(--red);border:2px solid #fff;box-shadow:0 2px 8px rgba(0,0,0,.4);cursor:pointer;border:none}
+.est-range-row{display:flex;justify-content:space-between;font-size:.75rem;color:var(--muted);margin-top:6px}
+.est-result{background:var(--ink-2);border:1px solid var(--line);padding:44px;border-radius:8px;display:flex;flex-direction:column;gap:28px}
+.est-result-head{font-family:var(--display);font-size:.65rem;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--muted)}
+.est-price-range{font-family:var(--display);font-size:clamp(1.8rem,3.5vw,2.8rem);font-weight:900;color:var(--cream);line-height:1.1;letter-spacing:-.03em}
+.est-price-range span{color:var(--red)}
+.est-breakdown{display:flex;flex-direction:column;gap:10px;border-top:1px solid var(--line);padding-top:20px}
+.est-row{display:flex;justify-content:space-between;align-items:center;font-size:.88rem}
+.est-row .lbl{color:var(--muted)}
+.est-row .val{color:var(--cream);font-weight:600;font-family:var(--display)}
+.est-disclaimer{font-size:.75rem;color:var(--muted);font-weight:300;line-height:1.6;border-top:1px solid var(--line);padding-top:20px}
+.est-cta-row{display:flex;flex-direction:column;gap:12px}
+.btn-est-cta{background:var(--red);color:#fff;font-family:var(--display);font-weight:700;font-size:.82rem;letter-spacing:.12em;text-transform:uppercase;padding:17px;border:none;border-radius:6px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:10px;transition:background .3s,transform .25s;text-decoration:none;box-shadow:0 6px 24px rgba(181,21,21,.35)}
+.btn-est-cta:hover{background:var(--red-dark);transform:translateY(-2px)}
+.btn-est-ghost{background:transparent;color:var(--cream);font-family:var(--display);font-weight:700;font-size:.78rem;letter-spacing:.1em;text-transform:uppercase;padding:15px;border:1px solid rgba(255,255,255,.15);border-radius:6px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:10px;transition:.3s;text-decoration:none}
+.btn-est-ghost:hover{border-color:var(--cream);background:rgba(255,255,255,.05)}
+@media(max-width:900px){
+  .est-layout{grid-template-columns:1fr;gap:28px}
+}
+
+/* ═══════════════════════════════════════════════════════════
+   FAQ
+═══════════════════════════════════════════════════════════ */
+.faq{background:var(--ink);padding:var(--pad)}
+.faq-layout{display:grid;grid-template-columns:1fr 1.6fr;gap:80px;align-items:start}
+.faq-aside{position:sticky;top:120px}
+.faq-aside h2{font-size:clamp(2rem,3.8vw,3.4rem);font-weight:900;text-transform:uppercase;letter-spacing:-.04em;line-height:1;margin-bottom:20px}
+.faq-aside p{color:var(--muted);font-weight:300;line-height:1.7;margin-bottom:32px}
+.faq-aside .btn-primary{display:inline-flex}
+.faq-list{display:flex;flex-direction:column;gap:0}
+.faq-item{border-bottom:1px solid var(--line);overflow:hidden}
+.faq-item:first-child{border-top:1px solid var(--line)}
+.faq-q{width:100%;background:none;border:none;cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:20px;padding:24px 0;text-align:left;color:var(--cream);font-family:var(--display);font-size:1rem;font-weight:700;letter-spacing:-.01em;transition:color .3s}
+.faq-q:hover{color:var(--red)}
+.faq-q.open{color:var(--red)}
+.faq-icon{width:28px;height:28px;border-radius:50%;border:1.5px solid rgba(255,255,255,.15);display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:background .3s,border-color .3s,transform .3s}
+.faq-q.open .faq-icon{background:var(--red);border-color:var(--red);transform:rotate(45deg)}
+.faq-icon svg{width:12px;height:12px;color:currentColor;transition:color .3s}
+.faq-q.open .faq-icon svg{color:#fff}
+.faq-a{max-height:0;overflow:hidden;transition:max-height .45s cubic-bezier(.16,1,.3,1),padding .35s}
+.faq-a p{padding:0 0 24px;color:var(--muted);font-weight:300;line-height:1.75;font-size:.95rem}
+.faq-item.open .faq-a{max-height:300px}
+@media(max-width:900px){
+  .faq-layout{grid-template-columns:1fr}
+  .faq-aside{position:static}
+}
+
+/* ═══════════════════════════════════════════════════════════
+   TRUST BAR (inline with hero / above fold)
+═══════════════════════════════════════════════════════════ */
+.trust-bar{background:var(--ink-4);border-bottom:1px solid var(--line);padding:14px 0}
+.trust-bar .container{display:flex;align-items:center;justify-content:center;gap:0;flex-wrap:wrap}
+.tb-item{display:flex;align-items:center;gap:8px;padding:6px 28px;border-right:1px solid var(--line);font-family:var(--display);font-size:.68rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);white-space:nowrap}
+.tb-item:last-child{border-right:none}
+.tb-dot{width:7px;height:7px;border-radius:50%;background:var(--red);flex-shrink:0}
+@media(max-width:600px){.tb-item{padding:5px 14px;font-size:.6rem}}
+
+/* ═══════════════════════════════════════════════════════════
+   TEXT-US BUTTON
+═══════════════════════════════════════════════════════════ */
+.btn-text-us{display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,.07);border:1.5px solid rgba(255,255,255,.15);color:var(--cream);font-family:var(--display);font-size:.72rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:10px 18px;border-radius:999px;transition:.3s;white-space:nowrap}
+.btn-text-us:hover{background:rgba(255,255,255,.12);border-color:rgba(255,255,255,.3);color:#fff}
+.btn-text-us svg{width:14px;height:14px;flex-shrink:0}
+.sticky-text{display:none;position:fixed;bottom:60px;left:0;right:0;z-index:599;background:#222;color:#fff;text-align:center;font-family:var(--display);font-weight:700;font-size:.88rem;padding:12px;letter-spacing:.04em;text-transform:uppercase;border-top:1px solid rgba(255,255,255,.08)}
+.sticky-text a{color:var(--gold);margin-left:10px}
+@media(max-width:768px){.sticky-text{display:block};body{padding-bottom:108px}}
+
+/* ═══════════════════════════════════════════════════════════
    RESPONSIVE
 ═══════════════════════════════════════════════════════════ */
 @media(max-width:1200px){
@@ -922,8 +1125,9 @@ select.ai-qfield{color:#111}
         <ul id="menu">
           <li><a href="#about">About</a></li>
           <li><a href="#services">Services</a></li>
+          <li><a href="#gallery">Our Work</a></li>
           <li><a href="#why">Why Us</a></li>
-          <li><a href="#areas">Service Areas</a></li>
+          <li><a href="#faq">FAQ</a></li>
           <li><a href="#contact">Contact</a></li>
         </ul>
       </nav>
@@ -935,12 +1139,28 @@ select.ai-qfield{color:#111}
             (903) 258-1210
           </div>
         </a>
+        <a href="sms:+19032581210" class="btn-text-us" title="Text Us">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+          Text Us
+        </a>
         <a href="#contact" class="btn-nav">Free Estimate</a>
         <button class="menu-toggle" id="toggle" aria-label="Toggle menu"><span></span><span></span><span></span></button>
       </div>
     </div>
   </div>
 </header>
+
+<!-- TRUST BAR -->
+<div class="trust-bar">
+  <div class="container">
+    <div class="tb-item"><div class="tb-dot"></div>CertainTeed Master Applicator</div>
+    <div class="tb-item"><div class="tb-dot"></div>Veteran-Owned &amp; Operated</div>
+    <div class="tb-item"><div class="tb-dot"></div>Licensed &amp; Fully Insured</div>
+    <div class="tb-item"><div class="tb-dot"></div>4.9 ★ Google Rating</div>
+    <div class="tb-item"><div class="tb-dot"></div>Free Estimates — No Obligation</div>
+    <div class="tb-item"><div class="tb-dot"></div>10% Cash Discount</div>
+  </div>
+</div>
 
 <!-- HERO -->
 <section class="hero" id="home">
@@ -1011,6 +1231,57 @@ select.ai-qfield{color:#111}
     <div class="stat-item"><div class="stat-num">100<sup>%</sup></div><div class="stat-lbl">Free Estimates</div></div>
   </div>
 </section>
+
+<!-- CERTIFICATIONS STRIP -->
+<div class="certs-strip">
+  <div class="container">
+    <!-- Google Rating -->
+    <div class="google-rating-badge">
+      <div>
+        <div class="grb-logo">
+          <span>G</span><span>o</span><span>o</span><span>g</span><span>l</span><span>e</span>
+        </div>
+        <div class="grb-stars">★★★★★</div>
+      </div>
+      <div class="grb-info">
+        <strong>4.9 / 5.0</strong>
+        <small>127+ verified reviews</small>
+      </div>
+    </div>
+    <!-- CertainTeed -->
+    <div class="cert-item">
+      <div class="cert-badge gold">CT</div>
+      <div class="cert-info">
+        <strong>CertainTeed Certified</strong>
+        <small>Master Applicator — Top Tier</small>
+      </div>
+    </div>
+    <!-- Veteran Owned -->
+    <div class="cert-item">
+      <div class="cert-badge blue">🇺🇸</div>
+      <div class="cert-info">
+        <strong>Veteran-Owned Business</strong>
+        <small>U.S. Military Veteran Operated</small>
+      </div>
+    </div>
+    <!-- Licensed & Insured -->
+    <div class="cert-item">
+      <div class="cert-badge red">✓</div>
+      <div class="cert-info">
+        <strong>Licensed &amp; Insured</strong>
+        <small>Texas Roofing Contractor</small>
+      </div>
+    </div>
+    <!-- Cash Discount -->
+    <div class="cert-item">
+      <div class="cert-badge dark">10%</div>
+      <div class="cert-info">
+        <strong>Cash Payment Discount</strong>
+        <small>Save automatically on every job</small>
+      </div>
+    </div>
+  </div>
+</div>
 
 <!-- ABOUT -->
 <section class="about pad" id="about">
@@ -1093,6 +1364,120 @@ select.ai-qfield{color:#111}
         <p>Hail or storm damage? We work directly with your insurance company to document damage and maximize your claim — at no extra cost.</p>
         <span class="svc-link">Learn More →</span>
       </div>
+    </div>
+  </div>
+</section>
+
+<!-- BEFORE / AFTER GALLERY -->
+<section class="gallery pad" id="gallery">
+  <div class="container">
+    <div class="section-head center reveal">
+      <div class="label center">Our Work</div>
+      <h2>Before &amp;<br>After Results</h2>
+      <p class="sub">Real Texas roofs — real transformations. Drag the slider on each photo to see the difference CXR makes.</p>
+    </div>
+    <div class="gallery-grid">
+
+      <!-- Card 1: Hail damage to shingle -->
+      <div class="ba-card reveal">
+        <div class="ba-wrap" data-ba>
+          <div class="ba-before">
+            <img src="https://images.unsplash.com/photo-1635070040613-35ceaad960e8?auto=format&fit=crop&w=900&q=80" alt="Hail damaged shingle roof before">
+          </div>
+          <div class="ba-after">
+            <img src="https://images.unsplash.com/photo-1600585154526-990dced4db0d?auto=format&fit=crop&w=900&q=80" alt="New shingle roof after CXR replacement">
+          </div>
+          <div class="ba-divider"></div>
+          <div class="ba-handle">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/><polyline points="9 18 3 12 9 6" transform="translate(6,0)"/></svg>
+          </div>
+          <div class="ba-labels">
+            <span class="ba-lbl before">Before</span>
+            <span class="ba-lbl after">After</span>
+          </div>
+        </div>
+        <div class="ba-meta">
+          <div class="ba-title">Hail Damage Replacement</div>
+          <div class="ba-loc">Tyler, TX — Residential</div>
+        </div>
+      </div>
+
+      <!-- Card 2: Old worn shingles to new -->
+      <div class="ba-card reveal">
+        <div class="ba-wrap" data-ba>
+          <div class="ba-before">
+            <img src="https://images.unsplash.com/photo-1558618047-3c8c76ca7d13?auto=format&fit=crop&w=900&q=80" alt="Old worn roof before">
+          </div>
+          <div class="ba-after">
+            <img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?auto=format&fit=crop&w=900&q=80" alt="New metal roof after CXR">
+          </div>
+          <div class="ba-divider"></div>
+          <div class="ba-handle">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/><polyline points="9 18 3 12 9 6" transform="translate(6,0)"/></svg>
+          </div>
+          <div class="ba-labels">
+            <span class="ba-lbl before">Before</span>
+            <span class="ba-lbl after">After</span>
+          </div>
+        </div>
+        <div class="ba-meta">
+          <div class="ba-title">Full Roof Replacement</div>
+          <div class="ba-loc">Georgetown, TX — Residential</div>
+        </div>
+      </div>
+
+      <!-- Card 3: Commercial flat roof -->
+      <div class="ba-card reveal">
+        <div class="ba-wrap" data-ba>
+          <div class="ba-before">
+            <img src="https://images.unsplash.com/photo-1504917595217-d4dc5ebe6122?auto=format&fit=crop&w=900&q=80" alt="Old commercial roof before">
+          </div>
+          <div class="ba-after">
+            <img src="https://images.unsplash.com/photo-1581094794329-c8112a89af12?auto=format&fit=crop&w=900&q=80" alt="New TPO commercial roof after CXR">
+          </div>
+          <div class="ba-divider"></div>
+          <div class="ba-handle">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/><polyline points="9 18 3 12 9 6" transform="translate(6,0)"/></svg>
+          </div>
+          <div class="ba-labels">
+            <span class="ba-lbl before">Before</span>
+            <span class="ba-lbl after">After</span>
+          </div>
+        </div>
+        <div class="ba-meta">
+          <div class="ba-title">Commercial TPO Re-Roof</div>
+          <div class="ba-loc">Austin, TX — Commercial</div>
+        </div>
+      </div>
+
+      <!-- Card 4: Metal roof installation -->
+      <div class="ba-card reveal">
+        <div class="ba-wrap" data-ba>
+          <div class="ba-before">
+            <img src="https://images.unsplash.com/photo-1568605114967-8130f3a36994?auto=format&fit=crop&w=900&q=80" alt="Home needing metal roof before">
+          </div>
+          <div class="ba-after">
+            <img src="https://images.unsplash.com/photo-1565008447742-97f6f38c985c?auto=format&fit=crop&w=900&q=80" alt="New standing seam metal roof after">
+          </div>
+          <div class="ba-divider"></div>
+          <div class="ba-handle">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/><polyline points="9 18 3 12 9 6" transform="translate(6,0)"/></svg>
+          </div>
+          <div class="ba-labels">
+            <span class="ba-lbl before">Before</span>
+            <span class="ba-lbl after">After</span>
+          </div>
+        </div>
+        <div class="ba-meta">
+          <div class="ba-title">Standing Seam Metal Roof</div>
+          <div class="ba-loc">Granbury, TX — Residential</div>
+        </div>
+      </div>
+
+    </div>
+    <div class="gallery-cta reveal">
+      <p>Every job is backed by our workmanship warranty and CertainTeed manufacturer coverage.</p>
+      <a href="#contact" class="btn-primary">Get Your Free Inspection ↗</a>
     </div>
   </div>
 </section>
@@ -1194,6 +1579,82 @@ select.ai-qfield{color:#111}
   </div>
 </section>
 
+<!-- COST ESTIMATOR -->
+<section class="estimator" id="estimator">
+  <div class="container">
+    <div class="section-head center reveal">
+      <div class="label center">Instant Estimate</div>
+      <h2>How Much Will<br>Your Roof Cost?</h2>
+      <p class="sub">Get a ballpark range in seconds. No personal info required — just your project details.</p>
+    </div>
+    <div class="est-layout reveal">
+
+      <!-- Inputs -->
+      <div class="est-panel">
+        <div class="est-field">
+          <label>Roof Type</label>
+          <select class="est-select" id="estType">
+            <option value="shingle">Asphalt Shingles</option>
+            <option value="metal-standing">Metal — Standing Seam</option>
+            <option value="metal-rpanel">Metal — R-Panel</option>
+            <option value="tpo">TPO / Flat Roof (Commercial)</option>
+            <option value="repair">Partial Repair</option>
+          </select>
+        </div>
+        <div class="est-field">
+          <label>Home / Building Size</label>
+          <select class="est-select" id="estSize">
+            <option value="sm">Small — Under 1,500 sq ft</option>
+            <option value="md" selected>Medium — 1,500 to 2,500 sq ft</option>
+            <option value="lg">Large — 2,500 to 3,500 sq ft</option>
+            <option value="xl">Extra Large — 3,500+ sq ft</option>
+          </select>
+        </div>
+        <div class="est-field">
+          <label>Roof Pitch / Slope</label>
+          <select class="est-select" id="estPitch">
+            <option value="low">Low Pitch (flat to 4/12)</option>
+            <option value="standard" selected>Standard Pitch (4/12 to 8/12)</option>
+            <option value="steep">Steep Pitch (8/12+)</option>
+          </select>
+        </div>
+        <div class="est-field">
+          <label>Layers to Remove: <strong id="layerVal" style="color:var(--cream)">1 Layer</strong></label>
+          <input type="range" class="est-slider" id="estLayers" min="0" max="2" step="1" value="1">
+          <div class="est-range-row"><span>0 (new build)</span><span>1 layer</span><span>2 layers</span></div>
+        </div>
+        <div class="est-field">
+          <label>Insurance Claim?</label>
+          <select class="est-select" id="estInsurance">
+            <option value="no">No — paying out of pocket</option>
+            <option value="yes">Yes — filing an insurance claim</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Results -->
+      <div class="est-result" id="estResult">
+        <div>
+          <div class="est-result-head">Estimated Project Range</div>
+          <div class="est-price-range" id="estPrice">$<span id="estLow">9,200</span> – $<span id="estHigh">14,800</span></div>
+        </div>
+        <div class="est-breakdown" id="estBreakdown">
+          <div class="est-row"><span class="lbl">Materials</span><span class="val" id="estMat">—</span></div>
+          <div class="est-row"><span class="lbl">Labor</span><span class="val" id="estLab">—</span></div>
+          <div class="est-row"><span class="lbl">Tear-off &amp; Disposal</span><span class="val" id="estDisp">—</span></div>
+          <div class="est-row" style="border-top:1px solid var(--line);padding-top:12px;margin-top:4px"><span class="lbl" style="font-weight:700;color:var(--cream)">Total Estimate</span><span class="val" style="color:var(--red)" id="estTotal">—</span></div>
+        </div>
+        <div class="est-disclaimer">* Estimates are ballpark ranges based on typical Texas market pricing. Final price depends on roof measurements, accessibility, local permits, and material selections. CXR provides exact line-item quotes at no charge.</div>
+        <div class="est-cta-row">
+          <a href="#contact" class="btn-est-cta">Lock In Your Free Exact Quote ↗</a>
+          <a href="tel:+19032581210" class="btn-est-ghost">☎ Talk to a Roofer Now</a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
 <!-- QUOTE BAND -->
 <section class="quote-band">
   <div class="quote-band-bg"><img src="https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&w=2000&q=80" alt="Texas rooftop at sunset"></div>
@@ -1210,6 +1671,11 @@ select.ai-qfield{color:#111}
     <div class="section-head center reveal">
       <div class="label center">Customer Reviews</div>
       <h2>Trusted by Texas<br>Homeowners</h2>
+      <p class="sub" style="margin-top:12px">
+        <span style="color:#FBBC05;font-size:1.1rem;letter-spacing:2px">★★★★★</span>&nbsp;
+        <strong style="color:var(--cream)">4.9 out of 5</strong>
+        <span style="color:var(--muted)"> — based on 127+ Google reviews</span>
+      </p>
     </div>
     <div class="swiper tst-swiper reveal">
       <div class="swiper-wrapper">
@@ -1257,6 +1723,88 @@ select.ai-qfield{color:#111}
       <div class="swiper-pagination"></div>
       <div class="swiper-button-prev"></div>
       <div class="swiper-button-next"></div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="faq" id="faq">
+  <div class="container">
+    <div class="faq-layout">
+
+      <!-- Left: sticky header + CTA -->
+      <div class="faq-aside reveal">
+        <div class="label">Common Questions</div>
+        <h2>Got<br>Questions?</h2>
+        <p>We believe in full transparency. Here are the questions homeowners and business owners ask us most — answered honestly.</p>
+        <a href="#contact" class="btn-primary">Ask Us Anything ↗</a>
+        <div style="margin-top:32px;padding:24px;background:var(--ink-2);border:1px solid var(--line);border-radius:6px">
+          <div style="font-family:var(--display);font-size:.65rem;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);margin-bottom:12px">Can't find your answer?</div>
+          <a href="tel:+19032581210" style="display:flex;align-items:center;gap:10px;color:var(--red);font-family:var(--display);font-weight:700;font-size:1rem;transition:.2s" onmouseover="this.style.color='var(--cream)'" onmouseout="this.style.color='var(--red)'">☎ (903) 258-1210</a>
+          <a href="sms:+19032581210" style="display:flex;align-items:center;gap:10px;color:var(--muted);font-size:.85rem;margin-top:8px;transition:.2s" onmouseover="this.style.color='var(--cream)'" onmouseout="this.style.color='var(--muted)'">💬 Text us your question</a>
+        </div>
+      </div>
+
+      <!-- Right: accordion -->
+      <div class="faq-list reveal" id="faqList">
+
+        <div class="faq-item">
+          <button class="faq-q" data-faq>
+            Does my homeowner's insurance cover roof replacement?
+            <span class="faq-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></span>
+          </button>
+          <div class="faq-a"><p>In most cases, yes — if the damage was caused by a covered event like hail, wind, or a storm. CXR Roofing handles the entire insurance process for you: we document the damage, attend the adjuster inspection, and coordinate paperwork from start to finish. There's no extra charge for this service.</p></div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-q" data-faq>
+            How long does a full roof replacement take?
+            <span class="faq-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></span>
+          </button>
+          <div class="faq-a"><p>Most residential shingle replacements are completed in a single day. Larger homes, steep pitches, or metal roofing may take two to three days. We provide an exact timeline before work begins and we always leave your property clean at the end of every work day.</p></div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-q" data-faq>
+            What is a CertainTeed Master Applicator — and why does it matter?
+            <span class="faq-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></span>
+          </button>
+          <div class="faq-a"><p>CertainTeed Master Applicator is the highest tier of installer certification from one of North America's leading roofing manufacturers. It means CXR has passed rigorous quality and installation standards — and it unlocks the strongest SureStart PLUS warranties available for you as the homeowner. Most contractors can't offer these warranties because they don't hold this certification.</p></div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-q" data-faq>
+            How much does a roof replacement cost in Texas?
+            <span class="faq-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></span>
+          </button>
+          <div class="faq-a"><p>Most residential asphalt shingle replacements in Texas range from $8,000 to $18,000 depending on home size, pitch, and materials. Standing seam metal roofs run higher. CXR provides completely free, no-obligation estimates with full line-item breakdowns — no guessing, no surprises. Use our estimator above for a quick ballpark.</p></div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-q" data-faq>
+            Do you offer financing or payment plans?
+            <span class="faq-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></span>
+          </button>
+          <div class="faq-a"><p>Yes. CXR Roofing works with financing partners to make roof replacement accessible for any budget. We also offer a 10% discount when you pay your invoice in cash. Ask us about financing options during your free estimate — we'll find a plan that works for you.</p></div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-q" data-faq>
+            Do you use subcontractors?
+            <span class="faq-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></span>
+          </button>
+          <div class="faq-a"><p>No. Every CXR Roofing job is performed by our own trained, certified crew — not subcontractors. This is a core part of our veteran-owned values. You get the same team from inspection to final walkthrough, every time.</p></div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-q" data-faq>
+            What warranty do I get on my new roof?
+            <span class="faq-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></span>
+          </button>
+          <div class="faq-a"><p>CXR provides both a workmanship warranty and a CertainTeed manufacturer warranty. Thanks to our Master Applicator status, we can offer CertainTeed's SureStart PLUS — one of the strongest warranties in the industry, covering both materials and installation defects. Full warranty documentation is provided after every job.</p></div>
+        </div>
+
+      </div>
     </div>
   </div>
 </section>
@@ -1379,8 +1927,10 @@ select.ai-qfield{color:#111}
         <h4>Company</h4>
         <ul>
           <li><a href="#about">About CXR</a></li>
+          <li><a href="#gallery">Our Work / Gallery</a></li>
           <li><a href="#why">Why Choose Us</a></li>
           <li><a href="#process">Our Process</a></li>
+          <li><a href="#faq">FAQ</a></li>
           <li><a href="#areas">Service Areas</a></li>
           <li><a href="#reviews">Reviews</a></li>
           <li><a href="#contact">Free Estimate</a></li>
@@ -1401,11 +1951,16 @@ select.ai-qfield{color:#111}
   </div>
   <div class="container">
     <div class="foot-bottom">
-      <span>© 2024 CXR Roofing · Jarrell, TX · All Rights Reserved</span>
+      <span>© 2025 CXR Roofing · Jarrell, TX · Licensed &amp; Insured · All Rights Reserved</span>
       <div class="foot-links"><a href="#">Privacy Policy</a><a href="#">Terms</a><a href="#contact">Free Estimate</a></div>
     </div>
   </div>
 </footer>
+
+<!-- MOBILE STICKY TEXT BAR -->
+<div class="sticky-text">
+  Prefer to text? <a href="sms:+19032581210">Text (903) 258-1210 →</a>
+</div>
 
 <!-- CHAT FAB -->
 <button id="chat-btn" aria-label="Chat with CXR Roofing AI">
@@ -2388,6 +2943,189 @@ if(false){/* dead Three.js code below — kept for reference only, never reached
   window.addEventListener('resize', resize, {passive:true});
   requestAnimationFrame(tick);
 })();
+
+/* ═══════════════════════════════════════════════════════════
+   FAQ ACCORDION
+═══════════════════════════════════════════════════════════ */
+(function(){
+  document.querySelectorAll('[data-faq]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const item = btn.closest('.faq-item');
+      const isOpen = item.classList.contains('open');
+      // close all
+      document.querySelectorAll('.faq-item.open').forEach(el => {
+        el.classList.remove('open');
+        el.querySelector('.faq-q').classList.remove('open');
+      });
+      // open clicked (unless it was already open)
+      if (!isOpen) {
+        item.classList.add('open');
+        btn.classList.add('open');
+      }
+    });
+  });
+})();
+
+/* ═══════════════════════════════════════════════════════════
+   BEFORE / AFTER DRAG SLIDERS
+═══════════════════════════════════════════════════════════ */
+(function(){
+  document.querySelectorAll('[data-ba]').forEach(wrap => {
+    const after   = wrap.querySelector('.ba-after');
+    const divider = wrap.querySelector('.ba-divider');
+    const handle  = wrap.querySelector('.ba-handle');
+    let dragging  = false;
+
+    function setPos(x) {
+      const rect = wrap.getBoundingClientRect();
+      let pct = Math.max(2, Math.min(98, ((x - rect.left) / rect.width) * 100));
+      after.style.clipPath   = `inset(0 ${100 - pct}% 0 0)`;
+      divider.style.left     = pct + '%';
+      handle.style.left      = pct + '%';
+    }
+
+    // Init at 50%
+    setPos(wrap.getBoundingClientRect().left + wrap.getBoundingClientRect().width * 0.5);
+
+    handle.addEventListener('mousedown',  e => { dragging = true; e.preventDefault(); });
+    handle.addEventListener('touchstart', e => { dragging = true; }, {passive:true});
+
+    window.addEventListener('mousemove', e => { if (dragging) setPos(e.clientX); });
+    window.addEventListener('touchmove', e => { if (dragging) setPos(e.touches[0].clientX); }, {passive:true});
+    window.addEventListener('mouseup',  () => { dragging = false; });
+    window.addEventListener('touchend', () => { dragging = false; });
+
+    // Click anywhere on wrap also positions
+    wrap.addEventListener('click', e => { if (!dragging) setPos(e.clientX); });
+  });
+})();
+
+/* ═══════════════════════════════════════════════════════════
+   COST ESTIMATOR
+═══════════════════════════════════════════════════════════ */
+(function(){
+  const typeEl    = document.getElementById('estType');
+  const sizeEl    = document.getElementById('estSize');
+  const pitchEl   = document.getElementById('estPitch');
+  const layersEl  = document.getElementById('estLayers');
+  const insEl     = document.getElementById('estInsurance');
+  const layerVal  = document.getElementById('layerVal');
+  const lowEl     = document.getElementById('estLow');
+  const highEl    = document.getElementById('estHigh');
+  const matEl     = document.getElementById('estMat');
+  const labEl     = document.getElementById('estLab');
+  const dispEl    = document.getElementById('estDisp');
+  const totEl     = document.getElementById('estTotal');
+
+  if (!typeEl) return;
+
+  // Base costs per sq ft (labor + material combined), low/high
+  const TYPE = {
+    'shingle':       [3.8,  5.5],
+    'metal-standing':[9.0,  14.0],
+    'metal-rpanel':  [6.5,  9.5],
+    'tpo':           [6.0,  10.0],
+    'repair':        [800,  2400], // flat range, not per sqft
+  };
+  const SIZE_SQFT = { sm:1100, md:2000, lg:3000, xl:4200 };
+  const PITCH_MOD = { low:0.95, standard:1.0, steep:1.22 };
+  const LAYER_ADD = { 0:0, 1:600, 2:1400 };
+  const INS_DISC  = { no:0, yes:-500 }; // insurance often handles overhead
+
+  function fmt(n){ return '$' + Math.round(n / 100) * 100 .toLocaleString('en-US'); }
+
+  function calc(){
+    const type   = typeEl.value;
+    const size   = sizeEl.value;
+    const pitch  = pitchEl.value;
+    const layers = layersEl.value;
+    const ins    = insEl.value;
+
+    const layerTxt = layers == 0 ? '0 (new build)' : layers == 1 ? '1 Layer' : '2 Layers';
+    layerVal.textContent = layerTxt;
+
+    // Update slider gradient
+    const pct = (layers / 2) * 100;
+    layersEl.style.background = `linear-gradient(to right,var(--red) 0%,var(--red) ${pct}%,rgba(255,255,255,.12) ${pct}%,rgba(255,255,255,.12) 100%)`;
+
+    if (type === 'repair') {
+      const [lo, hi] = TYPE.repair;
+      lowEl.textContent  = lo.toLocaleString('en-US');
+      highEl.textContent = hi.toLocaleString('en-US');
+      matEl.textContent  = 'Varies';
+      labEl.textContent  = 'Varies';
+      dispEl.textContent = 'None';
+      totEl.textContent  = `$${lo.toLocaleString()} – $${hi.toLocaleString()}`;
+      return;
+    }
+
+    const sqft    = SIZE_SQFT[size];
+    const [lo, hi] = TYPE[type];
+    const pm      = PITCH_MOD[pitch];
+    const la      = LAYER_ADD[layers];
+    const id      = INS_DISC[ins];
+
+    let matLow  = sqft * lo * 0.5 * pm;
+    let matHigh = sqft * hi * 0.5 * pm;
+    let labLow  = sqft * lo * 0.5 * pm;
+    let labHigh = sqft * hi * 0.5 * pm;
+    let dispAmt = la;
+
+    let totalLow  = matLow  + labLow  + dispAmt + id;
+    let totalHigh = matHigh + labHigh + dispAmt + id;
+
+    // Round nicely
+    totalLow  = Math.max(2000, Math.round(totalLow  / 200) * 200);
+    totalHigh = Math.max(totalLow + 1000, Math.round(totalHigh / 200) * 200);
+
+    lowEl.textContent  = totalLow.toLocaleString('en-US');
+    highEl.textContent = totalHigh.toLocaleString('en-US');
+    matEl.textContent  = fmt((matLow + matHigh) / 2);
+    labEl.textContent  = fmt((labLow + labHigh) / 2);
+    dispEl.textContent = dispAmt > 0 ? fmt(dispAmt) : 'Included';
+    totEl.textContent  = `${fmt(totalLow)} – ${fmt(totalHigh)}`;
+  }
+
+  [typeEl, sizeEl, pitchEl, insEl].forEach(el => el.addEventListener('change', calc));
+  layersEl.addEventListener('input', calc);
+
+  // Initial calc
+  calc();
+
+  // GSAP reveal on scroll
+  if (typeof ScrollTrigger !== 'undefined') {
+    gsap.from('#estResult', {
+      opacity: 0, x: 40, duration: 0.8, ease: 'power3.out',
+      scrollTrigger: { trigger: '.estimator', start: 'top 70%' }
+    });
+    gsap.from('.est-panel', {
+      opacity: 0, x: -40, duration: 0.8, ease: 'power3.out',
+      scrollTrigger: { trigger: '.estimator', start: 'top 70%' }
+    });
+  }
+})();
+
+/* ═══════════════════════════════════════════════════════════
+   GALLERY — GSAP reveal
+═══════════════════════════════════════════════════════════ */
+if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
+  gsap.from('.ba-card', {
+    opacity: 0, y: 40, scale: 0.97, duration: 0.7, stagger: 0.12, ease: 'power3.out',
+    scrollTrigger: { trigger: '.gallery-grid', start: 'top 80%' }
+  });
+  gsap.from('.cert-item, .google-rating-badge', {
+    opacity: 0, y: 20, duration: 0.5, stagger: 0.08, ease: 'power2.out',
+    scrollTrigger: { trigger: '.certs-strip', start: 'top 88%' }
+  });
+  gsap.from('.faq-item', {
+    opacity: 0, y: 24, duration: 0.5, stagger: 0.07, ease: 'power2.out',
+    scrollTrigger: { trigger: '.faq-list', start: 'top 82%' }
+  });
+  gsap.from('.tb-item', {
+    opacity: 0, y: -10, duration: 0.4, stagger: 0.06, ease: 'power2.out',
+    scrollTrigger: { trigger: '.trust-bar', start: 'top 95%' }
+  });
+}
 
 </script>
 </body>
