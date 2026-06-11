@@ -1019,14 +1019,16 @@ input[type="range"].est-slider::-moz-range-thumb{width:20px;height:20px;border-r
 }
 
 /* ═══════════════════════════════════════════════════════════
-   TRUST BAR (inline with hero / above fold)
+   TRUST BAR — scrolling ticker
 ═══════════════════════════════════════════════════════════ */
-.trust-bar{background:var(--ink-4);border-bottom:1px solid var(--line);padding:14px 0}
-.trust-bar .container{display:flex;align-items:center;justify-content:center;gap:0;flex-wrap:wrap}
-.tb-item{display:flex;align-items:center;gap:8px;padding:6px 28px;border-right:1px solid var(--line);font-family:var(--display);font-size:.68rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);white-space:nowrap}
-.tb-item:last-child{border-right:none}
-.tb-dot{width:7px;height:7px;border-radius:50%;background:var(--red);flex-shrink:0}
-@media(max-width:600px){.tb-item{padding:5px 14px;font-size:.6rem}}
+.trust-bar{background:var(--ink-4);border-bottom:1px solid var(--line);padding:11px 0;overflow:hidden;position:relative;white-space:nowrap}
+.trust-bar::before,.trust-bar::after{content:"";position:absolute;top:0;bottom:0;width:80px;z-index:2;pointer-events:none}
+.trust-bar::before{left:0;background:linear-gradient(to right,var(--ink-4),transparent)}
+.trust-bar::after{right:0;background:linear-gradient(to left,var(--ink-4),transparent)}
+.tb-track{display:inline-flex;animation:tbscroll 40s linear infinite}
+.tb-item{display:inline-flex;align-items:center;gap:8px;padding:0 36px;font-family:var(--display);font-size:.68rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);white-space:nowrap}
+.tb-dot{width:6px;height:6px;border-radius:50%;background:var(--red);flex-shrink:0}
+@keyframes tbscroll{to{transform:translateX(-50%)}}
 
 /* ═══════════════════════════════════════════════════════════
    TEXT-US BUTTON
@@ -1151,14 +1153,25 @@ input[type="range"].est-slider::-moz-range-thumb{width:20px;height:20px;border-r
 </header>
 
 <!-- TRUST BAR -->
-<div class="trust-bar">
-  <div class="container">
-    <div class="tb-item"><div class="tb-dot"></div>CertainTeed Master Applicator</div>
-    <div class="tb-item"><div class="tb-dot"></div>Veteran-Owned &amp; Operated</div>
-    <div class="tb-item"><div class="tb-dot"></div>Licensed &amp; Fully Insured</div>
-    <div class="tb-item"><div class="tb-dot"></div>4.9 ★ Google Rating</div>
-    <div class="tb-item"><div class="tb-dot"></div>Free Estimates — No Obligation</div>
-    <div class="tb-item"><div class="tb-dot"></div>10% Cash Discount</div>
+<div class="trust-bar" aria-hidden="true">
+  <div class="tb-track">
+    <span class="tb-item"><span class="tb-dot"></span>CertainTeed Master Applicator</span>
+    <span class="tb-item"><span class="tb-dot"></span>Veteran-Owned &amp; Operated</span>
+    <span class="tb-item"><span class="tb-dot"></span>Licensed &amp; Fully Insured</span>
+    <span class="tb-item"><span class="tb-dot"></span>4.9 ★ Google Rating — 127+ Reviews</span>
+    <span class="tb-item"><span class="tb-dot"></span>Free Estimates — No Obligation</span>
+    <span class="tb-item"><span class="tb-dot"></span>10% Cash Discount</span>
+    <span class="tb-item"><span class="tb-dot"></span>No Subcontractors — Ever</span>
+    <span class="tb-item"><span class="tb-dot"></span>Serving All of Texas</span>
+    <!-- duplicate for seamless loop -->
+    <span class="tb-item"><span class="tb-dot"></span>CertainTeed Master Applicator</span>
+    <span class="tb-item"><span class="tb-dot"></span>Veteran-Owned &amp; Operated</span>
+    <span class="tb-item"><span class="tb-dot"></span>Licensed &amp; Fully Insured</span>
+    <span class="tb-item"><span class="tb-dot"></span>4.9 ★ Google Rating — 127+ Reviews</span>
+    <span class="tb-item"><span class="tb-dot"></span>Free Estimates — No Obligation</span>
+    <span class="tb-item"><span class="tb-dot"></span>10% Cash Discount</span>
+    <span class="tb-item"><span class="tb-dot"></span>No Subcontractors — Ever</span>
+    <span class="tb-item"><span class="tb-dot"></span>Serving All of Texas</span>
   </div>
 </div>
 
@@ -3126,11 +3139,7 @@ if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
     { opacity: 1, y: 0, duration: 0.5, stagger: 0.07, ease: 'power2.out',
       scrollTrigger: { trigger: '.faq-list', start: 'top 82%' } }
   );
-  gsap.fromTo('.tb-item',
-    { opacity: 0, y: -10 },
-    { opacity: 1, y: 0, duration: 0.4, stagger: 0.06, ease: 'power2.out',
-      scrollTrigger: { trigger: '.trust-bar', start: 'top 95%' } }
-  );
+  /* trust bar is a CSS ticker — no GSAP scroll trigger needed */
 }
 
 </script>
