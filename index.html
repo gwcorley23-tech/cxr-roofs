@@ -1952,6 +1952,10 @@ header.scrolled .trust-bar::after{background:linear-gradient(to left,rgba(18,18,
   </div>
 
   <form class="ai-input" id="chatForm">
+    <label id="photoUploadBtn" title="Upload roof photo for AI analysis" style="cursor:pointer;display:flex;align-items:center;padding:0 6px;color:#888;flex-shrink:0">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:20px;height:20px"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+      <input type="file" id="photoFileInput" accept="image/*" style="display:none">
+    </label>
     <input id="chatInput" placeholder="Ask about roofing, pricing, areas…" autocomplete="off" maxlength="500">
     <button type="submit" id="chatSend" aria-label="Send">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
@@ -2346,6 +2350,119 @@ document.getElementById('quoteForm').addEventListener('submit', function(e) {
     chatSend.disabled = false;
     chatInput.focus();
   });
+
+  /* ── photo upload → Claude Vision analysis ────────────── */
+  const photoFileInput = document.getElementById('photoFileInput');
+  photoFileInput.addEventListener('change', async () => {
+    const file = photoFileInput.files[0];
+    if (!file) return;
+    photoFileInput.value = '';
+
+    // Show image preview bubble
+    const reader = new FileReader();
+    reader.onload = async (ev) => {
+      const base64 = ev.target.result; // data:image/...;base64,...
+
+      const imgBubble = document.createElement('div');
+      imgBubble.className = 'msg user';
+      imgBubble.innerHTML = `<img src="${base64}" style="max-width:200px;border-radius:8px;display:block">`;
+      chatLog.appendChild(imgBubble); scrollDown();
+
+      const typing = document.createElement('div');
+      typing.className = 'msg bot typing-msg';
+      typing.innerHTML = '<span class="typing-dots"><span></span><span></span><span></span></span>';
+      chatLog.appendChild(typing); scrollDown();
+
+      try {
+        const res = await fetch('/api/analyze', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ image: base64 })
+        });
+        const data = await res.json();
+        await new Promise(r => setTimeout(r, 900));
+        typing.remove();
+
+        const reply = data.reply || 'I looked at your photo. Give me a call at (903) 258-1210 and I can walk you through what I see.';
+        bubble(reply, 'bot');
+
+        // Inject analysis into history so Zach has context
+        history.push({ role: 'user', content: '[User uploaded a roof photo for analysis]' });
+        history.push({ role: 'assistant', content: reply });
+        saveHistory();
+
+        // If claim-worthy, offer claim PDF
+        if (data.insuranceClaim) {
+          setTimeout(() => {
+            const offerBubble = document.createElement('div');
+            offerBubble.className = 'msg bot';
+            offerBubble.innerHTML = `Based on what I see, this looks like it could qualify for an insurance claim. Want me to generate a damage summary PDF you can use with your adjuster? <button onclick="generateClaimPDF(${JSON.stringify(data).replace(/"/g,'&quot;')})" style="margin-top:8px;display:block;background:var(--red);color:#fff;border:none;border-radius:6px;padding:7px 14px;font-size:13px;cursor:pointer">Generate Claim PDF</button>`;
+            chatLog.appendChild(offerBubble); scrollDown();
+          }, 1200);
+        }
+      } catch {
+        typing.remove();
+        bubble("Had trouble analyzing that photo. Text it directly to (903) 258-1210 and we'll take a look.", 'bot');
+      }
+    };
+    reader.readAsDataURL(file);
+  });
+
+  /* ── claim PDF generator ───────────────────────────────── */
+  window.generateClaimPDF = function(data) {
+    const now = new Date().toLocaleDateString('en-US', { year:'numeric', month:'long', day:'numeric' });
+    const dmgTypes = (data.damageTypes || []).join(', ') || 'Storm/hail damage';
+    const areas    = (data.affectedAreas || []).join(', ') || 'Multiple areas';
+    const urgency  = data.urgency || 'Within 30 days';
+    const low      = data.estimatedRepairRange?.low ? '$' + data.estimatedRepairRange.low.toLocaleString() : 'TBD';
+    const high     = data.estimatedRepairRange?.high ? '$' + data.estimatedRepairRange.high.toLocaleString() : 'TBD';
+    const summary  = data.summary || 'Roof damage observed requiring professional assessment.';
+    const cond     = data.overallCondition || 'fair';
+    const dmgLevel = data.damageLevel || '—';
+
+    const html = `<!DOCTYPE html><html><head><meta charset="utf-8"><title>CXR Roofing — Damage Assessment</title>
+    <style>
+      body{font-family:Arial,sans-serif;margin:40px;color:#1a1a1a;font-size:14px}
+      .header{display:flex;justify-content:space-between;align-items:flex-start;border-bottom:3px solid #b51515;padding-bottom:16px;margin-bottom:24px}
+      .co-name{font-size:22px;font-weight:800;color:#b51515}
+      .co-info{font-size:12px;color:#555;line-height:1.6}
+      h2{font-size:16px;color:#b51515;border-bottom:1px solid #eee;padding-bottom:6px;margin:24px 0 12px}
+      .row{display:flex;gap:32px;margin-bottom:8px}
+      .label{font-weight:700;min-width:160px;color:#555}
+      .badge{display:inline-block;background:#b51515;color:#fff;padding:3px 10px;border-radius:20px;font-weight:700;font-size:12px}
+      .summary-box{background:#fff8f8;border-left:4px solid #b51515;padding:12px 16px;border-radius:4px;margin:12px 0;line-height:1.7}
+      .points{padding-left:18px;line-height:2}
+      .footer{margin-top:40px;padding-top:12px;border-top:1px solid #eee;font-size:11px;color:#888;text-align:center}
+    </style></head><body>
+    <div class="header">
+      <div><div class="co-name">CXR Roofing</div><div class="co-info">CertainTeed Master Applicator · Veteran-Owned<br>East TX: (903) 258-1210 · Central TX: (512) 316-9557</div></div>
+      <div style="text-align:right;font-size:12px;color:#555">Date: ${now}<br><strong>AI Damage Assessment Report</strong></div>
+    </div>
+
+    <h2>Damage Summary</h2>
+    <div class="row"><span class="label">Overall Condition:</span> <span class="badge">${cond.toUpperCase()}</span></div>
+    <div class="row"><span class="label">Damage Level (0–10):</span> <span>${dmgLevel}/10</span></div>
+    <div class="row"><span class="label">Damage Types:</span> <span>${dmgTypes}</span></div>
+    <div class="row"><span class="label">Affected Areas:</span> <span>${areas}</span></div>
+    <div class="row"><span class="label">Repair Urgency:</span> <span>${urgency}</span></div>
+    <div class="row"><span class="label">Estimated Cost Range:</span> <span>${low} – ${high}</span></div>
+
+    <h2>Assessment Notes</h2>
+    <div class="summary-box">${summary}</div>
+
+    ${data.talkingPoints?.length ? `<h2>Key Findings</h2><ul class="points">${data.talkingPoints.map(p=>`<li>${p}</li>`).join('')}</ul>` : ''}
+
+    <h2>Insurance Claim Recommendation</h2>
+    <div class="summary-box">${data.claimNotes || 'Damage appears consistent with storm-related wear. Recommend filing an insurance claim. CXR Roofing can assist with the full claims process at no additional cost — most homeowners only pay their deductible.'}</div>
+
+    <div class="footer">This report was generated by CXR Roofing AI assessment tool on ${now}. It is not a substitute for a full in-person inspection. Contact CXR Roofing for a free professional assessment.<br>CXR Roofing · cxrroofing.com · info@cxrroofing.com</div>
+    </body></html>`;
+
+    const win = window.open('', '_blank');
+    win.document.write(html);
+    win.document.close();
+    setTimeout(() => win.print(), 600);
+  };
 
   /* ── quick buttons ─────────────────────────────────────── */
   document.querySelectorAll('.qbtn').forEach(b => b.addEventListener('click', () => {
