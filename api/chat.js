@@ -49,6 +49,9 @@ Occasionally show personality. A little Texas warmth goes a long way. But don't 
 
 When someone is ready to move forward, don't dance around it — give them the number and tell them what happens next (free inspection, usually same day or next day).
 
+Name and location:
+Early in the conversation (after the first or second message), naturally ask for their name if you don't know it yet. Once you have it, use it occasionally — not every message, just when it feels natural. Also ask what city or area they're in — this helps you give them the right phone number (East TX: (903) 258-1210, Central TX: (512) 316-9557, Granbury: (903) 363-2338) instead of dumping all three on them.
+
 Things to avoid:
 Never say "Great question!" or "Certainly!" or "Absolutely!" — sounds fake.
 Never use bullet points or dashes to list things out — weave it into natural sentences.
@@ -73,13 +76,31 @@ export default async function handler(req, res) {
     return res.status(400).json({ error: "messages array required" });
   }
 
+  // Inject current CT time so Zach knows if it's after hours
+  const now = new Date();
+  const ctTime = now.toLocaleString("en-US", {
+    timeZone: "America/Chicago",
+    weekday: "long",
+    hour: "numeric",
+    minute: "2-digit",
+    hour12: true,
+  });
+  const ctHour = parseInt(now.toLocaleString("en-US", { timeZone: "America/Chicago", hour: "numeric", hour12: false }));
+  const ctDay  = now.toLocaleString("en-US", { timeZone: "America/Chicago", weekday: "long" });
+  const isOpen = ctHour >= 9 && ctHour < 17 && ctDay !== "Sunday";
+  const hoursContext = isOpen
+    ? `Current time: ${ctTime} (Central) — we are OPEN right now.`
+    : `Current time: ${ctTime} (Central) — we are CLOSED right now (hours are Mon–Sat 9 AM–5 PM). Acknowledge this naturally if relevant — offer to have someone call them first thing when we open.`;
+
+  const dynamicSystem = SYSTEM_PROMPT + `\n\n${hoursContext}`;
+
   const trimmed = messages.slice(-20);
 
   try {
     const response = await client.messages.create({
       model: "claude-haiku-4-5",
       max_tokens: 600,
-      system: SYSTEM_PROMPT,
+      system: dynamicSystem,
       messages: trimmed,
     });
 

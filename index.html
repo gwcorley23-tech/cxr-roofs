@@ -2236,6 +2236,23 @@ document.getElementById('quoteForm').addEventListener('submit', function(e) {
   const views     = { chat: document.getElementById('viewChat'), quote: document.getElementById('viewQuote') };
   let history = [], greeted = false;
 
+  /* ── localStorage: restore previous session ────────────── */
+  try {
+    const saved = localStorage.getItem('cxr_chat');
+    if (saved) {
+      const parsed = JSON.parse(saved);
+      if (Array.isArray(parsed) && parsed.length) {
+        history = parsed;
+        history.forEach(m => bubble(m.content, m.role === 'user' ? 'user' : 'bot'));
+        greeted = true;
+      }
+    }
+  } catch(e) { localStorage.removeItem('cxr_chat'); }
+
+  function saveHistory() {
+    try { localStorage.setItem('cxr_chat', JSON.stringify(history.slice(-20))); } catch(e) {}
+  }
+
   /* ── open / close ──────────────────────────────────────── */
   const openChat  = () => {
     panel.classList.add('open');
@@ -2279,6 +2296,7 @@ document.getElementById('quoteForm').addEventListener('submit', function(e) {
     if (!text) return;
     bubble(text, 'user');
     history.push({ role: 'user', content: text });
+    saveHistory();
     chatInput.value = '';
     chatSend.disabled = true;
     quickBtns.style.display = 'none';
@@ -2294,10 +2312,13 @@ document.getElementById('quoteForm').addEventListener('submit', function(e) {
         body: JSON.stringify({ messages: history.slice(-20) })
       });
       const data = await res.json();
-      typing.remove();
       const reply = data.reply || data.error || 'Sorry — please call (903) 258-1210 directly.';
+      // Typing speed: ~18ms per character, min 600ms, max 2200ms
+      await new Promise(r => setTimeout(r, Math.min(Math.max(reply.length * 18, 600), 2200)));
+      typing.remove();
       bubble(reply, 'bot');
       history.push({ role: 'assistant', content: reply });
+      saveHistory();
     } catch {
       typing.remove();
       const errD = document.createElement('div');
