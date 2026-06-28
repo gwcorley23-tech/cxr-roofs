@@ -1913,6 +1913,7 @@ header.scrolled .trust-bar::after{background:linear-gradient(to left,rgba(18,18,
 
   <div class="ai-tabs">
     <button class="active" data-tab="chat">💬 Chat</button>
+    <button data-tab="photo">📷 Analyze Roof</button>
     <button data-tab="quote">📋 Get a Quote</button>
   </div>
 
@@ -1920,6 +1921,22 @@ header.scrolled .trust-bar::after{background:linear-gradient(to left,rgba(18,18,
     <!-- CHAT VIEW -->
     <div class="ai-view show" id="viewChat">
       <div class="chat-log" id="chatLog"></div>
+    </div>
+
+    <!-- PHOTO ANALYSIS VIEW -->
+    <div class="ai-view" id="viewPhoto" style="gap:14px;align-items:center;text-align:center;padding:20px 16px">
+      <p style="font-size:.9rem;color:#555;line-height:1.6;margin:0">Upload a photo of your roof and our AI will assess the damage, estimate repair costs, and tell you if you qualify for an insurance claim.</p>
+      <label id="photoDropZone" style="display:flex;flex-direction:column;align-items:center;gap:10px;border:2px dashed #ddd;border-radius:14px;padding:28px 20px;cursor:pointer;width:100%;box-sizing:border-box;transition:border-color .2s;background:#fafafa">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#b51515" stroke-width="1.5" style="width:44px;height:44px"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+        <span style="font-size:.88rem;color:#777">Tap to upload a roof photo</span>
+        <span style="font-size:.75rem;color:#aaa">JPG, PNG, HEIC supported</span>
+        <input type="file" id="photoFileInput" accept="image/*" style="display:none">
+      </label>
+      <div id="photoPreview" style="display:none;width:100%;text-align:left">
+        <img id="photoPreviewImg" style="width:100%;border-radius:10px;max-height:180px;object-fit:cover">
+      </div>
+      <button id="analyzeBtn" style="display:none;width:100%;background:linear-gradient(135deg,var(--red),var(--red-dark));color:#fff;border:none;border-radius:10px;padding:13px;font:700 .92rem/1 var(--display);cursor:pointer;letter-spacing:.05em">Analyze My Roof →</button>
+      <div id="analyzeResult" style="display:none;width:100%;text-align:left"></div>
     </div>
 
     <!-- QUOTE VIEW -->
@@ -1952,10 +1969,6 @@ header.scrolled .trust-bar::after{background:linear-gradient(to left,rgba(18,18,
   </div>
 
   <form class="ai-input" id="chatForm">
-    <label id="photoUploadBtn" title="Upload roof photo for AI analysis" style="cursor:pointer;display:flex;align-items:center;padding:0 6px;color:#888;flex-shrink:0">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:20px;height:20px"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
-      <input type="file" id="photoFileInput" accept="image/*" style="display:none">
-    </label>
     <input id="chatInput" placeholder="Ask about roofing, pricing, areas…" autocomplete="off" maxlength="500">
     <button type="submit" id="chatSend" aria-label="Send">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
@@ -2235,9 +2248,10 @@ document.getElementById('quoteForm').addEventListener('submit', function(e) {
   const chatInput = document.getElementById('chatInput');
   const chatSend  = document.getElementById('chatSend');
   const quickBtns = document.getElementById('quickBtns');
+  const aiNote    = panel.querySelector('.ai-note');
   const aiBody    = panel.querySelector('.ai-body');
   const tabs      = panel.querySelectorAll('.ai-tabs button');
-  const views     = { chat: document.getElementById('viewChat'), quote: document.getElementById('viewQuote') };
+  const views     = { chat: document.getElementById('viewChat'), photo: document.getElementById('viewPhoto'), quote: document.getElementById('viewQuote') };
   let history = [], greeted = false;
 
   /* ── localStorage: restore previous session ────────────── */
@@ -2275,6 +2289,7 @@ document.getElementById('quoteForm').addEventListener('submit', function(e) {
     const isChat = b.dataset.tab === 'chat';
     chatForm.style.display  = isChat ? 'flex' : 'none';
     quickBtns.style.display = isChat ? 'flex' : 'none';
+    aiNote.style.display    = isChat ? '' : 'none';
   }));
 
   /* ── bubbles ───────────────────────────────────────────── */
@@ -2351,61 +2366,102 @@ document.getElementById('quoteForm').addEventListener('submit', function(e) {
     chatInput.focus();
   });
 
-  /* ── photo upload → Claude Vision analysis ────────────── */
-  const photoFileInput = document.getElementById('photoFileInput');
-  photoFileInput.addEventListener('change', async () => {
-    const file = photoFileInput.files[0];
-    if (!file) return;
+  /* ── photo tab: upload + analyze ──────────────────────── */
+  const photoFileInput  = document.getElementById('photoFileInput');
+  const photoDropZone   = document.getElementById('photoDropZone');
+  const photoPreview    = document.getElementById('photoPreview');
+  const photoPreviewImg = document.getElementById('photoPreviewImg');
+  const analyzeBtn      = document.getElementById('analyzeBtn');
+  const analyzeResult   = document.getElementById('analyzeResult');
+  let pendingPhotoBase64 = null;
+
+  photoDropZone.addEventListener('dragover', e => { e.preventDefault(); photoDropZone.style.borderColor='var(--red)'; });
+  photoDropZone.addEventListener('dragleave', () => { photoDropZone.style.borderColor='#ddd'; });
+  photoDropZone.addEventListener('drop', e => {
+    e.preventDefault(); photoDropZone.style.borderColor='#ddd';
+    const file = e.dataTransfer.files[0];
+    if (file) loadPhotoFile(file);
+  });
+
+  photoFileInput.addEventListener('change', () => {
+    if (photoFileInput.files[0]) loadPhotoFile(photoFileInput.files[0]);
     photoFileInput.value = '';
+  });
 
-    // Show image preview bubble
+  function loadPhotoFile(file) {
     const reader = new FileReader();
-    reader.onload = async (ev) => {
-      const base64 = ev.target.result; // data:image/...;base64,...
-
-      const imgBubble = document.createElement('div');
-      imgBubble.className = 'msg user';
-      imgBubble.innerHTML = `<img src="${base64}" style="max-width:200px;border-radius:8px;display:block">`;
-      chatLog.appendChild(imgBubble); scrollDown();
-
-      const typing = document.createElement('div');
-      typing.className = 'msg bot typing-msg';
-      typing.innerHTML = '<span class="typing-dots"><span></span><span></span><span></span></span>';
-      chatLog.appendChild(typing); scrollDown();
-
-      try {
-        const res = await fetch('/api/analyze', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ image: base64 })
-        });
-        const data = await res.json();
-        await new Promise(r => setTimeout(r, 900));
-        typing.remove();
-
-        const reply = data.reply || 'I looked at your photo. Give me a call at (903) 258-1210 and I can walk you through what I see.';
-        bubble(reply, 'bot');
-
-        // Inject analysis into history so Zach has context
-        history.push({ role: 'user', content: '[User uploaded a roof photo for analysis]' });
-        history.push({ role: 'assistant', content: reply });
-        saveHistory();
-
-        // If claim-worthy, offer claim PDF
-        if (data.insuranceClaim) {
-          setTimeout(() => {
-            const offerBubble = document.createElement('div');
-            offerBubble.className = 'msg bot';
-            offerBubble.innerHTML = `Based on what I see, this looks like it could qualify for an insurance claim. Want me to generate a damage summary PDF you can use with your adjuster? <button onclick="generateClaimPDF(${JSON.stringify(data).replace(/"/g,'&quot;')})" style="margin-top:8px;display:block;background:var(--red);color:#fff;border:none;border-radius:6px;padding:7px 14px;font-size:13px;cursor:pointer">Generate Claim PDF</button>`;
-            chatLog.appendChild(offerBubble); scrollDown();
-          }, 1200);
-        }
-      } catch {
-        typing.remove();
-        bubble("Had trouble analyzing that photo. Text it directly to (903) 258-1210 and we'll take a look.", 'bot');
-      }
+    reader.onload = ev => {
+      pendingPhotoBase64 = ev.target.result;
+      photoPreviewImg.src = pendingPhotoBase64;
+      photoPreview.style.display = 'block';
+      analyzeBtn.style.display = 'block';
+      analyzeResult.style.display = 'none';
+      analyzeResult.innerHTML = '';
     };
     reader.readAsDataURL(file);
+  }
+
+  analyzeBtn.addEventListener('click', async () => {
+    if (!pendingPhotoBase64) return;
+    analyzeBtn.disabled = true;
+    analyzeBtn.textContent = 'Analyzing…';
+    analyzeResult.style.display = 'none';
+
+    try {
+      const res = await fetch('/api/analyze', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ image: pendingPhotoBase64 })
+      });
+      const data = await res.json();
+      const reply = data.reply || 'Give us a call at (903) 258-1210 and we can walk you through what we see.';
+      const cond  = data.overallCondition || '';
+      const dmgLevel = data.damageLevel ?? '—';
+      const urgency  = data.urgency || '';
+      const low  = data.estimatedRepairRange?.low  ? '$' + data.estimatedRepairRange.low.toLocaleString()  : null;
+      const high = data.estimatedRepairRange?.high ? '$' + data.estimatedRepairRange.high.toLocaleString() : null;
+      const costStr = (low && high) ? `${low} – ${high}` : 'Call for estimate';
+      const claimBadge = data.insuranceClaim ? `<span style="background:#27ae60;color:#fff;font-size:11px;font-weight:700;padding:3px 10px;border-radius:20px;display:inline-block;margin-bottom:10px">✓ May qualify for insurance claim</span>` : '';
+      const condColor = { excellent:'#27ae60', good:'#27ae60', fair:'#f59e0b', poor:'#e67e22', critical:'#b51515' }[cond] || '#555';
+
+      analyzeResult.innerHTML = `
+        <div style="background:#fff;border:1px solid #eee;border-radius:12px;padding:16px;font-size:13px;line-height:1.6">
+          ${claimBadge}
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px">
+            <div style="background:#f8fafc;border-radius:8px;padding:10px">
+              <div style="font-size:11px;color:#888;font-weight:700;text-transform:uppercase;margin-bottom:3px">Condition</div>
+              <div style="font-weight:700;color:${condColor};text-transform:capitalize">${cond || '—'}</div>
+            </div>
+            <div style="background:#f8fafc;border-radius:8px;padding:10px">
+              <div style="font-size:11px;color:#888;font-weight:700;text-transform:uppercase;margin-bottom:3px">Damage (0–10)</div>
+              <div style="font-weight:700;color:var(--red)">${dmgLevel}/10</div>
+            </div>
+            <div style="background:#f8fafc;border-radius:8px;padding:10px">
+              <div style="font-size:11px;color:#888;font-weight:700;text-transform:uppercase;margin-bottom:3px">Est. Cost</div>
+              <div style="font-weight:700">${costStr}</div>
+            </div>
+            <div style="background:#f8fafc;border-radius:8px;padding:10px">
+              <div style="font-size:11px;color:#888;font-weight:700;text-transform:uppercase;margin-bottom:3px">Urgency</div>
+              <div style="font-weight:700;text-transform:capitalize">${urgency || '—'}</div>
+            </div>
+          </div>
+          <p style="color:#333;margin:0 0 12px">${reply}</p>
+          ${data.insuranceClaim ? `<button onclick="generateClaimPDF(${JSON.stringify(data).replace(/"/g,'&quot;')})" style="width:100%;background:linear-gradient(135deg,var(--red),var(--red-dark));color:#fff;border:none;border-radius:8px;padding:11px;font:700 .88rem/1 var(--display);cursor:pointer;margin-bottom:8px">📄 Download Claim PDF</button>` : ''}
+          <button onclick="document.querySelector('[data-tab=quote]').click()" style="width:100%;background:#f8fafc;border:1px solid #e2e8f0;color:#333;border-radius:8px;padding:11px;font:600 .88rem/1 var(--display);cursor:pointer">Book Free Inspection →</button>
+        </div>`;
+      analyzeResult.style.display = 'block';
+
+      // Also inject into chat history so Zach has context
+      history.push({ role: 'user', content: '[User uploaded a roof photo — analysis complete]' });
+      history.push({ role: 'assistant', content: reply });
+      saveHistory();
+    } catch {
+      analyzeResult.innerHTML = `<p style="color:var(--red);font-size:13px">Analysis failed. Text your photo to (903) 258-1210 and we'll take a look.</p>`;
+      analyzeResult.style.display = 'block';
+    }
+
+    analyzeBtn.disabled = false;
+    analyzeBtn.textContent = 'Analyze My Roof →';
   });
 
   /* ── claim PDF generator ───────────────────────────────── */
