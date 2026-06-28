@@ -2289,6 +2289,22 @@ document.getElementById('quoteForm').addEventListener('submit', function(e) {
     bubble("Hey, what's going on with your roof? I can help with pricing, storm damage, insurance claims — whatever you've got.", 'bot');
   }
 
+  /* ── storm alert: detect zip codes in user messages ───── */
+  const checkedZips = new Set();
+  async function checkStormData(text) {
+    const match = text.match(/\b(\d{5})\b/);
+    if (!match || checkedZips.has(match[1])) return;
+    checkedZips.add(match[1]);
+    try {
+      const res = await fetch(`/api/weather?zip=${match[1]}`);
+      const data = await res.json();
+      if (data.hasStormActivity) {
+        const ctx = `[STORM DATA: Zip ${match[1]} had ${data.stormDays} storm day(s) in the last 30 days. Max wind ${data.maxWindMph}mph, max rain ${data.maxRainInches}". Use this naturally in your next response to recommend an inspection.]`;
+        history.push({ role: 'user', content: ctx });
+      }
+    } catch(e) {}
+  }
+
   /* ── chat submit ───────────────────────────────────────── */
   chatForm.addEventListener('submit', async (e) => {
     e.preventDefault();
@@ -2297,6 +2313,7 @@ document.getElementById('quoteForm').addEventListener('submit', function(e) {
     bubble(text, 'user');
     history.push({ role: 'user', content: text });
     saveHistory();
+    checkStormData(text);
     chatInput.value = '';
     chatSend.disabled = true;
     quickBtns.style.display = 'none';
