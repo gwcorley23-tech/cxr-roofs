@@ -98,6 +98,7 @@
   --ease:cubic-bezier(.16,1,.3,1);
   --max:1320px;
   --pad:140px 0;
+  --header-h:120px; /* trust bar (~38px) + nav (82px) */
 }
 *{margin:0;padding:0;box-sizing:border-box}
 html{scroll-behavior:auto;-webkit-font-smoothing:antialiased}
@@ -171,13 +172,13 @@ a:hover~#cursor-dot,.btn-primary:hover~#cursor-dot{width:14px;height:14px}
 ═══════════════════════════════════════════════════════════ */
 header{position:fixed;top:0;left:0;right:0;z-index:500;transition:background .5s,border-color .5s}
 header.scrolled{background:rgba(18,18,18,.92);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-bottom:1px solid var(--line)}
-.nav-inner{display:flex;align-items:center;justify-content:space-between;height:82px}
+.nav-inner{display:flex;align-items:center;justify-content:space-between;height:82px;flex-wrap:nowrap;gap:20px}
 .logo{display:flex;align-items:center;gap:14px}
 .logo-mark{width:48px;height:48px;background:var(--red);display:flex;align-items:center;justify-content:center;font-family:var(--display);font-weight:700;color:#fff;font-size:1.1rem;letter-spacing:-.04em;clip-path:polygon(0 0,100% 0,100% 75%,50% 100%,0 75%);flex-shrink:0;transition:transform .3s}
 .logo:hover .logo-mark{transform:scale(1.06)}
 .logo-text{font-family:var(--display);font-weight:700;font-size:1.3rem;letter-spacing:-.01em}
 .logo-text small{display:block;font-size:.58rem;letter-spacing:.3em;color:var(--muted);font-weight:400;margin-top:2px;text-transform:uppercase}
-nav ul{display:flex;gap:36px;list-style:none;align-items:center}
+nav ul{display:flex;gap:32px;list-style:none;align-items:center;flex-wrap:nowrap}
 nav ul a{font-family:var(--display);font-size:.78rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);position:relative;padding:4px 0;transition:color .25s}
 nav ul a::after{content:"";position:absolute;left:0;bottom:-2px;width:0;height:1px;background:var(--red);transition:width .35s var(--ease)}
 nav ul a:hover{color:var(--cream)}
@@ -230,17 +231,14 @@ nav ul a:hover::after{width:100%}
 .hero-glow{position:absolute;bottom:-200px;left:-100px;z-index:1;width:800px;height:800px;border-radius:50%;background:radial-gradient(circle,rgba(181,21,21,.15) 0%,transparent 60%);pointer-events:none}
 .hero-wm{position:absolute;right:-3%;bottom:-5%;z-index:1;font-family:var(--display);font-weight:900;font-size:clamp(14rem,28vw,30rem);color:rgba(255,255,255,.012);line-height:1;letter-spacing:-.04em;text-transform:uppercase;pointer-events:none;user-select:none;white-space:nowrap}
 
-/* ── Hero layout: left content / right image card ── */
+/* ── Hero layout ── */
+.hero .container{margin-left:16%;margin-right:auto}
 .hero-inner{
   position:relative;z-index:2;
   padding:150px 0 110px;
-  display:grid;
-  grid-template-columns:1fr 480px;
-  gap:64px;
-  align-items:center;
   width:100%;
 }
-.hero-content{max-width:640px}
+.hero-content{max-width:680px}
 
 /* Pill eyebrow */
 .hero-eyebrow{
@@ -307,58 +305,6 @@ nav ul a:hover::after{width:100%}
 }
 .trust-item .dot{width:5px;height:5px;border-radius:50%;background:var(--red);flex-shrink:0}
 
-/* ── RIGHT: hero image card ── */
-.hero-visual{position:relative;opacity:0}
-.hero-img-card{
-  position:relative;border-radius:24px;overflow:hidden;
-  height:520px;
-  box-shadow:0 32px 80px rgba(0,0,0,.55);
-  border:1px solid rgba(255,255,255,.08);
-}
-.hero-img-card img{width:100%;height:100%;object-fit:cover;transition:transform 8s ease}
-.hero-img-card:hover img{transform:scale(1.04)}
-.hero-img-card::after{
-  content:"";position:absolute;inset:0;
-  background:linear-gradient(to top,rgba(0,0,0,.65) 0%,transparent 55%);
-}
-/* Floating badge chips on the image */
-.hero-badge-chip{
-  position:absolute;z-index:2;
-  background:rgba(15,15,15,.75);
-  border:1px solid rgba(255,255,255,.14);
-  backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
-  border-radius:var(--r);
-  padding:14px 18px;
-  box-shadow:0 8px 30px rgba(0,0,0,.4);
-}
-.hero-badge-chip .chip-n{font-family:var(--display);font-size:1.8rem;font-weight:900;color:var(--cream);line-height:1;letter-spacing:-.03em}
-.hero-badge-chip .chip-n sup{font-size:.9rem;color:var(--red)}
-.hero-badge-chip .chip-l{font-family:var(--display);font-size:.6rem;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);margin-top:3px}
-.chip-a{top:24px;left:-20px}
-.chip-b{bottom:80px;right:-20px}
-.chip-c{bottom:24px;left:24px}
-/* Certified badge */
-.hero-cert-badge{
-  position:absolute;top:24px;right:24px;z-index:2;
-  background:var(--red);color:#fff;
-  border-radius:var(--r);padding:12px 16px;text-align:center;
-  box-shadow:0 6px 24px rgba(181,21,21,.5);
-}
-.hero-cert-badge .cb-main{font-family:var(--display);font-size:1.1rem;font-weight:900;line-height:1}
-.hero-cert-badge .cb-sub{font-size:.58rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;opacity:.85;margin-top:3px;display:block}
-/* Google stars chip */
-.hero-stars-chip{
-  position:absolute;bottom:24px;right:24px;z-index:2;
-  background:rgba(15,15,15,.8);
-  border:1px solid rgba(255,255,255,.12);
-  backdrop-filter:blur(14px);
-  border-radius:var(--r);padding:10px 14px;
-  display:flex;align-items:center;gap:8px;
-  box-shadow:0 8px 24px rgba(0,0,0,.4);
-}
-.hero-stars-chip .stars{color:#f59e0b;font-size:.9rem;letter-spacing:1px}
-.hero-stars-chip .sr{font-family:var(--display);font-size:.7rem;font-weight:700;color:var(--cream)}
-.hero-stars-chip .sc{font-size:.65rem;color:var(--muted);margin-top:1px}
 
 /* Scroll cue */
 .hero-scroll-cue{position:absolute;bottom:36px;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:10px;font-family:var(--display);font-size:.62rem;letter-spacing:.25em;text-transform:uppercase;color:rgba(255,255,255,.3);z-index:4;opacity:0}
@@ -996,7 +942,7 @@ input[type="range"].est-slider::-moz-range-thumb{width:20px;height:20px;border-r
 ═══════════════════════════════════════════════════════════ */
 .faq{background:var(--ink);padding:var(--pad)}
 .faq-layout{display:grid;grid-template-columns:1fr 1.6fr;gap:80px;align-items:start}
-.faq-aside{position:sticky;top:120px}
+.faq-aside{position:sticky;top:calc(var(--header-h) + 8px)}
 .faq-aside h2{font-size:clamp(2rem,3.8vw,3.4rem);font-weight:900;text-transform:uppercase;letter-spacing:-.04em;line-height:1;margin-bottom:20px}
 .faq-aside p{color:var(--muted);font-weight:300;line-height:1.7;margin-bottom:32px}
 .faq-aside .btn-primary{display:inline-flex}
@@ -1021,11 +967,14 @@ input[type="range"].est-slider::-moz-range-thumb{width:20px;height:20px;border-r
 /* ═══════════════════════════════════════════════════════════
    TRUST BAR — scrolling ticker
 ═══════════════════════════════════════════════════════════ */
-.trust-bar{background:var(--ink-4);border-bottom:1px solid var(--line);padding:11px 0;overflow:hidden;position:relative;white-space:nowrap}
-.trust-bar::before,.trust-bar::after{content:"";position:absolute;top:0;bottom:0;width:80px;z-index:2;pointer-events:none}
+.trust-bar{background:var(--ink-4);border-bottom:1px solid var(--line);padding:11px 0;overflow:hidden;position:relative;white-space:nowrap;transition:background .5s}
+.trust-bar::before,.trust-bar::after{content:"";position:absolute;top:0;bottom:0;width:80px;z-index:2;pointer-events:none;transition:background .5s}
 .trust-bar::before{left:0;background:linear-gradient(to right,var(--ink-4),transparent)}
 .trust-bar::after{right:0;background:linear-gradient(to left,var(--ink-4),transparent)}
-.tb-track{display:inline-flex;animation:tbscroll 40s linear infinite}
+header.scrolled .trust-bar{background:transparent}
+header.scrolled .trust-bar::before{background:linear-gradient(to right,rgba(18,18,18,.95),transparent)}
+header.scrolled .trust-bar::after{background:linear-gradient(to left,rgba(18,18,18,.95),transparent)}
+.tb-track{display:inline-flex;animation:tbscroll 40s linear infinite;animation-delay:1.2s;animation-fill-mode:backwards}
 .tb-item{display:inline-flex;align-items:center;gap:8px;padding:0 36px;font-family:var(--display);font-size:.68rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);white-space:nowrap}
 .tb-dot{width:6px;height:6px;border-radius:50%;background:var(--red);flex-shrink:0}
 @keyframes tbscroll{to{transform:translateX(-50%)}}
@@ -1046,8 +995,6 @@ input[type="range"].est-slider::-moz-range-thumb{width:20px;height:20px;border-r
 @media(max-width:1200px){
   .why-grid{grid-template-columns:repeat(2,1fr)}
   .areas-grid{grid-template-columns:repeat(4,1fr)}
-  .hero-inner{grid-template-columns:1fr}
-  .hero-visual{display:none}
 }
 @media(max-width:1024px){
   :root{--pad:100px 0}
@@ -1117,6 +1064,28 @@ input[type="range"].est-slider::-moz-range-thumb{width:20px;height:20px;border-r
 
 <!-- HEADER -->
 <header id="header">
+  <!-- TRUST BAR inside header so it's one fixed block -->
+  <div class="trust-bar" aria-hidden="true">
+    <div class="tb-track">
+      <span class="tb-item"><span class="tb-dot"></span>CertainTeed Master Applicator</span>
+      <span class="tb-item"><span class="tb-dot"></span>Veteran-Owned &amp; Operated</span>
+      <span class="tb-item"><span class="tb-dot"></span>Licensed &amp; Fully Insured</span>
+      <span class="tb-item"><span class="tb-dot"></span>4.9 ★ Google Rating — 127+ Reviews</span>
+      <span class="tb-item"><span class="tb-dot"></span>Free Estimates — No Obligation</span>
+      <span class="tb-item"><span class="tb-dot"></span>10% Cash Discount</span>
+      <span class="tb-item"><span class="tb-dot"></span>No Subcontractors — Ever</span>
+      <span class="tb-item"><span class="tb-dot"></span>Serving All of Texas</span>
+      <!-- duplicate for seamless loop -->
+      <span class="tb-item"><span class="tb-dot"></span>CertainTeed Master Applicator</span>
+      <span class="tb-item"><span class="tb-dot"></span>Veteran-Owned &amp; Operated</span>
+      <span class="tb-item"><span class="tb-dot"></span>Licensed &amp; Fully Insured</span>
+      <span class="tb-item"><span class="tb-dot"></span>4.9 ★ Google Rating — 127+ Reviews</span>
+      <span class="tb-item"><span class="tb-dot"></span>Free Estimates — No Obligation</span>
+      <span class="tb-item"><span class="tb-dot"></span>10% Cash Discount</span>
+      <span class="tb-item"><span class="tb-dot"></span>No Subcontractors — Ever</span>
+      <span class="tb-item"><span class="tb-dot"></span>Serving All of Texas</span>
+    </div>
+  </div>
   <div class="container">
     <div class="nav-inner">
       <a href="#home" class="logo">
@@ -1151,29 +1120,6 @@ input[type="range"].est-slider::-moz-range-thumb{width:20px;height:20px;border-r
     </div>
   </div>
 </header>
-
-<!-- TRUST BAR -->
-<div class="trust-bar" aria-hidden="true">
-  <div class="tb-track">
-    <span class="tb-item"><span class="tb-dot"></span>CertainTeed Master Applicator</span>
-    <span class="tb-item"><span class="tb-dot"></span>Veteran-Owned &amp; Operated</span>
-    <span class="tb-item"><span class="tb-dot"></span>Licensed &amp; Fully Insured</span>
-    <span class="tb-item"><span class="tb-dot"></span>4.9 ★ Google Rating — 127+ Reviews</span>
-    <span class="tb-item"><span class="tb-dot"></span>Free Estimates — No Obligation</span>
-    <span class="tb-item"><span class="tb-dot"></span>10% Cash Discount</span>
-    <span class="tb-item"><span class="tb-dot"></span>No Subcontractors — Ever</span>
-    <span class="tb-item"><span class="tb-dot"></span>Serving All of Texas</span>
-    <!-- duplicate for seamless loop -->
-    <span class="tb-item"><span class="tb-dot"></span>CertainTeed Master Applicator</span>
-    <span class="tb-item"><span class="tb-dot"></span>Veteran-Owned &amp; Operated</span>
-    <span class="tb-item"><span class="tb-dot"></span>Licensed &amp; Fully Insured</span>
-    <span class="tb-item"><span class="tb-dot"></span>4.9 ★ Google Rating — 127+ Reviews</span>
-    <span class="tb-item"><span class="tb-dot"></span>Free Estimates — No Obligation</span>
-    <span class="tb-item"><span class="tb-dot"></span>10% Cash Discount</span>
-    <span class="tb-item"><span class="tb-dot"></span>No Subcontractors — Ever</span>
-    <span class="tb-item"><span class="tb-dot"></span>Serving All of Texas</span>
-  </div>
-</div>
 
 <!-- HERO -->
 <section class="hero" id="home">
@@ -1395,10 +1341,10 @@ input[type="range"].est-slider::-moz-range-thumb{width:20px;height:20px;border-r
       <div class="ba-card reveal">
         <div class="ba-wrap" data-ba>
           <div class="ba-before">
-            <img src="https://images.unsplash.com/photo-1635070040613-35ceaad960e8?auto=format&fit=crop&w=900&q=80" alt="Hail damaged shingle roof before">
+            <img src="https://images.unsplash.com/photo-1755114203680-d39d95efa82c?auto=format&fit=crop&w=900&q=80" alt="New shingle roof after CXR replacement">
           </div>
           <div class="ba-after">
-            <img src="https://images.unsplash.com/photo-1600585154526-990dced4db0d?auto=format&fit=crop&w=900&q=80" alt="New shingle roof after CXR replacement">
+            <img src="https://images.unsplash.com/photo-1669215526577-c25a8f063677?auto=format&fit=crop&w=900&q=80" alt="Roof with missing shingles — storm damage before">
           </div>
           <div class="ba-divider"></div>
           <div class="ba-handle">
@@ -1415,14 +1361,14 @@ input[type="range"].est-slider::-moz-range-thumb{width:20px;height:20px;border-r
         </div>
       </div>
 
-      <!-- Card 2: Old worn shingles to new -->
+      <!-- Card 2: Full residential replacement -->
       <div class="ba-card reveal">
         <div class="ba-wrap" data-ba>
           <div class="ba-before">
-            <img src="https://images.unsplash.com/photo-1558618047-3c8c76ca7d13?auto=format&fit=crop&w=900&q=80" alt="Old worn roof before">
+            <img src="https://images.unsplash.com/photo-1710139323182-69622cad5c3b?auto=format&fit=crop&w=900&q=80" alt="New clean shingle roof after CXR replacement">
           </div>
           <div class="ba-after">
-            <img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?auto=format&fit=crop&w=900&q=80" alt="New metal roof after CXR">
+            <img src="https://images.unsplash.com/photo-1737638526471-108feec469ce?auto=format&fit=crop&w=900&q=80" alt="Old moss-covered weathered roof before">
           </div>
           <div class="ba-divider"></div>
           <div class="ba-handle">
@@ -1439,14 +1385,14 @@ input[type="range"].est-slider::-moz-range-thumb{width:20px;height:20px;border-r
         </div>
       </div>
 
-      <!-- Card 3: Commercial flat roof -->
+      <!-- Card 3: Commercial flat roof TPO -->
       <div class="ba-card reveal">
         <div class="ba-wrap" data-ba>
           <div class="ba-before">
-            <img src="https://images.unsplash.com/photo-1504917595217-d4dc5ebe6122?auto=format&fit=crop&w=900&q=80" alt="Old commercial roof before">
+            <img src="https://images.unsplash.com/photo-1512331327491-d03cb97d92b4?auto=format&fit=crop&w=900&q=80" alt="New clean roof after CXR commercial re-roof">
           </div>
           <div class="ba-after">
-            <img src="https://images.unsplash.com/photo-1581094794329-c8112a89af12?auto=format&fit=crop&w=900&q=80" alt="New TPO commercial roof after CXR">
+            <img src="https://images.unsplash.com/photo-1504917595217-d4dc5ebe6122?auto=format&fit=crop&w=900&q=80" alt="Aged commercial flat roof before">
           </div>
           <div class="ba-divider"></div>
           <div class="ba-handle">
@@ -1467,10 +1413,10 @@ input[type="range"].est-slider::-moz-range-thumb{width:20px;height:20px;border-r
       <div class="ba-card reveal">
         <div class="ba-wrap" data-ba>
           <div class="ba-before">
-            <img src="https://images.unsplash.com/photo-1568605114967-8130f3a36994?auto=format&fit=crop&w=900&q=80" alt="Home needing metal roof before">
+            <img src="https://images.unsplash.com/photo-1512977851705-67ee4bf294f4?auto=format&fit=crop&w=900&q=80" alt="New metal roof after CXR installation">
           </div>
           <div class="ba-after">
-            <img src="https://images.unsplash.com/photo-1565008447742-97f6f38c985c?auto=format&fit=crop&w=900&q=80" alt="New standing seam metal roof after">
+            <img src="https://images.unsplash.com/photo-1761959166803-ed952543eeae?auto=format&fit=crop&w=900&q=80" alt="Dilapidated home with damaged roof before">
           </div>
           <div class="ba-divider"></div>
           <div class="ba-handle">
@@ -2094,7 +2040,7 @@ document.querySelectorAll('a[href^="#"]').forEach(a => {
   a.addEventListener('click', e => {
     e.preventDefault();
     const target = document.querySelector(a.getAttribute('href'));
-    if (target) lenis.scrollTo(target, { offset: -80, duration: 1.4 });
+    if (target) lenis.scrollTo(target, { offset: -125, duration: 1.4 });
   });
 });
 
@@ -2228,54 +2174,34 @@ gsap.to('.quote-band-bg img', {
 });
 
 /* ── 2n. AREA PILLS STAGGER ──────────────────────────────── */
-gsap.from('.area-pill', {
-  opacity: 0, scale: 0.88, duration: 0.5, stagger: 0.04, ease: 'back.out(1.5)',
-  scrollTrigger: { trigger: '.areas-grid', start: 'top 82%' }
-});
+gsap.fromTo('.area-pill',
+  { opacity: 0, scale: 0.88 },
+  { opacity: 1, scale: 1, duration: 0.5, stagger: 0.04, ease: 'back.out(1.5)',
+    scrollTrigger: { trigger: '.areas-grid', start: 'top 82%' } }
+);
 
 /* ── 2o. CTA BAND TEXT ───────────────────────────────────── */
-gsap.from('.cta-band h2, .cta-band p', {
-  opacity: 0, y: 40, duration: 0.9, stagger: 0.15, ease: 'power3.out',
-  scrollTrigger: { trigger: '.cta-band', start: 'top 75%' }
-});
-gsap.from('.cta-actions .btn-dark, .cta-actions .btn-white-outline', {
-  opacity: 0, y: 30, duration: 0.7, stagger: 0.1, ease: 'power3.out',
-  scrollTrigger: { trigger: '.cta-actions', start: 'top 80%' }
-});
+gsap.fromTo('.cta-band h2, .cta-band p',
+  { opacity: 0, y: 40 },
+  { opacity: 1, y: 0, duration: 0.9, stagger: 0.15, ease: 'power3.out',
+    scrollTrigger: { trigger: '.cta-band', start: 'top 75%' } }
+);
+gsap.fromTo('.cta-actions .btn-dark, .cta-actions .btn-white-outline',
+  { opacity: 0, y: 30 },
+  { opacity: 1, y: 0, duration: 0.7, stagger: 0.1, ease: 'power3.out',
+    scrollTrigger: { trigger: '.cta-actions', start: 'top 80%' } }
+);
 
 /* ═══════════════════════════════════════════════════════════
-   3. CUSTOM CURSOR (GSAP lerp for smoothness)
+   3. CURSOR GLOW — ambient radial glow follows mouse
 ═══════════════════════════════════════════════════════════ */
-const dot    = document.getElementById('cursor-dot');
-const ring   = document.getElementById('cursor-ring');
 const glowEl = document.getElementById('cursor-glow');
-let mx = 0, my = 0, rx = 0, ry = 0, gx = 0, gy = 0;
-
+let gx = 0, gy = 0, mx = 0, my = 0;
 document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; });
-
 gsap.ticker.add(() => {
-  // Ring lerps slower → trailing effect
-  rx += (mx - rx) * 0.12;
-  ry += (my - ry) * 0.12;
-  // Glow lerps even slower
   gx += (mx - gx) * 0.06;
   gy += (my - gy) * 0.06;
-
-  gsap.set(dot,    { x: mx, y: my });
-  gsap.set(ring,   { x: rx, y: ry });
   gsap.set(glowEl, { x: gx, y: gy });
-});
-
-// Cursor scale on interactive elements
-document.querySelectorAll('a, button, .svc, .why-card, .tst, .area-pill').forEach(el => {
-  el.addEventListener('mouseenter', () => {
-    gsap.to(dot,  { scale: 2.5, background: 'rgba(181,21,21,0.6)', duration: 0.3 });
-    gsap.to(ring, { scale: 1.6, borderColor: 'rgba(181,21,21,0.8)', duration: 0.3 });
-  });
-  el.addEventListener('mouseleave', () => {
-    gsap.to(dot,  { scale: 1, background: '#b51515', duration: 0.3 });
-    gsap.to(ring, { scale: 1, borderColor: 'rgba(181,21,21,0.5)', duration: 0.3 });
-  });
 });
 
 /* ═══════════════════════════════════════════════════════════
@@ -2430,20 +2356,33 @@ document.getElementById('quoteForm').addEventListener('submit', function(e) {
   }));
 
   /* ── quote tab submit ──────────────────────────────────── */
-  document.getElementById('qSubmit').addEventListener('click', () => {
+  document.getElementById('qSubmit').addEventListener('click', async () => {
     const name    = document.getElementById('qName').value.trim();
     const phone   = document.getElementById('qPhone').value.trim();
     const city    = document.getElementById('qCity').value.trim();
     const service = document.getElementById('qService').value;
     const msg     = document.getElementById('qMsg');
-    if (!name || !phone) { msg.textContent = 'Please enter your name and phone number.'; return; }
+    const btn     = document.getElementById('qSubmit');
+
+    if (!name || !phone) { msg.style.color = 'var(--red)'; msg.textContent = 'Please enter your name and phone number.'; return; }
+
+    btn.disabled = true;
+    btn.textContent = 'Sending…';
+    msg.textContent = '';
+
+    // Simulate network delay for realism
+    await new Promise(r => setTimeout(r, 900));
+
     msg.style.color = '#22c55e';
     msg.textContent = '✓ Got it! We\'ll call you within 1 hour.';
     document.getElementById('qName').value = '';
     document.getElementById('qPhone').value = '';
     document.getElementById('qCity').value = '';
     document.getElementById('qService').selectedIndex = 0;
-    setTimeout(() => { msg.textContent = ''; msg.style.color = 'var(--red)'; }, 5000);
+
+    btn.disabled = false;
+    btn.textContent = 'Request Free Estimate →';
+    setTimeout(() => { msg.textContent = ''; }, 6000);
   });
 })();
 
@@ -2636,278 +2575,8 @@ document.getElementById('quoteForm').addEventListener('submit', function(e) {
     }
   });
 
-  /* dummy so old Three.js block is unreachable */
-  return;
-
 })(); /* end storm IIFE */
-if(false){/* dead Three.js code below — kept for reference only, never reached */
 
-  /* ── Renderer ──
-     powerPreference: high-performance → GPU selects dedicated card
-     antialias: false → points don't need edge AA, saves fill-rate
-     Full native devicePixelRatio → crisp on 4K, Retina, HiDPI        */
-  const renderer = new THREE.WebGLRenderer({
-    canvas,
-    antialias: false,
-    alpha: true,
-    premultipliedAlpha: false,   /* prevents edge darkening on transparent canvas */
-    powerPreference: 'high-performance',
-  });
-  const DPR = Math.min(window.devicePixelRatio, 3);
-  renderer.setPixelRatio(DPR);
-  renderer.setClearColor(0x000000, 0);
-
-  function resize() {
-    /* Use parent's actual client size — avoids scrollbar width mismatch */
-    const sticky = canvas.closest('.storm-sticky');
-    const w = sticky ? sticky.clientWidth  : window.innerWidth;
-    const h = sticky ? sticky.clientHeight : window.innerHeight;
-    if (!w || !h) return;
-    /* true = Three.js also sets canvas CSS width/height → no stretch blur */
-    renderer.setSize(w, h, true);
-    camera.aspect = w / h;
-    camera.updateProjectionMatrix();
-  }
-  resize();
-  requestAnimationFrame(resize);
-  window.addEventListener('resize', resize);
-
-  /* ── Helpers ── */
-  const rnd = (a, b) => a + Math.random() * (b - a);
-
-  /* Uniform point inside a triangle (x1,y1)→(x2,y2)→(x3,y3) */
-  const triPt = (x1,y1,x2,y2,x3,y3) => {
-    const r1=Math.random(), r2=Math.random();
-    const sr=Math.sqrt(r1);
-    return { x:(1-sr)*x1+sr*(1-r2)*x2+sr*r2*x3,
-             y:(1-sr)*y1+sr*(1-r2)*y2+sr*r2*y3 };
-  };
-
-  /* ── House anchor: right-center of canvas ── */
-  const OX = 1.15, OY = 0.05;
-
-  /* ── Key geometry constants ── */
-  const HW  = 1.10;   // house half-width
-  const WB  = -1.45;  // wall bottom  (y rel to OY)
-  const WT  =  0.12;  // wall top / eave line
-  const RPK =  1.62;  // roof peak
-  const CXo =  0.60;  // chimney x offset from OX
-  const CW  =  0.12;  // chimney half-width
-
-  /* ── 12 k particles — dense enough to read as a solid house ── */
-  const COUNT = 12000;
-  const pos     = new Float32Array(COUNT * 3);
-  const windPos = new Float32Array(COUNT * 3);
-  const col     = new Float32Array(COUNT * 3);
-  const delay   = new Float32Array(COUNT);
-  const sizes   = new Float32Array(COUNT);
-
-  /* ── House regions ─────────────────────────────────────────
-     Roof is sampled with triPt() → proper triangular silhouette.
-     Color bands give instant visual "house-ness" at any zoom.  */
-  const regions = [
-    /* WALLS — warm cream siding, fills the rectangular body */
-    { w:30,
-      s:()=>({ x:rnd(OX-HW, OX+HW), y:rnd(OY+WB, OY+WT) }),
-      c:()=>{ const v=rnd(.87,.96); return [v, v*.83, v*.57]; } },
-
-    /* ROOF LEFT SLOPE — triangle: peak → eave-left → eave-center */
-    { w:13,
-      s:()=> triPt(OX, OY+RPK,  OX-HW-0.08, OY+WT,  OX, OY+WT),
-      c:()=>{ const v=rnd(.24,.40); return [v*.85, v*.87, v]; } },
-
-    /* ROOF RIGHT SLOPE — triangle: peak → eave-center → eave-right */
-    { w:13,
-      s:()=> triPt(OX, OY+RPK,  OX, OY+WT,  OX+HW+0.08, OY+WT),
-      c:()=>{ const v=rnd(.24,.40); return [v*.85, v*.87, v]; } },
-
-    /* DOOR — dark walnut brown, center-bottom */
-    { w:6,
-      s:()=>({ x:rnd(OX-.21, OX+.21), y:rnd(OY+WB+0.08, OY-.36) }),
-      c:()=>[rnd(.38,.52), rnd(.22,.30), rnd(.09,.15)] },
-
-    /* WINDOW LEFT — sky blue glass */
-    { w:5,
-      s:()=>({ x:rnd(OX-.92, OX-.50), y:rnd(OY-.30, OY+.17) }),
-      c:()=>[rnd(.40,.60), rnd(.74,.92), rnd(.88,1.0)] },
-
-    /* WINDOW RIGHT — sky blue glass */
-    { w:5,
-      s:()=>({ x:rnd(OX+.50, OX+.92), y:rnd(OY-.30, OY+.17) }),
-      c:()=>[rnd(.40,.60), rnd(.74,.92), rnd(.88,1.0)] },
-
-    /* CHIMNEY — brick red, punches up through roof */
-    { w:5,
-      s:()=>({ x:rnd(OX+CXo-CW, OX+CXo+CW), y:rnd(OY+WT+0.45, OY+RPK+0.28) }),
-      c:()=>{ const r=rnd(.72,.90); return [r, r*.26, r*.16]; } },
-
-    /* FOUNDATION — concrete grey strip */
-    { w:6,
-      s:()=>({ x:rnd(OX-HW, OX+HW), y:rnd(OY+WB-0.14, OY+WB+0.04) }),
-      c:()=>{ const v=rnd(.44,.58); return [v, v*.73, v*.53]; } },
-
-    /* EAVE / FASCIA — bright white trim strip along roofline */
-    { w:4,
-      s:()=>({ x:rnd(OX-HW-0.10, OX+HW+0.10), y:rnd(OY+WT-0.03, OY+WT+0.06) }),
-      c:()=>[rnd(.90,.99), rnd(.90,.99), rnd(.88,.98)] },
-
-    /* GARAGE DOOR — slightly recessed left bay */
-    { w:8,
-      s:()=>({ x:rnd(OX-HW+0.04, OX-HW*0.20), y:rnd(OY+WB+0.08, OY-.16) }),
-      c:()=>{ const v=rnd(.75,.88); return [v*.93, v*.82, v*.54]; } },
-
-    /* PORCH STEPS — slightly wider than door, lowest band */
-    { w:4,
-      s:()=>({ x:rnd(OX-.38, OX+.38), y:rnd(OY+WB-0.02, OY+WB+0.12) }),
-      c:()=>{ const v=rnd(.60,.74); return [v, v*.80, v*.62]; } },
-  ];
-  const totalW = regions.reduce((s,r)=>s+r.w, 0);
-
-  for (let i = 0; i < COUNT; i++) {
-    let rand = Math.random()*totalW, rgn = regions[0];
-    for (const r of regions){ rand-=r.w; if(rand<=0){rgn=r;break;} }
-
-    const {x,y} = rgn.s();
-    const z = rnd(-.08, .08);
-    pos[i*3]=x; pos[i*3+1]=y; pos[i*3+2]=z;
-
-    /* Storm wind — particles blow right and upward with turbulence */
-    const ang  = rnd(-.40, .35)*Math.PI;
-    const dist = rnd(5, 14);
-    windPos[i*3]   = x + Math.cos(ang)*dist + rnd(1, 4);
-    windPos[i*3+1] = y + Math.abs(Math.sin(ang))*dist*rnd(.3,.9) + rnd(.4, 2.2);
-    windPos[i*3+2] = z + rnd(-1.5, 1.5);
-
-    const c = rgn.c();
-    col[i*3]=c[0]; col[i*3+1]=c[1]; col[i*3+2]=c[2];
-
-    /* left side flies first — creates realistic "wind from the right" feel */
-    delay[i] = Math.max(0, Math.min(.6, (x-OX+HW)/(HW*2.2) + rnd(0,.14)));
-
-    /* Fixed screen-space size in physical pixels — crisp on all DPRs */
-    sizes[i] = rnd(3.0, 5.5) * DPR;
-  }
-
-  /* ── Geometry ── */
-  const geo = new THREE.BufferGeometry();
-  geo.setAttribute('position',  new THREE.BufferAttribute(pos,     3));
-  geo.setAttribute('aWindPos',  new THREE.BufferAttribute(windPos, 3));
-  geo.setAttribute('aColor',    new THREE.BufferAttribute(col,     3));
-  geo.setAttribute('aDelay',    new THREE.BufferAttribute(delay,   1));
-  geo.setAttribute('aSize',     new THREE.BufferAttribute(sizes,   1));
-
-  /* ── Shader ──
-     Lean vertex shader: 2 sin/cos for turbulence (was 3 + extra ops)
-     Hard-edged circle fragment: no smoothstep blur = crisp 4K dots    */
-  const mat = new THREE.ShaderMaterial({
-    uniforms: {
-      uProgress: { value: 0 },
-      uTime:     { value: 0 },
-    },
-    vertexShader: `
-      attribute vec3  aWindPos;
-      attribute vec3  aColor;
-      attribute float aDelay;
-      attribute float aSize;
-      uniform   float uProgress;
-      uniform   float uTime;
-      varying   vec3  vColor;
-      varying   float vAlpha;
-
-      float easeOut(float t){ return 1.0 - pow(1.0-t, 3.0); }
-
-      void main(){
-        float t = clamp((uProgress - aDelay*0.65) / (1.0 - aDelay*0.65 + 0.001), 0.0, 1.0);
-        float e = easeOut(t);
-
-        /* lightweight turbulence: 2 trig ops instead of 6 */
-        float wave  = sin(position.x * 3.8 + uTime * 2.2) * 0.14 * e * (1.0-e) * 5.0;
-        float wave2 = cos(position.y * 3.1 + uTime * 1.7) * 0.10 * e * (1.0-e) * 5.0;
-        vec3 p = mix(position, aWindPos, e) + vec3(wave, wave2, 0.0);
-
-        vec4 mvPos    = modelViewMatrix * vec4(p, 1.0);
-        gl_Position   = projectionMatrix * mvPos;
-        /* Fixed screen-space size — NO perspective multiplier.
-           aSize is already in physical pixels (pre-scaled by DPR in JS).
-           The old (300/-z) formula was producing ~170px blobs. */
-        gl_PointSize  = aSize * (1.0 - e * 0.4);
-
-        vColor = aColor;
-        /* at rest: 0.92 alpha (solid, visible color); fades as particles scatter */
-        vAlpha = (1.0 - e * 0.88) * 0.92;
-      }
-    `,
-    fragmentShader: `
-      varying vec3  vColor;
-      varying float vAlpha;
-
-      void main(){
-        vec2  uv   = gl_PointCoord - 0.5;
-        float dist = length(uv);
-        if (dist > 0.48) discard;
-        /* crisp core, 1-pixel soft rim — sharp on 4K */
-        float a = smoothstep(0.48, 0.40, dist) * vAlpha;
-        gl_FragColor = vec4(vColor, a);
-      }
-    `,
-    transparent: true,
-    depthWrite:  false,
-    depthTest:   false,
-    /* NormalBlending: src*alpha + dest*(1-alpha)
-       Particles show their actual color — no additive white overexposure */
-    blending:    THREE.NormalBlending,
-  });
-
-  scene.add(new THREE.Points(geo, mat));
-
-  /* ── Render loop: ScrollTrigger self-tracks visibility — no getBCR() ── */
-  let stormActive = false;
-  ScrollTrigger.create({
-    trigger: '.storm-section',
-    start: 'top bottom+=300',
-    end:   'bottom top-=300',
-    onEnter:      () => { stormActive = true;  },
-    onLeave:      () => { stormActive = false; },
-    onEnterBack:  () => { stormActive = true;  },
-    onLeaveBack:  () => { stormActive = false; },
-  });
-
-  gsap.ticker.add(time => {
-    if (!stormActive) return;
-    mat.uniforms.uTime.value = time;
-    renderer.render(scene, camera);
-  });
-
-  /* ── ScrollTrigger scrub ── */
-  const phase1 = document.getElementById('stormPhase1');
-  const phase2 = document.getElementById('stormPhase2');
-
-  ScrollTrigger.create({
-    trigger: '.storm-section',
-    start: 'top top',
-    end: 'bottom bottom',
-    scrub: 1.0,
-    onUpdate(self) {
-      const p = self.progress;
-      mat.uniforms.uProgress.value = p;
-
-      camera.position.x = p * -0.35;
-      camera.position.y = p *  0.12;
-
-      /* text crossfade */
-      if (phase1 && phase2) {
-        if (p < 0.45) {
-          gsap.set(phase1, { opacity: Math.max(0, 1 - p * 3.2), y: -p * 28 });
-          gsap.set(phase2, { opacity: 0, y: 20 });
-        } else {
-          gsap.set(phase1, { opacity: 0 });
-          gsap.set(phase2, { opacity: Math.min(1, (p - 0.5) * 6), y: Math.max(0, 20 - (p-.5)*130) });
-        }
-      }
-    }
-  });
-
-} /* end if(false) dead block */
 
 /* ═══════════════════════════════════════════════════════════
    12. HERO FLOATING PARTICLES
