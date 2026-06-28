@@ -98,7 +98,7 @@
   --ease:cubic-bezier(.16,1,.3,1);
   --max:1320px;
   --pad:140px 0;
-  --header-h:120px; /* trust bar (~38px) + nav (82px) */
+  --header-h:82px;
 }
 *{margin:0;padding:0;box-sizing:border-box}
 html{scroll-behavior:auto;-webkit-font-smoothing:antialiased}
@@ -1064,28 +1064,6 @@ header.scrolled .trust-bar::after{background:linear-gradient(to left,rgba(18,18,
 
 <!-- HEADER -->
 <header id="header">
-  <!-- TRUST BAR inside header so it's one fixed block -->
-  <div class="trust-bar" aria-hidden="true">
-    <div class="tb-track">
-      <span class="tb-item"><span class="tb-dot"></span>CertainTeed Master Applicator</span>
-      <span class="tb-item"><span class="tb-dot"></span>Veteran-Owned &amp; Operated</span>
-      <span class="tb-item"><span class="tb-dot"></span>Licensed &amp; Fully Insured</span>
-      <span class="tb-item"><span class="tb-dot"></span>4.9 ★ Google Rating — 127+ Reviews</span>
-      <span class="tb-item"><span class="tb-dot"></span>Free Estimates — No Obligation</span>
-      <span class="tb-item"><span class="tb-dot"></span>10% Cash Discount</span>
-      <span class="tb-item"><span class="tb-dot"></span>No Subcontractors — Ever</span>
-      <span class="tb-item"><span class="tb-dot"></span>Serving All of Texas</span>
-      <!-- duplicate for seamless loop -->
-      <span class="tb-item"><span class="tb-dot"></span>CertainTeed Master Applicator</span>
-      <span class="tb-item"><span class="tb-dot"></span>Veteran-Owned &amp; Operated</span>
-      <span class="tb-item"><span class="tb-dot"></span>Licensed &amp; Fully Insured</span>
-      <span class="tb-item"><span class="tb-dot"></span>4.9 ★ Google Rating — 127+ Reviews</span>
-      <span class="tb-item"><span class="tb-dot"></span>Free Estimates — No Obligation</span>
-      <span class="tb-item"><span class="tb-dot"></span>10% Cash Discount</span>
-      <span class="tb-item"><span class="tb-dot"></span>No Subcontractors — Ever</span>
-      <span class="tb-item"><span class="tb-dot"></span>Serving All of Texas</span>
-    </div>
-  </div>
   <div class="container">
     <div class="nav-inner">
       <a href="#home" class="logo">
