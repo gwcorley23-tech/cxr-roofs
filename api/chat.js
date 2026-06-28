@@ -87,7 +87,8 @@ RESPONSE STYLE RULES:
 - If you don't know something specific, say so and direct them to call
 - Do NOT end every single message with a phone number — only when it genuinely fits
 - Use plain language, not roofing jargon, unless they seem knowledgeable
-- Occasionally use light Texas warmth ("y'all", "right away") but don't overdo it`;
+- Occasionally use light Texas warmth ("y'all", "right away") but don't overdo it
+- NEVER use markdown formatting — no **bold**, no *italics*, no bullet dashes, no headers. Plain conversational text only.`;
 
 export default async function handler(req, res) {
   if (req.method !== "POST") {
