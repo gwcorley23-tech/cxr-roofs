@@ -115,14 +115,7 @@ h1,h2,h3,h4{font-family:var(--display);font-weight:800;line-height:1;letter-spac
 ═══════════════════════════════════════════════════════════ */
 #cursor-dot{display:none}
 #cursor-ring{display:none}
-#cursor-glow{
-  position:fixed;width:600px;height:600px;
-  background:radial-gradient(circle,rgba(181,21,21,.055) 0%,transparent 65%);
-  border-radius:50%;pointer-events:none;z-index:0;
-  transform:translate(-50%,-50%);
-}
-body:hover #cursor-dot{opacity:1}
-a:hover~#cursor-dot,.btn-primary:hover~#cursor-dot{width:14px;height:14px}
+#cursor-glow{display:none}
 
 /* ═══════════════════════════════════════════════════════════
    PROGRESS BAR
@@ -2170,17 +2163,6 @@ gsap.fromTo('.cta-actions .btn-dark, .cta-actions .btn-white-outline',
     scrollTrigger: { trigger: '.cta-actions', start: 'top 80%' } }
 );
 
-/* ═══════════════════════════════════════════════════════════
-   3. CURSOR GLOW — ambient radial glow follows mouse
-═══════════════════════════════════════════════════════════ */
-const glowEl = document.getElementById('cursor-glow');
-let gx = 0, gy = 0, mx = 0, my = 0;
-document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; });
-gsap.ticker.add(() => {
-  gx += (mx - gx) * 0.06;
-  gy += (my - gy) * 0.06;
-  gsap.set(glowEl, { x: gx, y: gy });
-});
 
 /* ═══════════════════════════════════════════════════════════
    4. SWIPER TESTIMONIALS
